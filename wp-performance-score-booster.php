@@ -60,4 +60,14 @@ EOD;
 }
 add_filter('mod_rewrite_rules', 'dcg_add_to_htaccess');
 
+// Calling this function will make flush_rules to be called at the end of the PHP execution
+function myplugin_enable_flush_rules() {
+    global $wp_rewrite;
+
+    // Flush the rewrite rules
+    $wp_rewrite->flush_rules();
+}
+
+// On plugin activation, call the function that will make flush_rules to be called at the end of the PHP execution
+register_activation_hook( __FILE__, 'myplugin_enable_flush_rules' );
 ?>
