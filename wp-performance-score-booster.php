@@ -9,14 +9,14 @@ Author URI: http://www.dipakgajjar.com/
 */
 
 /* Remove query strings from static content */
-function dcg_remove_query_strings( $src ) {
+function wppsb_remove_query_strings( $src ) {
 	$rqs = explode( '?ver', $src );
         return $rqs[0];
 }
-add_filter( 'script_loader_src', 'dcg_remove_query_strings', 15, 1 );
-add_filter( 'style_loader_src', 'dcg_remove_query_strings', 15, 1 );
+add_filter( 'script_loader_src', 'wppsb_remove_query_strings', 15, 1 );
+add_filter( 'style_loader_src', 'wppsb_remove_query_strings', 15, 1 );
 
-function dcg_add_to_htaccess( $rules ) {
+function wppsb_add_to_htaccess( $rules ) {
 
 // Add the rewrite rules in .htaccess
 $htaccess_content = <<<EOD
@@ -58,10 +58,10 @@ ExpiresDefault "access 2 week"
 EOD;
     return $htaccess_content . $rules;
 }
-add_filter('mod_rewrite_rules', 'dcg_add_to_htaccess');
+add_filter('mod_rewrite_rules', 'wppsb_add_to_htaccess');
 
 // Calling this function will make flush_rules to be called at the end of the PHP execution
-function myplugin_enable_flush_rules() {
+function wppsb_enable_flush_rules() {
     global $wp_rewrite;
 
     // Flush the rewrite rules
@@ -69,5 +69,6 @@ function myplugin_enable_flush_rules() {
 }
 
 // On plugin activation, call the function that will make flush_rules to be called at the end of the PHP execution
-register_activation_hook( __FILE__, 'myplugin_enable_flush_rules' );
+register_activation_hook( __FILE__, 'wppsb_enable_flush_rules' );
+
 ?>
