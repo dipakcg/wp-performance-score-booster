@@ -80,5 +80,5 @@ function wppsb_deactivate_plugin() {
     // Flush the rewrite rules
     $wp_rewrite->flush_rules();
 }
-register_deactivation_hook( __FILE__, 'wppsb_deactivate' );
+register_deactivation_hook( __FILE__, 'wppsb_deactivate_plugin' );
 ?>
