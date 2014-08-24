@@ -8,7 +8,7 @@ Version: 1.0
 Author URI: http://www.dipakgajjar.com/
 */
 
-/* Remove query strings from static content */
+// Remove query strings from static content
 function wppsb_remove_query_strings( $src ) {
 	$rqs = explode( '?ver', $src );
         return $rqs[0];
@@ -20,9 +20,9 @@ function wppsb_add_to_htaccess( $rules ) {
 
 // Add the rewrite rules in .htaccess
 $htaccess_content = <<<EOD
-\n<IfModule mod_deflate.c>
-## Added by WP Performance Score Booster ##
+\n## Added by WP Performance Score Booster ##
 ## BEGIN : Enable GZIP Compression (compress text, html, javascript, css, xml and so on) ##
+<IfModule mod_deflate.c>
 AddOutputFilterByType DEFLATE text/plain
 AddOutputFilterByType DEFLATE text/html
 AddOutputFilterByType DEFLATE text/xml
@@ -71,4 +71,14 @@ function wppsb_enable_flush_rules() {
 // On plugin activation, call the function that will make flush_rules to be called at the end of the PHP execution
 register_activation_hook( __FILE__, 'wppsb_enable_flush_rules' );
 
+function wppsb_deactivate_plugin() {
+	// This will remove the rewrite rules
+	remove_filter('mod_rewrite_rules', 'wppsb_add_to_htaccess');
+
+	global $wp_rewrite;
+
+    // Flush the rewrite rules
+    $wp_rewrite->flush_rules();
+}
+register_deactivation_hook( __FILE__, 'wppsb_deactivate' );
 ?>
