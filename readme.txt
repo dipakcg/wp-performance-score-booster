@@ -15,7 +15,7 @@ This plugin will remove any query strings from static resources like CSS & JS fi
 
 If you're using a WordPress cache plugin, don't forget to empty your cache before testing your site performance after activating the plugin.
 
-Feel free to contact me if you have any questions about the plugin: [Dipak C. Gajjar](http://www.dipakgajjar.com/contact)
+Feel free to contact me if you have any questions about the plugin: [Dipak C. Gajjar](https://twitter.com/dipakcgajjar)
 
 == Installation ==
 
