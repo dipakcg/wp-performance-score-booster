@@ -24,9 +24,6 @@ function wppsb_add_admin_menu() {
 }
 
 function wppsb_admin_options() {
-	if ( !current_user_can( 'manage_options' ) )  {
-		wp_die( __('You do not have sufficient permissions to access this page.') );
-	}
 	?>
 	<div class="wrap">
 	<table width="100%" border="0">
@@ -34,22 +31,86 @@ function wppsb_admin_options() {
 	<td width="75%">
 	<h2><?php echo '<img src="' . plugins_url( 'assets/images/wppsb-icon-24x24.png' , __FILE__ ) . '" > ';  ?> WP Performance Score Booster Settings</h2>
 	<hr />
-	<form method="post" action="options.php">
+	<?php
+	if ( !current_user_can( 'manage_options' ) )  {
+		wp_die( __('You do not have sufficient permissions to access this page.') );
+	}
+
+	// Variables for the field and option names
+	$hidden_field_name = 'wppsb_submit_hidden';
+    $remove_query_strings = 'wppsb_remove_query_strings';
+    $enable_gzip = 'wppsb_enable_gzip';
+    $expire_caching = 'wppsb_expire_caching';
+
+    // Read in existing option value from database
+    $remove_query_strings_val = get_option($remove_query_strings);
+    $enable_gzip_val = get_option($enable_gzip);
+    $expire_caching_val = get_option($expire_caching);
+
+	// See if the user has posted us some information
+    // If they did, this hidden field will be set to 'Y'
+    if( isset($_POST[$hidden_field_name]) && $_POST[$hidden_field_name] == 'Y' ) {
+        // Read their posted value
+        $remove_query_strings_val = (isset($_POST[$remove_query_strings]) ? $_POST[$remove_query_strings] : "");
+        $enable_gzip_val = (isset($_POST[$enable_gzip]) ? $_POST[$enable_gzip] : "");
+        $expire_caching_val = (isset($_POST[$expire_caching]) ? $_POST[$expire_caching] : "");
+
+        // Save the posted value in the database
+        update_option( $remove_query_strings, $remove_query_strings_val );
+        update_option( $enable_gzip, $enable_gzip_val );
+        update_option( $expire_caching, $expire_caching_val );
+
+		// If 'Remove query strings" checkbox ticked, add filter otherwise remove filter
+        if ($remove_query_strings_val == 'on') {
+	    	add_filter( 'script_loader_src', 'wppsb_remove_query_strings_filter', 15, 1 );
+			add_filter( 'style_loader_src', 'wppsb_remove_query_strings_filter', 15, 1 );
+	    }
+	    else {
+			remove_filter( 'script_loader_src', 'wppsb_remove_query_strings_filter', 15, 1 );
+			remove_filter( 'style_loader_src', 'wppsb_remove_query_strings_filter', 15, 1 );
+	    }
+
+		// If 'Enable GZIP" checkbox ticked, add filter otherwise remove filter
+        if ($enable_gzip_val == 'on') {
+	    	add_filter('mod_rewrite_rules', 'wppsb_enable_gzip_filter');
+	    }
+	    else {
+			remove_filter('mod_rewrite_rules', 'wppsb_enable_gzip_filter');
+	    }
+
+		// If 'Expire caching" checkbox ticked, add filter otherwise remove filter
+        if ($expire_caching_val == 'on') {
+	    	add_filter('mod_rewrite_rules', 'wppsb_expire_caching_filter');
+	    }
+	    else {
+			remove_filter('mod_rewrite_rules', 'wppsb_expire_caching_filter');
+	    }
+
+	    flush_rewrite_rules();
+
+        // Put an settings updated message on the screen
+   	?>
+   	<div class="updated"><p><strong>Settings Saved.</strong></p></div>
+	<?php
+	}
+	?>
+	<form method="post" name="options_form">
+	<input type="hidden" name="<?php echo $hidden_field_name; ?>" value="Y">
 	<p>
-	<input type="checkbox" name="remove_query_strings" checked='checked' /> &nbsp; <span class="wppsb_settings"> Remove query strings from static content </span>
+	<input type="checkbox" name="<?php echo $remove_query_strings; ?>" <?php checked( $remove_query_strings_val == 'on',true); ?> /> &nbsp; <span class="wppsb_settings"> Remove query strings from static content </span>
 	</p>
 	<p>
 	<?php if (function_exists('ob_gzhandler') && ini_get('zlib.output_compression')) { ?>
-    <input type="checkbox" name="enable_gzip" checked='checked' /> &nbsp; <span class="wppsb_settings"> Enable GZIP compression (compress text, html, javascript, css, xml and so on)</span>
+    	<input type="checkbox" name="<?php echo $enable_gzip; ?>" <?php checked( $enable_gzip_val == 'on',true); ?>  /> &nbsp; <span class="wppsb_settings"> Enable GZIP compression (compress text, html, javascript, css, xml and so on)</span>
     <?php }
     else { ?>
-    <input type="checkbox" name="enable_gzip" disabled="false" /> &nbsp; <span class="wppsb_settings"> Enable GZIP compression (compress text, html, javascript, css, xml and so on)</span> <br /> <span class="wppsb_settings" style="margin-left:30px; color:RED;">Your web server does not support GZIP compression. Contact your hosting provider to enable it.</span>
+    	<input type="checkbox" name="<?php echo $enable_gzip; ?>" disabled="true" <?php checked( $enable_gzip_val == 'on',true); ?> /> &nbsp; <span class="wppsb_settings"> Enable GZIP compression (compress text, html, javascript, css, xml and so on)</span> <br /> <span class="wppsb_settings" style="margin-left:30px; color:RED;">Your web server does not support GZIP compression. Contact your hosting provider to enable it.</span>
     <?php } ?>
     </p>
     <p>
-    <input type="checkbox" name="expire_caching" checked='checked' /> &nbsp; <span class="wppsb_settings"> Set expire caching (Leverage Browser Caching) </span>
+    <input type="checkbox" name="<?php echo $expire_caching; ?>" <?php checked( $expire_caching_val == 'on',true); ?> /> &nbsp; <span class="wppsb_settings"> Set expire caching (Leverage Browser Caching) </span>
     </p>
-    <p><input type="submit" value="Save Changes" class="button button-primary" name="submit" /></p>
+    <p><input type="submit" value="<?php esc_attr_e('Save Changes') ?>" class="button button-primary" name="submit" /></p>
     </form>
 	</td>
 	<td style="text-align: left;">
@@ -72,17 +133,14 @@ function wppsb_admin_options() {
 }
 
 // Remove query strings from static content
-function wppsb_remove_query_strings( $src ) {
+function wppsb_remove_query_strings_filter( $src ) {
 	$rqs = explode( '?ver', $src );
         return $rqs[0];
 }
-add_filter( 'script_loader_src', 'wppsb_remove_query_strings', 15, 1 );
-add_filter( 'style_loader_src', 'wppsb_remove_query_strings', 15, 1 );
 
-function wppsb_add_to_htaccess( $rules ) {
-
-// Add the rewrite rules in .htaccess
-$htaccess_content = <<<EOD
+// Enable GZIP Compression
+function wppsb_enable_gzip_filter( $rules ) {
+$gzip_htaccess_content = <<<EOD
 \n## Added by WP Performance Score Booster ##
 ## BEGIN : Enable GZIP Compression (compress text, html, javascript, css, xml and so on) ##
 <IfModule mod_deflate.c>
@@ -100,9 +158,15 @@ AddOutputFilterByType DEFLATE application/x-httpd-fastphp
 AddOutputFilterByType DEFLATE image/svg+xml
 SetOutputFilter DEFLATE
 </IfModule>
-## END : Enable GZIP Compression ##
+## END : Enable GZIP Compression ##\n\n
+EOD;
+    return $gzip_htaccess_content . $rules;
+}
 
-## Added by WP Performance Score Booster ##
+// Enable expire caching
+function wppsb_expire_caching_filter( $rules ) {
+$expire_cache_htaccess_content = <<<EOD
+\n## Added by WP Performance Score Booster ##
 ## BEGIN : Expires Caching (Leverage Browser Caching) ##
 <IfModule mod_expires.c>
 ExpiresActive On
@@ -119,29 +183,47 @@ ExpiresDefault "access 2 week"
 </IfModule>
 ## END : Expires Caching (Leverage Browser Caching) ##\n\n
 EOD;
-    return $htaccess_content . $rules;
+    return $expire_cache_htaccess_content . $rules;
 }
-add_filter('mod_rewrite_rules', 'wppsb_add_to_htaccess');
 
 // Calling this function will make flush_rules to be called at the end of the PHP execution
-function wppsb_enable_flush_rules() {
-    global $wp_rewrite;
+function wppsb_activate_plugin() {
 
-    // Flush the rewrite rules
-    $wp_rewrite->flush_rules();
+    // Save default options value in the database
+    update_option( 'wppsb_remove_query_strings', 'on' );
+    add_filter( 'script_loader_src', 'wppsb_remove_query_strings_filter', 15, 1 );
+	add_filter( 'style_loader_src', 'wppsb_remove_query_strings_filter', 15, 1 );
+
+	if (function_exists('ob_gzhandler') && ini_get('zlib.output_compression')) {
+		update_option( 'wppsb_enable_gzip', 'on' );
+		add_filter('mod_rewrite_rules', 'wppsb_enable_gzip_filter');
+	}
+	else {
+		update_option( 'wppsb_enable_gzip', '' );
+	}
+
+	update_option( 'wppsb_expire_caching', 'on' );
+	add_filter('mod_rewrite_rules', 'wppsb_expire_caching_filter');
+
+    flush_rewrite_rules();
 }
 
 // On plugin activation, call the function that will make flush_rules to be called at the end of the PHP execution
-register_activation_hook( __FILE__, 'wppsb_enable_flush_rules' );
+register_activation_hook( __FILE__, 'wppsb_activate_plugin' );
 
 function wppsb_deactivate_plugin() {
-	// This will remove the rewrite rules
-	remove_filter('mod_rewrite_rules', 'wppsb_add_to_htaccess');
+	// Remove filters on plugin deactivate
+	remove_filter( 'script_loader_src', 'wppsb_remove_query_strings_filter', 15, 1 );
+	remove_filter( 'style_loader_src', 'wppsb_remove_query_strings_filter', 15, 1 );
+	remove_filter('mod_rewrite_rules', 'wppsb_enable_gzip_filter');
+	remove_filter('mod_rewrite_rules', 'wppsb_expire_caching_filter');
 
-	global $wp_rewrite;
+	// Delete default options value in the database
+	/* delete_option( 'wppsb_remove_query_strings' );
+	delete_option( 'wppsb_enable_gzip' );
+	delete_option( 'wppsb_expire_caching' ); */
 
-    // Flush the rewrite rules
-    $wp_rewrite->flush_rules();
+    flush_rewrite_rules();
 }
 register_deactivation_hook( __FILE__, 'wppsb_deactivate_plugin' );
 ?>
