@@ -186,6 +186,14 @@ EOD;
     return $expire_cache_htaccess_content . $rules;
 }
 
+function wppsb_add_header() {
+	$head_comment = <<<EOD
+\n<!-- Performance scores of this site is tuned by WP Performance Score Booster plugin v1.1 - http://wordpress.org/plugins/wp-performance-score-booster -->\n\n
+EOD;
+	echo $head_comment;
+}
+add_action('wp_head', 'wppsb_add_header', 1);
+
 // Calling this function will make flush_rules to be called at the end of the PHP execution
 function wppsb_activate_plugin() {
 
