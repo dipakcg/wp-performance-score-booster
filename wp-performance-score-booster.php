@@ -188,7 +188,7 @@ EOD;
 
 function wppsb_add_header() {
 	$head_comment = <<<EOD
-\n<!-- Performance scores of this site is tuned by WP Performance Score Booster plugin v1.1 - http://wordpress.org/plugins/wp-performance-score-booster -->\n\n
+<!-- Performance scores of this site is tuned by WP Performance Score Booster plugin v1.1 - http://wordpress.org/plugins/wp-performance-score-booster -->\n
 EOD;
 	echo $head_comment;
 }
