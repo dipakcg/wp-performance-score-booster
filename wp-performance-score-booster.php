@@ -4,9 +4,65 @@ Plugin Name: WP Performance Score Booster
 Plugin URI: https://github.com/dipakcg/wp-performance-score-booster
 Description: Helps you to improve your website scores in services like PageSpeed, YSlow, Pingdoom and GTmetrix.
 Author: Dipak C. Gajjar
-Version: 1.0
+Version: 1.1
 Author URI: http://www.dipakgajjar.com/
 */
+
+// Register with hook 'wp_enqueue_scripts', which can be used for front end CSS and JavaScript
+add_action( 'admin_init', 'wppsb_add_stylesheet' );
+function wppsb_add_stylesheet() {
+    // Respects SSL, Style.css is relative to the current file
+    wp_register_style( 'wppsb-stylesheet', plugins_url('style.css', __FILE__) );
+    wp_enqueue_style( 'wppsb-stylesheet' );
+
+    wp_register_style( 'wppsb-gfont', 'http://fonts.googleapis.com/css?family=Roboto' );
+    wp_enqueue_style( 'wppsb-gfont' );
+}
+
+// Register admin menu
+add_action( 'admin_menu', 'wppsb_add_admin_menu' );
+function wppsb_add_admin_menu() {
+	// add_options_page( $page_title, $menu_title, $capability, $menu_slug, $function);
+	add_menu_page( 'WP Performance Score Booster Options', 'WP Performance Score Booster', 'manage_options', 'wp-performance-score-booster', 'wppsb_admin_options', 'https://cdn1.iconfinder.com/data/icons/free-dark-blue-cloud-icons/24/Dashboard.png' );
+}
+
+function wppsb_admin_options() {
+	if ( !current_user_can( 'manage_options' ) )  {
+		wp_die( __('You do not have sufficient permissions to access this page.') );
+	}
+	?>
+	<div class="wrap">
+	<table width="100%" border="0">
+	<tr>
+	<td width="70%">
+	<h2><img src="https://cdn1.iconfinder.com/data/icons/free-dark-blue-cloud-icons/24/Dashboard.png" />  WP Performance Score Booster Settings</h2>
+	<form method="post" action="options.php">
+	<p>
+	<input type="checkbox" name="remove_query_strings" checked='checked' /> &nbsp; <span class="wppsb_settings"> Remove query strings from static content </span>
+	</p>
+	<p>
+	<?php if (function_exists('ob_gzhandler') && ini_get('zlib.output_compression')) { ?>
+    <input type="checkbox" name="enable_gzip" checked='checked' /> &nbsp; <span class="wppsb_settings"> Enable GZIP compression (compress text, html, javascript, css, xml and so on)</span>
+    <?php }
+    else { ?>
+    <input type="checkbox" name="enable_gzip" disabled="false" /> &nbsp; <span class="wppsb_settings"> Enable GZIP compression (compress text, html, javascript, css, xml and so on)</span> <br /> <span class="wppsb_settings" style="margin-left:30px; color:RED;">Your web server does not support GZIP compression. Contact your hosting provider to enable it.</span>
+    <?php } ?>
+    </p>
+    <p>
+    <input type="checkbox" name="expire_caching" checked='checked' /> &nbsp; <span class="wppsb_settings"> Set expire caching (Leverage Browser Caching) </span>
+    </p>
+    <p><input type="submit" value="Save" class="button button-primary" name="submit" /></p>
+    </form>
+	</td>
+	<td style="text-align: center;">
+	<img src="http://www.gravatar.com/avatar/38b380cf488d8f8c4007cf2015dc16ac.jpg" width="125px" height="125px" /> <br />
+	<strong> Get in touch with me on Twitter: <a href="https://twitter.com/dipakcgajjar" target="_blank">@dipakcgajjar</a></strong>
+	</td>
+	</tr>
+	</table>
+	</div>
+	<?php
+}
 
 // Remove query strings from static content
 function wppsb_remove_query_strings( $src ) {
