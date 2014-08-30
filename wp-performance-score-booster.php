@@ -12,18 +12,15 @@ Author URI: http://www.dipakgajjar.com/
 add_action( 'admin_init', 'wppsb_add_stylesheet' );
 function wppsb_add_stylesheet() {
     // Respects SSL, Style.css is relative to the current file
-    wp_register_style( 'wppsb-stylesheet', plugins_url('style.css', __FILE__) );
+    wp_register_style( 'wppsb-stylesheet', plugins_url('assets/css/style.css', __FILE__) );
     wp_enqueue_style( 'wppsb-stylesheet' );
-
-    wp_register_style( 'wppsb-gfont', 'http://fonts.googleapis.com/css?family=Roboto' );
-    wp_enqueue_style( 'wppsb-gfont' );
 }
 
 // Register admin menu
 add_action( 'admin_menu', 'wppsb_add_admin_menu' );
 function wppsb_add_admin_menu() {
 	// add_options_page( $page_title, $menu_title, $capability, $menu_slug, $function);
-	add_menu_page( 'WP Performance Score Booster Options', 'WP Performance Score Booster', 'manage_options', 'wp-performance-score-booster', 'wppsb_admin_options', 'https://cdn1.iconfinder.com/data/icons/free-dark-blue-cloud-icons/24/Dashboard.png' );
+	add_menu_page( 'WP Performance Score Booster Options', 'WP Performance Score Booster', 'manage_options', 'wp-performance-score-booster', 'wppsb_admin_options', plugins_url('assets/images/wppsb-icon-24x24.png', __FILE__) );
 }
 
 function wppsb_admin_options() {
@@ -34,8 +31,9 @@ function wppsb_admin_options() {
 	<div class="wrap">
 	<table width="100%" border="0">
 	<tr>
-	<td width="70%">
-	<h2><img src="https://cdn1.iconfinder.com/data/icons/free-dark-blue-cloud-icons/24/Dashboard.png" />  WP Performance Score Booster Settings</h2>
+	<td width="75%">
+	<h2><?php echo '<img src="' . plugins_url( 'assets/images/wppsb-icon-24x24.png' , __FILE__ ) . '" > ';  ?> WP Performance Score Booster Settings</h2>
+	<hr />
 	<form method="post" action="options.php">
 	<p>
 	<input type="checkbox" name="remove_query_strings" checked='checked' /> &nbsp; <span class="wppsb_settings"> Remove query strings from static content </span>
@@ -51,12 +49,21 @@ function wppsb_admin_options() {
     <p>
     <input type="checkbox" name="expire_caching" checked='checked' /> &nbsp; <span class="wppsb_settings"> Set expire caching (Leverage Browser Caching) </span>
     </p>
-    <p><input type="submit" value="Save" class="button button-primary" name="submit" /></p>
+    <p><input type="submit" value="Save Changes" class="button button-primary" name="submit" /></p>
     </form>
 	</td>
-	<td style="text-align: center;">
-	<img src="http://www.gravatar.com/avatar/38b380cf488d8f8c4007cf2015dc16ac.jpg" width="125px" height="125px" /> <br />
-	<strong> Get in touch with me on Twitter: <a href="https://twitter.com/dipakcgajjar" target="_blank">@dipakcgajjar</a></strong>
+	<td style="text-align: left;">
+	<div class="wppsb_admin_dev_sidebar_div">
+	<img src="http://www.gravatar.com/avatar/38b380cf488d8f8c4007cf2015dc16ac.jpg" width="100px" height="100px" /> <br />
+	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-support-this-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3S8BRPLWLNQ38" target="_blank"> Support this plugin and donate </a> </span>
+	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-rate-this-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="http://wordpress.org/support/view/plugin-reviews/wp-performance-score-booster" target="_blank"> Rate this plugin on WordPress.org </a> </span>
+	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-wordpress-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="http://wordpress.org/support/plugin/wp-performance-score-booster" target="_blank"> Get support on on WordPress.org </a> </span>
+	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-github-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="https://github.com/dipakcg/wp-performance-score-booster" target="_blank"> Contribute development on GitHub </a> </span>
+	<!-- <span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-other-plugins-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="http://profiles.wordpress.org/dipakcg#content-plugins" target="_blank"> Get my other plugins </a> </span> -->
+	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-twitter-16x16.png' , __FILE__ ) . '" > ';  ?>Follow me on Twitter: <a href="https://twitter.com/dipakcgajjar" target="_blank">@dipakcgajjar</a> </span>
+	<br />
+	<span class="wppsb_admin_dev_sidebar" style="float: right;"> Version: <strong> 1.1 </strong> </span>
+	</div>
 	</td>
 	</tr>
 	</table>
