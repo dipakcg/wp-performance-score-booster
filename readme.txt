@@ -7,11 +7,11 @@ Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Helps you to improve your website scores in services like PageSpeed, YSlow, Pingdoom and GTmetrix.
+Helps you to improve your website scores in services like PageSpeed, YSlow, Pingdom and GTmetrix.
 
 == Description ==
 
-This plugin will remove any query strings from static resources like CSS & JS files, enables GZIP Compression (compress text, html, javascript, css, xml and so on) and expires caching (leverage browser caching) to improve your speed scores in services like PageSpeed, YSlow, Pingdoom and GTmetrix.
+This plugin will remove any query strings from static resources like CSS & JS files, enables GZIP Compression (compress text, html, javascript, css, xml and so on) and expires caching (leverage browser caching) to improve your speed scores in services like PageSpeed, YSlow, Pingdom and GTmetrix.
 
 If you're using a WordPress cache plugin, don't forget to empty your cache before testing your site performance after activating the plugin.
 
@@ -29,7 +29,7 @@ Feel free to contact me if you have any questions about the plugin: [Dipak C. Ga
 
 = What does this plugin do? =
 
-It helps you to improve your website scores in services like PageSpeed, YSlow, Pingdoom and GTmetrix. It will remove any query strings from static resources like CSS & JS files, enables GZIP Compression (compress text, html, javascript, css, xml and so on) and expires caching (leverage browser caching).
+It helps you to improve your website scores in services like PageSpeed, YSlow, Pingdom and GTmetrix. It will remove any query strings from static resources like CSS & JS files, enables GZIP Compression (compress text, html, javascript, css, xml and so on) and expires caching (leverage browser caching).
 
 = Any specific requirements for this plugin to work? =
 

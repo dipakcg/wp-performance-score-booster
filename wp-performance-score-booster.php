@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Performance Score Booster
 Plugin URI: https://github.com/dipakcg/wp-performance-score-booster
-Description: Helps you to improve your website scores in services like PageSpeed, YSlow, Pingdoom and GTmetrix.
+Description: Helps you to improve your website scores in services like PageSpeed, YSlow, Pingdom and GTmetrix.
 Author: Dipak C. Gajjar
 Version: 1.1
 Author URI: http://www.dipakgajjar.com/
@@ -100,7 +100,7 @@ function wppsb_admin_options() {
 	<input type="checkbox" name="<?php echo $remove_query_strings; ?>" <?php checked( $remove_query_strings_val == 'on',true); ?> /> &nbsp; <span class="wppsb_settings"> Remove query strings from static content </span>
 	</p>
 	<p>
-	<?php if (function_exists('ob_gzhandler') && ini_get('zlib.output_compression')) { ?>
+	<?php if (function_exists('ob_gzhandler') || ini_get('zlib.output_compression')) { ?>
     	<input type="checkbox" name="<?php echo $enable_gzip; ?>" <?php checked( $enable_gzip_val == 'on',true); ?>  /> &nbsp; <span class="wppsb_settings"> Enable GZIP compression (compress text, html, javascript, css, xml and so on)</span>
     <?php }
     else { ?>
@@ -202,7 +202,7 @@ function wppsb_activate_plugin() {
     add_filter( 'script_loader_src', 'wppsb_remove_query_strings_filter', 15, 1 );
 	add_filter( 'style_loader_src', 'wppsb_remove_query_strings_filter', 15, 1 );
 
-	if (function_exists('ob_gzhandler') && ini_get('zlib.output_compression')) {
+	if (function_exists('ob_gzhandler') || ini_get('zlib.output_compression')) {
 		update_option( 'wppsb_enable_gzip', 'on' );
 		add_filter('mod_rewrite_rules', 'wppsb_enable_gzip_filter');
 	}
