@@ -4,10 +4,11 @@ Plugin Name: WP Performance Score Booster
 Plugin URI: https://github.com/dipakcg/wp-performance-score-booster
 Description: Helps you to improve your website scores in services like PageSpeed, YSlow, Pingdom and GTmetrix.
 Author: Dipak C. Gajjar
-Version: 1.1
+Version: 1.1.1
 Author URI: http://www.dipakgajjar.com/
 */
 
+// Important: Don't forget to change version number at line line 7, 131 and 200.
 // Register with hook 'wp_enqueue_scripts', which can be used for front end CSS and JavaScript
 add_action( 'admin_init', 'wppsb_add_stylesheet' );
 function wppsb_add_stylesheet() {
@@ -62,12 +63,16 @@ function wppsb_admin_options() {
 
 		// If 'Remove query strings" checkbox ticked, add filter otherwise remove filter
         if ($remove_query_strings_val == 'on') {
-	    	add_filter( 'script_loader_src', 'wppsb_remove_query_strings_filter', 15, 1 );
-			add_filter( 'style_loader_src', 'wppsb_remove_query_strings_filter', 15, 1 );
+	    	add_filter( 'script_loader_src', 'wppsb_remove_query_strings_q', 15, 1 );
+			add_filter( 'style_loader_src', 'wppsb_remove_query_strings_q', 15, 1 );
+			add_filter( 'script_loader_src', 'wppsb_remove_query_strings_emp', 15, 1 );
+			add_filter( 'style_loader_src', 'wppsb_remove_query_strings_emp', 15, 1 );
 	    }
 	    else {
-			remove_filter( 'script_loader_src', 'wppsb_remove_query_strings_filter', 15, 1 );
-			remove_filter( 'style_loader_src', 'wppsb_remove_query_strings_filter', 15, 1 );
+			remove_filter( 'script_loader_src', 'wppsb_remove_query_strings_q', 15, 1 );
+			remove_filter( 'style_loader_src', 'wppsb_remove_query_strings_q', 15, 1 );
+			remove_filter( 'script_loader_src', 'wppsb_remove_query_strings_emp', 15, 1 );
+			remove_filter( 'style_loader_src', 'wppsb_remove_query_strings_emp', 15, 1 );
 	    }
 
 		// If 'Enable GZIP" checkbox ticked, add filter otherwise remove filter
@@ -123,7 +128,7 @@ function wppsb_admin_options() {
 	<!-- <span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-other-plugins-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="http://profiles.wordpress.org/dipakcg#content-plugins" target="_blank"> Get my other plugins </a> </span> -->
 	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-twitter-16x16.png' , __FILE__ ) . '" > ';  ?>Follow me on Twitter: <a href="https://twitter.com/dipakcgajjar" target="_blank">@dipakcgajjar</a> </span>
 	<br />
-	<span class="wppsb_admin_dev_sidebar" style="float: right;"> Version: <strong> 1.1 </strong> </span>
+	<span class="wppsb_admin_dev_sidebar" style="float: right;"> Version: <strong> 1.1.1 </strong> </span>
 	</div>
 	</td>
 	</tr>
@@ -133,9 +138,13 @@ function wppsb_admin_options() {
 }
 
 // Remove query strings from static content
-function wppsb_remove_query_strings_filter( $src ) {
+function wppsb_remove_query_strings_q( $src ) {
 	$rqs = explode( '?ver', $src );
-        return $rqs[0];
+	return $rqs[0];
+}
+function wppsb_remove_query_strings_emp( $src ) {
+	$rqs = explode( '&ver', $src );
+	return $rqs[0];
 }
 
 // Enable GZIP Compression
@@ -188,7 +197,7 @@ EOD;
 
 function wppsb_add_header() {
 	$head_comment = <<<EOD
-<!-- Performance scores of this site is tuned by WP Performance Score Booster plugin v1.1 - http://wordpress.org/plugins/wp-performance-score-booster -->\n
+<!-- Performance scores of this site is tuned by WP Performance Score Booster plugin v1.1.1 - http://wordpress.org/plugins/wp-performance-score-booster -->\n
 EOD;
 	echo $head_comment;
 }
@@ -199,8 +208,10 @@ function wppsb_activate_plugin() {
 
     // Save default options value in the database
     update_option( 'wppsb_remove_query_strings', 'on' );
-    add_filter( 'script_loader_src', 'wppsb_remove_query_strings_filter', 15, 1 );
-	add_filter( 'style_loader_src', 'wppsb_remove_query_strings_filter', 15, 1 );
+    add_filter( 'script_loader_src', 'wppsb_remove_query_strings_q', 15, 1 );
+	add_filter( 'style_loader_src', 'wppsb_remove_query_strings_q', 15, 1 );
+	add_filter( 'script_loader_src', 'wppsb_remove_query_strings_emp', 15, 1 );
+	add_filter( 'style_loader_src', 'wppsb_remove_query_strings_emp', 15, 1 );
 
 	if (function_exists('ob_gzhandler') || ini_get('zlib.output_compression')) {
 		update_option( 'wppsb_enable_gzip', 'on' );
@@ -221,8 +232,10 @@ register_activation_hook( __FILE__, 'wppsb_activate_plugin' );
 
 function wppsb_deactivate_plugin() {
 	// Remove filters on plugin deactivate
-	remove_filter( 'script_loader_src', 'wppsb_remove_query_strings_filter', 15, 1 );
-	remove_filter( 'style_loader_src', 'wppsb_remove_query_strings_filter', 15, 1 );
+	remove_filter( 'script_loader_src', 'wppsb_remove_query_strings_q', 15, 1 );
+	remove_filter( 'style_loader_src', 'wppsb_remove_query_strings_q', 15, 1 );
+	remove_filter( 'script_loader_src', 'wppsb_remove_query_strings_emp', 15, 1 );
+	remove_filter( 'style_loader_src', 'wppsb_remove_query_strings_emp', 15, 1 );
 	remove_filter('mod_rewrite_rules', 'wppsb_enable_gzip_filter');
 	remove_filter('mod_rewrite_rules', 'wppsb_expire_caching_filter');
 
