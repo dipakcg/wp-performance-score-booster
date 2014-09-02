@@ -15,8 +15,8 @@ This plugin helps you to improve your website scores in services like PageSpeed,
 
 == Installation ==
 1. Upload the `wp-performance-score-booster` folder to the `/wp-content/plugins/` directory
-2. Activate the plugin through the \'Plugins\' menu in WordPress.
-3. That\'s it!
+2. Activate the plugin through the 'Plugins' menu in WordPress.
+3. That's it!
 
 == Frequently Asked Questions ==
 = What does this plugin do? =
