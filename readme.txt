@@ -4,7 +4,7 @@ Tags: performance, load, speed, time, remove, query, strings, static, resources,
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3S8BRPLWLNQ38
 Requires at least: 3.5
 Tested up to: 4.0
-Stable tag: 1.1
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,7 +25,8 @@ It helps you to improve your website scores in services like PageSpeed, YSlow, P
 
 = Any specific requirements for this plugin to work? =
 
-Yes, First, GZIP compression should be enabled in your web-server (apache?), and second, .htaccess in your root folder must have write permissions (chmod 777).
+* GZIP compression should be enabled in your web-server (apache?). If not then you can ask your web hosting provider.
+* .htaccess in your WordPress root folder must have write permissions.
 
 = Is that it? =
 
@@ -35,6 +36,9 @@ Pretty much, yeah.
 1. Admin Settings
 
 == Changelog ==
+= 1.1.1, Sept 02, 2014 =
+* Added function (for urls with &ver) to remove query strings from static resources
+
 = 1.1, Aug 31, 2014 =
 * Added Admin Options / Settings
 
