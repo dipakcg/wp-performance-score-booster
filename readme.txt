@@ -1,27 +1,34 @@
 === WP Performance Score Booster ===
 Contributors: dipakcg
-Tags: performance, load, speed, time, remove, query, strings, static, resources, gzip, compression, expire, caching, boost, pingdom, gtmetrix, yslow, pagespeed
+Tags: performance, speed, time, query, strings, gzip, compression, caching, boost, pingdom, gtmetrix, yslow, pagespeed, enqueue, scripts
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3S8BRPLWLNQ38
 Requires at least: 3.5
 Tested up to: 4.0
-Stable tag: 1.1.1
+Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Helps you to improve your website scores in services like PageSpeed, YSlow, Pingdom and GTmetrix.
+Speed-up page load times and improve website scores in services like PageSpeed, YSlow, Pingdom and GTmetrix.
 
 == Description ==
-This plugin helps you to improve your website scores in services like PageSpeed, YSlow, Pingdom and GTmetrix. It will remove any query strings from static resources like CSS & JS files,  enable GZIP compression (compress text, html, javascript, css, xml and so on) and set expires caching (leverage browser caching) to improve your site performance scores.
+This plugin speed-up page load times and improve website scores in services like PageSpeed, YSlow, Pingdom and GTmetrix.
+
+It will...
+* Remove any query strings from static resources like CSS & JS files
+* Enable GZIP compression (compress text, html, javascript, css, xml and so on)
+* Enqueue scripts to footer
+* Add Vary: Accept-Encoding header, and
+* Set expires caching (leverage browser caching).
 
 == Installation ==
-1. Upload the `wp-performance-score-booster` folder to the `/wp-content/plugins/` directory
-2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. That's it!
+1. Upload the ‘wp-performance-score-booster’ folder to the ‘/wp-content/plugins/‘ directory
+2. Activate the plugin through the ‘Plugins’ menu in WordPress.
+3. That’s it!
 
 == Frequently Asked Questions ==
 = What does this plugin do? =
 
-It helps you to improve your website scores in services like PageSpeed, YSlow, Pingdom and GTmetrix. It will remove any query strings from static resources like CSS & JS files, enables GZIP Compression (compress text, html, javascript, css, xml and so on) and expires caching (leverage browser caching).
+It speed-up page load times and improve website scores in services like PageSpeed, YSlow, Pingdom and GTmetrix. It will remove any query strings from static resources like CSS & JS files,  enable GZIP compression (compress text, html, javascript, css, xml and so on), enqueue scripts to footer, add Vary: Accept-Encoding header and set expires caching (leverage browser caching).
 
 = Any specific requirements for this plugin to work? =
 
@@ -36,8 +43,13 @@ Pretty much, yeah.
 1. Admin Settings
 
 == Changelog ==
+= 1.2, Nov 17, 2014 =
+* Added feature to enqueue scripts to footer
+* Added support for Vary: Accept-Encoding header
+* Fixed minor issues for remove query strings from static resources
+
 = 1.1.1, Sept 02, 2014 =
-* Added function (for urls with &ver) to remove query strings from static resources
+* Added feature (for urls with &ver) to remove query strings from static resources
 
 = 1.1, Aug 31, 2014 =
 * Added Admin Options / Settings
