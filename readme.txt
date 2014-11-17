@@ -13,7 +13,7 @@ Speed-up page load times and improve website scores in services like PageSpeed, 
 == Description ==
 This plugin speed-up page load times and improve website scores in services like PageSpeed, YSlow, Pingdom and GTmetrix.
 
-It will...
+= This plugin will... =
 * Remove any query strings from static resources like CSS & JS files
 * Enable GZIP compression (compress text, html, javascript, css, xml and so on)
 * Enqueue scripts to footer
