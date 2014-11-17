@@ -4,7 +4,7 @@ Tags: performance, speed, time, query, strings, gzip, compression, caching, boos
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3S8BRPLWLNQ38
 Requires at least: 3.5
 Tested up to: 4.0
-Stable tag: 1.2
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,7 +16,6 @@ This plugin speed-up page load times and improve website scores in services like
 = This plugin will... =
 * Remove any query strings from static resources like CSS & JS files
 * Enable GZIP compression (compress text, html, javascript, css, xml and so on)
-* Enqueue scripts to footer
 * Add Vary: Accept-Encoding header, and
 * Set expires caching (leverage browser caching).
 
@@ -28,7 +27,7 @@ This plugin speed-up page load times and improve website scores in services like
 == Frequently Asked Questions ==
 = What does this plugin do? =
 
-It speed-up page load times and improve website scores in services like PageSpeed, YSlow, Pingdom and GTmetrix. It will remove any query strings from static resources like CSS & JS files,  enable GZIP compression (compress text, html, javascript, css, xml and so on), enqueue scripts to footer, add Vary: Accept-Encoding header and set expires caching (leverage browser caching).
+It speed-up page load times and improve website scores in services like PageSpeed, YSlow, Pingdom and GTmetrix. It will remove any query strings from static resources like CSS & JS files,  enable GZIP compression (compress text, html, javascript, css, xml and so on), add Vary: Accept-Encoding header and set expires caching (leverage browser caching).
 
 = Any specific requirements for this plugin to work? =
 
@@ -43,6 +42,9 @@ Pretty much, yeah.
 1. Admin Settings
 
 == Changelog ==
+= 1.2.1, Nov 17, 2014 =
+* Removed (temporarily) feature to enqueue scripts to footer
+
 = 1.2, Nov 17, 2014 =
 * Added feature to enqueue scripts to footer
 * Added support for Vary: Accept-Encoding header
