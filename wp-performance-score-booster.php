@@ -15,7 +15,7 @@ if (!defined('WPPSB_PLUGIN_VERSION')) {
 if (!defined('WPPSB_PLUGIN_VERSION_NUM')) {
     define('WPPSB_PLUGIN_VERSION_NUM', '1.2.1');
 }
-add_option(WPPSB_PLUGIN_VERSION, WPPSB_PLUGIN_VERSION_NUM);
+update_option(WPPSB_PLUGIN_VERSION, WPPSB_PLUGIN_VERSION_NUM);
 
 // Register with hook 'wp_enqueue_scripts', which can be used for front end CSS and JavaScript
 add_action( 'admin_init', 'wppsb_add_stylesheet' );
@@ -286,13 +286,14 @@ function wppsb_deactivate_plugin() {
 	remove_filter( 'script_loader_src', 'wppsb_remove_query_strings_emp');
 	remove_filter( 'style_loader_src', 'wppsb_remove_query_strings_emp');
 	remove_filter( 'mod_rewrite_rules', 'wppsb_enable_gzip_filter');
-	remove_filter('mod_rewrite_rules', 'wppsb_vary_accept_encoding_filter');
+	remove_filter( 'mod_rewrite_rules', 'wppsb_vary_accept_encoding_filter');
 	remove_filter( 'mod_rewrite_rules', 'wppsb_expire_caching_filter');
 
 	// Delete default options value in the database
 	/* delete_option( 'wppsb_remove_query_strings' );
 	delete_option( 'wppsb_enable_gzip' );
 	delete_option( 'wppsb_expire_caching' ); */
+	delete_option( 'wppsb_plugin_version' );
 
     flush_rewrite_rules();
 }
