@@ -3,19 +3,35 @@
 Plugin Name: WP Performance Score Booster
 Plugin URI: https://github.com/dipakcg/wp-performance-score-booster
 Description: Speed-up page load times and improve website scores in services like PageSpeed, YSlow, Pingdom and GTmetrix.
+Version: 1.2.2
 Author: Dipak C. Gajjar
-Version: 1.2.1
-Author URI: http://www.dipakgajjar.com/
+Author URI: http://dipakgajjar.com
+Text Domain: wp-performance-score-booster
 */
 
-// Define plugin version for future releases (line: 17)
+// Define plugin version for future releases
 if (!defined('WPPSB_PLUGIN_VERSION')) {
     define('WPPSB_PLUGIN_VERSION', 'wppsb_plugin_version');
 }
 if (!defined('WPPSB_PLUGIN_VERSION_NUM')) {
-    define('WPPSB_PLUGIN_VERSION_NUM', '1.2.1');
+    define('WPPSB_PLUGIN_VERSION_NUM', '1.2.2');
 }
 update_option(WPPSB_PLUGIN_VERSION, WPPSB_PLUGIN_VERSION_NUM);
+
+// Load plugin textdomain for language trnaslation
+// load_plugin_textdomain( 'wp-performance-score-booster', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+function wppsb_load_plugin_textdomain() {
+
+	$domain = 'wp-performance-score-booster';
+	$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
+
+	// wp-content/languages/plugin-name/plugin-name-de_DE.mo
+	load_textdomain( $domain, trailingslashit( WP_LANG_DIR ) . $domain . '/' . $domain . '-' . $locale . '.mo' );
+	// wp-content/plugins/plugin-name/languages/plugin-name-de_DE.mo
+	load_plugin_textdomain( $domain, FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
+
+}
+add_action( 'init', 'wppsb_load_plugin_textdomain' );
 
 // Register with hook 'wp_enqueue_scripts', which can be used for front end CSS and JavaScript
 add_action( 'admin_init', 'wppsb_add_stylesheet' );
@@ -27,44 +43,12 @@ function wppsb_add_stylesheet() {
 
 // Remove query strings from static content
 function wppsb_remove_query_strings_q( $src ) {
-	$rqs = explode( '?ver', $src );
-	return $rqs[0];
+	$str_parts = explode( '?ver', $src );
+	return $str_parts[0];
 }
 function wppsb_remove_query_strings_emp( $src ) {
-	$rqs = explode( '&ver', $src );
-	return $rqs[0];
-}
-
-// If 'Remove query strings" checkbox ticked, add filter otherwise remove filter
-if (get_option('wppsb_remove_query_strings') == 'on') {
-	add_filter( 'script_loader_src', 'wppsb_remove_query_strings_q', 15, 1 );
-	add_filter( 'style_loader_src', 'wppsb_remove_query_strings_q', 15, 1 );
-	add_filter( 'script_loader_src', 'wppsb_remove_query_strings_emp', 15, 1 );
-	add_filter( 'style_loader_src', 'wppsb_remove_query_strings_emp', 15, 1 );
-}
-else {
-	remove_filter( 'script_loader_src', 'wppsb_remove_query_strings_q');
-	remove_filter( 'style_loader_src', 'wppsb_remove_query_strings_q');
-	remove_filter( 'script_loader_src', 'wppsb_remove_query_strings_emp');
-	remove_filter( 'style_loader_src', 'wppsb_remove_query_strings_emp');
-}
-
-// If 'Enable GZIP" checkbox ticked, add filter otherwise remove filter
-if (get_option('wppsb_enable_gzip') == 'on') {
-	add_filter('mod_rewrite_rules', 'wppsb_enable_gzip_filter');
-	add_filter('mod_rewrite_rules', 'wppsb_vary_accept_encoding_filter');
-}
-else {
-	remove_filter('mod_rewrite_rules', 'wppsb_enable_gzip_filter');
-	remove_filter('mod_rewrite_rules', 'wppsb_vary_accept_encoding_filter');
-}
-
-// If 'Expire caching" checkbox ticked, add filter otherwise remove filter
-if (get_option('wppsb_expire_caching') == 'on') {
-	add_filter('mod_rewrite_rules', 'wppsb_expire_caching_filter');
-}
-else {
-	remove_filter('mod_rewrite_rules', 'wppsb_expire_caching_filter');
+	$str_parts = explode( '&ver', $src );
+	return $str_parts[0];
 }
 
 // Enable GZIP Compression
@@ -151,13 +135,27 @@ add_filter( 'clean_url', 'defer_parsing_of_js', 11, 1 ); */
 }
 add_action('after_setup_theme', 'footer_enqueue_scripts'); */
 
+// If 'Remove query strings" checkbox ticked, add filter otherwise remove filter
+if (get_option('wppsb_remove_query_strings') == 'on') {
+	add_filter( 'script_loader_src', 'wppsb_remove_query_strings_q', 15, 1 );
+	add_filter( 'style_loader_src', 'wppsb_remove_query_strings_q', 15, 1 );
+	add_filter( 'script_loader_src', 'wppsb_remove_query_strings_emp', 15, 1 );
+	add_filter( 'style_loader_src', 'wppsb_remove_query_strings_emp', 15, 1 );
+}
+else {
+	remove_filter( 'script_loader_src', 'wppsb_remove_query_strings_q');
+	remove_filter( 'style_loader_src', 'wppsb_remove_query_strings_q');
+	remove_filter( 'script_loader_src', 'wppsb_remove_query_strings_emp');
+	remove_filter( 'style_loader_src', 'wppsb_remove_query_strings_emp');
+}
+
 function wppsb_admin_options() {
 	?>
 	<div class="wrap">
 	<table width="100%" border="0">
 	<tr>
 	<td width="75%">
-	<h2><?php echo '<img src="' . plugins_url( 'assets/images/wppsb-icon-24x24.png' , __FILE__ ) . '" > ';  ?> WP Performance Score Booster Settings</h2>
+	<h2><?php echo '<img src="' . plugins_url( 'assets/images/wppsb-icon-24x24.png' , __FILE__ ) . '" > ';  ?> <?php _e('WP Performance Score Booster Settings', 'wp-performance-score-booster'); ?></h2>
 	<hr />
 	<?php
 	if ( !current_user_can( 'manage_options' ) )  {
@@ -188,44 +186,62 @@ function wppsb_admin_options() {
         update_option( $enable_gzip, $enable_gzip_val );
         update_option( $expire_caching, $expire_caching_val );
 
+		// If 'Enable GZIP" checkbox ticked, add filter otherwise remove filter
+		if ($enable_gzip_val == 'on') {
+			add_filter('mod_rewrite_rules', 'wppsb_enable_gzip_filter');
+			add_filter('mod_rewrite_rules', 'wppsb_vary_accept_encoding_filter');
+		}
+		else {
+			remove_filter('mod_rewrite_rules', 'wppsb_enable_gzip_filter');
+			remove_filter('mod_rewrite_rules', 'wppsb_vary_accept_encoding_filter');
+		}
+
+		// If 'Expire caching" checkbox ticked, add filter otherwise remove filter
+		if ($expire_caching_val == 'on') {
+			add_filter('mod_rewrite_rules', 'wppsb_expire_caching_filter');
+		}
+		else {
+			remove_filter('mod_rewrite_rules', 'wppsb_expire_caching_filter');
+		}
+
 	    flush_rewrite_rules();
 
         // Put the settings updated message on the screen
    	?>
-   	<div class="updated"><p><strong>Settings Saved.</strong></p></div>
+   	<div class="updated"><p><strong><?php _e('Settings Saved.', 'wp-performance-score-booster'); ?></strong></p></div>
 	<?php
 	}
 	?>
 	<form method="post" name="options_form">
 	<input type="hidden" name="<?php echo $hidden_field_name; ?>" value="Y">
 	<p>
-	<input type="checkbox" name="<?php echo $remove_query_strings; ?>" <?php checked( $remove_query_strings_val == 'on',true); ?> /> &nbsp; <span class="wppsb_settings"> Remove query strings from static content </span>
+	<input type="checkbox" name="<?php echo $remove_query_strings; ?>" <?php checked( $remove_query_strings_val == 'on',true); ?> /> &nbsp; <span class="wppsb_settings"> <?php _e('Remove query strings from static content', 'wp-performance-score-booster'); ?> </span>
 	</p>
 	<p>
 	<?php if (function_exists('ob_gzhandler') || ini_get('zlib.output_compression')) { ?>
-    	<input type="checkbox" name="<?php echo $enable_gzip; ?>" <?php checked( $enable_gzip_val == 'on',true); ?>  /> &nbsp; <span class="wppsb_settings"> Enable GZIP compression (compress text, html, javascript, css, xml and so on)</span>
+    	<input type="checkbox" name="<?php echo $enable_gzip; ?>" <?php checked( $enable_gzip_val == 'on',true); ?>  /> &nbsp; <span class="wppsb_settings"> <?php _e('Enable GZIP compression (compress text, html, javascript, css, xml and so on)', 'wp-performance-score-booster'); ?> </span>
     <?php }
     else { ?>
-    	<input type="checkbox" name="<?php echo $enable_gzip; ?>" disabled="true" <?php checked( $enable_gzip_val == 'on',true); ?> /> &nbsp; <span class="wppsb_settings"> Enable GZIP compression (compress text, html, javascript, css, xml and so on)</span> <br /> <span class="wppsb_settings" style="margin-left:30px; color:RED;">Your web server does not support GZIP compression. Contact your hosting provider to enable it.</span>
+    	<input type="checkbox" name="<?php echo $enable_gzip; ?>" disabled="true" <?php checked( $enable_gzip_val == 'on',true); ?> /> &nbsp; <span class="wppsb_settings"> <?php _e('Enable GZIP compression (compress text, html, javascript, css, xml and so on)', 'wp-performance-score-booster'); ?> </span> <br /> <span class="wppsb_settings" style="margin-left:30px; color:RED;"> <?php _e('Your web server does not support GZIP compression. Contact your hosting provider to enable it.', 'wp-performance-score-booster'); ?> </span>
     <?php } ?>
     </p>
     <p>
-    <input type="checkbox" name="<?php echo $expire_caching; ?>" <?php checked( $expire_caching_val == 'on',true); ?> /> &nbsp; <span class="wppsb_settings"> Set expire caching (Leverage Browser Caching) </span>
+    <input type="checkbox" name="<?php echo $expire_caching; ?>" <?php checked( $expire_caching_val == 'on',true); ?> /> &nbsp; <span class="wppsb_settings"> <?php _e('Set expire caching (Leverage Browser Caching)', 'wp-performance-score-booster'); ?> </span>
     </p>
-    <p><input type="submit" value="<?php esc_attr_e('Save Changes') ?>" class="button button-primary" name="submit" /></p>
+    <p><input type="submit" value="<?php esc_attr_e('Save Changes', 'wp-performance-score-booster'); ?>" class="button button-primary" name="submit" /></p>
     </form>
 	</td>
 	<td style="text-align: left;">
 	<div class="wppsb_admin_dev_sidebar_div">
 	<img src="http://www.gravatar.com/avatar/38b380cf488d8f8c4007cf2015dc16ac.jpg" width="100px" height="100px" /> <br />
-	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-support-this-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3S8BRPLWLNQ38" target="_blank"> Support this plugin and donate </a> </span>
-	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-rate-this-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="http://wordpress.org/support/view/plugin-reviews/wp-performance-score-booster" target="_blank"> Rate this plugin on WordPress.org </a> </span>
-	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-wordpress-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="http://wordpress.org/support/plugin/wp-performance-score-booster" target="_blank"> Get support on on WordPress.org </a> </span>
-	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-github-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="https://github.com/dipakcg/wp-performance-score-booster" target="_blank"> Contribute development on GitHub </a> </span>
-	<!-- <span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-other-plugins-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="http://profiles.wordpress.org/dipakcg#content-plugins" target="_blank"> Get my other plugins </a> </span> -->
+	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-support-this-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3S8BRPLWLNQ38" target="_blank"> <?php _e('Support this plugin and donate', 'wp-performance-score-booster'); ?> </a> </span>
+	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-rate-this-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="http://wordpress.org/support/view/plugin-reviews/wp-performance-score-booster" target="_blank"> <?php _e('Rate this plugin on WordPress.org', 'wp-performance-score-booster'); ?> </a> </span>
+	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-wordpress-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="http://wordpress.org/support/plugin/wp-performance-score-booster" target="_blank"> <?php _e('Get support on on WordPress.org', 'wp-performance-score-booster'); ?> </a> </span>
+	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-github-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="https://github.com/dipakcg/wp-performance-score-booster" target="_blank"> <?php _e('Contribute development on GitHub', 'wp-performance-score-booster'); ?> </a> </span>
+	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-other-plugins-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="http://profiles.wordpress.org/dipakcg#content-plugins" target="_blank"> <?php _e('Get my other plugins', 'wp-performance-score-booster'); ?> </a> </span>
 	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-twitter-16x16.png' , __FILE__ ) . '" > ';  ?>Follow me on Twitter: <a href="https://twitter.com/dipakcgajjar" target="_blank">@dipakcgajjar</a> </span>
 	<br />
-	<span class="wppsb_admin_dev_sidebar" style="float: right;"> Version: <strong> <?php echo get_option('wppsb_plugin_version'); ?> </strong> </span>
+	<span class="wppsb_admin_dev_sidebar" style="float: right;"> <?php _e('Version:', 'wp-performance-score-booster'); ?> <strong> <?php echo get_option('wppsb_plugin_version'); ?> </strong> </span>
 	</div>
 	</td>
 	</tr>
@@ -237,8 +253,8 @@ function wppsb_admin_options() {
 // Register admin menu
 add_action( 'admin_menu', 'wppsb_add_admin_menu' );
 function wppsb_add_admin_menu() {
-	// add_options_page( $page_title, $menu_title, $capability, $menu_slug, $function);
-	add_menu_page( 'WP Performance Score Booster Settings', 'WP Performance Score Booster', 'manage_options', 'wp-performance-score-booster', 'wppsb_admin_options', plugins_url('assets/images/wppsb-icon-24x24.png', __FILE__) );
+	add_menu_page( __('WP Performance Score Booster Settings', 'wp-performance-score-booster'), __('WP Performance Score Booster', 'wp-performance-score-booster'), 'manage_options', 'wp-performance-score-booster', 'wppsb_admin_options', plugins_url('assets/images/wppsb-icon-24x24.png', __FILE__) );
+	// add_options_page( __('WP Performance Score Booster Settings', 'wp-performance-score-booster'), __('WP Performance Score Booster', 'wp-performance-score-booster'), 'manage_options', 'wp-performance-score-booster', 'wppsb_admin_options' );
 }
 
 // Add header
