@@ -42,7 +42,7 @@ Pretty much, yeah.
 1. Admin Settings
 
 == Changelog ==
-= 1.2.2, Dec 25, 2014 =
+= 1.2.2, Dec 27, 2014 =
 * Added support for language translations
 
 = 1.2.1, Nov 17, 2014 =
