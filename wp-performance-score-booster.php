@@ -51,6 +51,97 @@ function wppsb_remove_query_strings_emp( $src ) {
 	return $str_parts[0];
 }
 
+/* function wppsb_enable_gzip_compression ( $src ) {
+	// Get htaccess file path
+	$htaccess_file = ABSPATH.'.htaccess';
+
+	$host_rule = '# BEGIN : Enable GZIP Compression by WP Performance Score Booster' . PHP_EOL;
+	$host_rule .= '# Enable GZIP Compression contents goes here.' . PHP_EOL;
+	$host_rule .= '# END : Enable GZIP Compression by WP Performance Score Booster'. PHP_EOL . PHP_EOL;
+
+	// Get the file permission to make sure we can write to the file
+	$perms = substr( sprintf( '%o', @fileperms( $htaccess_file ) ), - 4 );
+
+	@chmod( $htaccess_file, 0664 );
+
+	// Get the contents of the htaccess or nginx file
+	$htaccess_contents = @file_get_contents( $htaccess_file );
+
+	if ( $htaccess_contents === false ) {
+		return false;
+	}
+
+	$htaccess_contents = preg_replace( "/(\\r\\n|\\n|\\r)/", PHP_EOL, $htaccess_contents );
+
+	$htaccess_contents = $host_rule . $htaccess_contents;
+
+	@file_put_contents( $htaccess_file, $htaccess_contents, LOCK_EX );
+
+	return true;
+} */
+
+/* function wppsb_disable_gzip_compression ( $src ) {
+		$rule_open  = array( '# BEGIN : Enable GZIP Compression by WP Performance Score Booster', '# BEGIN : Enable GZIP Compression by WP Performance Score Booster' );
+		$rule_close = array( '# END : Enable GZIP Compression by WP Performance Score Booster', '# END : Enable GZIP Compression by WP Performance Score Booster' );
+
+		// Get htaccess file path
+		$htaccess_file = ABSPATH.'.htaccess';
+
+		//Make sure we can write to the file
+		$perms = substr( sprintf( '%o', @fileperms( $htaccess_file ) ), - 4 );
+
+		if ( $perms == '0444' ) {
+			@chmod( $htaccess_file, 0664 );
+		}
+
+		//make sure the file exists and create it if it doesn't
+		if ( ! file_exists( $htaccess_file ) ) {
+			@touch( $htaccess_file );
+		}
+
+		$htaccess_contents = @file_get_contents( $htaccess_file ); //get the contents of the htaccess or nginx file
+
+		if ( $htaccess_contents === false ) { //we couldn't get the file contents
+			return false;
+		}
+		else { //write out what we need to.
+			$lines = explode( PHP_EOL, $htaccess_contents ); //create an array to make this easier
+			$state = false;
+
+			foreach ( $lines as $line_number => $line ) { //for each line in the file
+
+				if ( in_array( trim( $line ), $rule_open ) !== false ) { //if we're at the beginning of the section
+					$state = true;
+				}
+
+				if ( $state == true ) { //as long as we're not in the section keep writing
+					unset( $lines[$line_number] );
+				}
+
+				if ( in_array( trim( $line ), $rule_close ) !== false ) { //see if we're at the end of the section
+					$state = false;
+				}
+			}
+
+			$htaccess_contents = trim( implode( PHP_EOL, $lines ) );
+
+			if ( strlen( $htaccess_contents ) < 1 ) {
+				$htaccess_contents = PHP_EOL;
+			}
+
+			if ( ! @file_put_contents( $htaccess_file, $htaccess_contents, LOCK_EX ) ) {
+				return false;
+			}
+		}
+
+		//reset file permissions if we changed them
+		if ( $perms == '0444' ) {
+			@chmod( $htaccess_file, 0444 );
+		}
+
+		return true;
+} */
+
 // Enable GZIP Compression
 function wppsb_enable_gzip_filter( $rules ) {
 $gzip_htaccess_content = <<<EOD
