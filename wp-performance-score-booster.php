@@ -54,7 +54,7 @@ function wppsb_remove_query_strings_emp( $src ) {
 // Enable GZIP Compression
 function wppsb_enable_gzip_filter( $rules = '' ) {
 $gzip_htaccess_content = <<<EOD
-\n# BEGIN Enable GZIP Compression
+\n## BEGIN Enable GZIP Compression ##
 <IfModule mod_deflate.c>
 AddOutputFilterByType DEFLATE text/plain
 AddOutputFilterByType DEFLATE text/html
@@ -70,7 +70,7 @@ AddOutputFilterByType DEFLATE application/x-httpd-fastphp
 AddOutputFilterByType DEFLATE image/svg+xml
 SetOutputFilter DEFLATE
 </IfModule>
-# END Enable GZIP Compression
+## END Enable GZIP Compression ##
 EOD;
     return $gzip_htaccess_content . $rules;
 }
@@ -78,7 +78,7 @@ EOD;
 // Enable expire caching
 function wppsb_expire_caching_filter( $rules = '' ) {
 $expire_cache_htaccess_content = <<<EOD
-\n# BEGIN Expires Caching (Leverage Browser Caching)
+\n## BEGIN Expires Caching (Leverage Browser Caching) ##
 <IfModule mod_expires.c>
 ExpiresActive On
 ExpiresByType image/jpg "access 2 week"
@@ -92,7 +92,7 @@ ExpiresByType application/x-shockwave-flash "access 2 week"
 ExpiresByType image/x-icon "access 2 week"
 ExpiresDefault "access 2 week"
 </IfModule>
-# END Expires Caching (Leverage Browser Caching)
+## END Expires Caching (Leverage Browser Caching) ##
 EOD;
     return $expire_cache_htaccess_content . $rules;
 }
@@ -100,13 +100,13 @@ EOD;
 // Set Vary: Accept-Encoding Header
 function wppsb_vary_accept_encoding_filter( $rules = '' ) {
 $vary_accept_encoding_header = <<<EOD
-\n# BEGIN Vary: Accept-Encoding Header
+\n## BEGIN Vary: Accept-Encoding Header ##
 <IfModule mod_headers.c>
 <FilesMatch "\.(js|css|xml|gz)$">
 Header append Vary: Accept-Encoding
 </FilesMatch>
 </IfModule>
-# END Vary: Accept-Encoding Header
+## END Vary: Accept-Encoding Header ##
 EOD;
     return $vary_accept_encoding_header . $rules;
 }
