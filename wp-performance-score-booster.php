@@ -171,7 +171,7 @@ function wppsb_remove_query_strings_emp( $src ) {
 } */
 
 // Enable GZIP Compression
-function wppsb_enable_gzip_filter( $rules ) {
+function wppsb_enable_gzip_filter( $rules = '' ) {
 $gzip_htaccess_content = <<<EOD
 \n## Added by WP Performance Score Booster ##
 ## BEGIN : Enable GZIP Compression (compress text, html, javascript, css, xml and so on) ##
@@ -196,7 +196,7 @@ EOD;
 }
 
 // Enable expire caching
-function wppsb_expire_caching_filter( $rules ) {
+function wppsb_expire_caching_filter( $rules = '' ) {
 $expire_cache_htaccess_content = <<<EOD
 \n## Added by WP Performance Score Booster ##
 ## BEGIN : Expires Caching (Leverage Browser Caching) ##
@@ -219,7 +219,7 @@ EOD;
 }
 
 // Set Vary: Accept-Encoding Header
-function wppsb_vary_accept_encoding_filter( $rules ) {
+function wppsb_vary_accept_encoding_filter( $rules = '' ) {
 $vary_accept_encoding_header = <<<EOD
 \n## Added by WP Performance Score Booster ##
 ## BEGIN : Vary: Accept-Encoding Header ##
@@ -305,27 +305,8 @@ function wppsb_admin_options() {
         update_option( $enable_gzip, $enable_gzip_val );
         update_option( $expire_caching, $expire_caching_val );
 
-		// If 'Enable GZIP" checkbox ticked, add filter otherwise remove filter
-		if ($enable_gzip_val == 'on') {
-			add_filter('mod_rewrite_rules', 'wppsb_enable_gzip_filter');
-			add_filter('mod_rewrite_rules', 'wppsb_vary_accept_encoding_filter');
-			/* add_filter( 'init', 'wppsb_enable_gzip_compression' ); */
-		}
-		else {
-			remove_filter('mod_rewrite_rules', 'wppsb_enable_gzip_filter');
-			remove_filter('mod_rewrite_rules', 'wppsb_vary_accept_encoding_filter');
-			/* add_filter( 'init', 'wppsb_disable_gzip_compression' ); */
-		}
-
-		// If 'Expire caching" checkbox ticked, add filter otherwise remove filter
-		if ($expire_caching_val == 'on') {
-			add_filter('mod_rewrite_rules', 'wppsb_expire_caching_filter');
-		}
-		else {
-			remove_filter('mod_rewrite_rules', 'wppsb_expire_caching_filter');
-		}
-
 	    flush_rewrite_rules();
+	    wppsb_save_mod_rewrite_rules();
 
         // Put the settings updated message on the screen
    	?>
@@ -402,17 +383,15 @@ function wppsb_activate_plugin() {
 
 	if (function_exists('ob_gzhandler') || ini_get('zlib.output_compression')) {
 		update_option( 'wppsb_enable_gzip', 'on' );
-		add_filter('mod_rewrite_rules', 'wppsb_enable_gzip_filter');
-		add_filter('mod_rewrite_rules', 'wppsb_vary_accept_encoding_filter');
 	}
 	else {
 		update_option( 'wppsb_enable_gzip', '' );
 	}
 
 	update_option( 'wppsb_expire_caching', 'on' );
-	add_filter('mod_rewrite_rules', 'wppsb_expire_caching_filter');
 
     flush_rewrite_rules();
+    wppsb_save_mod_rewrite_rules();
 }
 register_activation_hook( __FILE__, 'wppsb_activate_plugin' );
 
@@ -421,6 +400,51 @@ function wppsb_deactivate_plugin() {
 	delete_option( 'wppsb_plugin_version' );
 
     flush_rewrite_rules();
+    wppsb_save_mod_rewrite_rules();
 }
 register_deactivation_hook( __FILE__, 'wppsb_deactivate_plugin' );
-?>
+
+// Updates the htaccess file with the current rules if it is writable.
+function wppsb_save_mod_rewrite_rules() {
+	if ( is_multisite() )
+		return;
+
+	global $wp_rewrite;
+
+	$home_path = get_home_path();
+	$htaccess_file = $home_path.'.htaccess';
+
+	/*
+	 * If the file doesn't already exist check for write access to the directory
+	 * and whether we have some rules. Else check for write access to the file.
+	 */
+	if ((!file_exists($htaccess_file) && is_writable($home_path) && $wp_rewrite->using_mod_rewrite_permalinks()) || is_writable($htaccess_file)) {
+		if ( got_mod_rewrite() ) {
+			$rules = explode( "\n", $wp_rewrite->mod_rewrite_rules() );
+
+		    $remove_query_strings = 'wppsb_remove_query_strings';
+		    $enable_gzip = 'wppsb_enable_gzip';
+		    $expire_caching = 'wppsb_expire_caching';
+
+		    $remove_query_strings_val = get_option($remove_query_strings);
+		    $enable_gzip_val = get_option($enable_gzip);
+		    $expire_caching_val = get_option($expire_caching);
+
+		    $rules = array();
+
+			if ($enable_gzip_val == 'on') {
+				$rules = array_merge($rules, explode("\n", wppsb_enable_gzip_filter()));
+				$rules = array_merge($rules, explode("\n", wppsb_vary_accept_encoding_filter()));
+			}
+
+			// If 'Expire caching" checkbox ticked, add filter otherwise remove filter
+			if ($expire_caching_val == 'on') {
+				$rules = array_merge($rules, explode("\n", wppsb_expire_caching_filter()));
+			}
+
+			return insert_with_markers( $htaccess_file, 'WP Performance Score Booster Settings', $rules );
+		}
+	}
+
+	return false;
+}
