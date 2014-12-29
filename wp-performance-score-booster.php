@@ -111,6 +111,7 @@ EOD;
     return $vary_accept_encoding_header . $rules;
 }
 
+/* Plan to add in future releases */
 // Defer parsing of java-script (to load at last)
 /* function defer_parsing_of_js ( $src ) {
 	if ( FALSE === strpos( $src, '.js' ) )
