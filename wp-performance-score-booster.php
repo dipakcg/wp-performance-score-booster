@@ -285,6 +285,7 @@ function wppsb_deactivate_plugin() {
 }
 register_deactivation_hook( __FILE__, 'wppsb_deactivate_plugin' );
 
+// Special thanks to Marin Atanasov ( https://github.com/tyxla ) for contributing this awesome function.
 // Updates the htaccess file with the current rules if it is writable.
 function wppsb_save_mod_rewrite_rules() {
 	if ( is_multisite() )
