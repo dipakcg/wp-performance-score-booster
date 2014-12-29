@@ -261,12 +261,15 @@ function wppsb_activate_plugin() {
 
 	if (function_exists('ob_gzhandler') || ini_get('zlib.output_compression')) {
 		update_option( 'wppsb_enable_gzip', 'on' );
+		add_filter('mod_rewrite_rules', 'wppsb_enable_gzip_filter');
+		add_filter('mod_rewrite_rules', 'wppsb_vary_accept_encoding_filter');
 	}
 	else {
 		update_option( 'wppsb_enable_gzip', '' );
 	}
 
 	update_option( 'wppsb_expire_caching', 'on' );
+	add_filter('mod_rewrite_rules', 'wppsb_expire_caching_filter');
 
     flush_rewrite_rules();
     wppsb_save_mod_rewrite_rules();
@@ -282,26 +285,14 @@ function wppsb_deactivate_plugin() {
 }
 register_deactivation_hook( __FILE__, 'wppsb_deactivate_plugin' );
 
-<<<<<<< HEAD
 // Special thanks to Marin Atanasov ( https://github.com/tyxla ) for contributing this awesome function.
-=======
->>>>>>> origin/master
 // Updates the htaccess file with the current rules if it is writable.
 function wppsb_save_mod_rewrite_rules() {
 	if ( is_multisite() )
 		return;
-<<<<<<< HEAD
 	global $wp_rewrite;
 	$home_path = get_home_path();
 	$htaccess_file = $home_path.'.htaccess';
-=======
-
-	global $wp_rewrite;
-
-	$home_path = get_home_path();
-	$htaccess_file = $home_path.'.htaccess';
-
->>>>>>> origin/master
 	/*
 	 * If the file doesn't already exist check for write access to the directory
 	 * and whether we have some rules. Else check for write access to the file.
@@ -309,7 +300,6 @@ function wppsb_save_mod_rewrite_rules() {
 	if ((!file_exists($htaccess_file) && is_writable($home_path) && $wp_rewrite->using_mod_rewrite_permalinks()) || is_writable($htaccess_file)) {
 		if ( got_mod_rewrite() ) {
 			$rules = explode( "\n", $wp_rewrite->mod_rewrite_rules() );
-<<<<<<< HEAD
 		    // $remove_query_strings = 'wppsb_remove_query_strings';
 		    $enable_gzip = 'wppsb_enable_gzip';
 		    $expire_caching = 'wppsb_expire_caching';
@@ -317,44 +307,17 @@ function wppsb_save_mod_rewrite_rules() {
 		    $enable_gzip_val = get_option($enable_gzip);
 		    $expire_caching_val = get_option($expire_caching);
 		    $rules = array();
-=======
-
-		    $remove_query_strings = 'wppsb_remove_query_strings';
-		    $enable_gzip = 'wppsb_enable_gzip';
-		    $expire_caching = 'wppsb_expire_caching';
-
-		    $remove_query_strings_val = get_option($remove_query_strings);
-		    $enable_gzip_val = get_option($enable_gzip);
-		    $expire_caching_val = get_option($expire_caching);
-
-		    $rules = array();
-
->>>>>>> origin/master
 			if ($enable_gzip_val == 'on') {
 				$rules = array_merge($rules, explode("\n", wppsb_enable_gzip_filter()));
 				$rules = array_merge($rules, explode("\n", wppsb_vary_accept_encoding_filter()));
 			}
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
 			// If 'Expire caching" checkbox ticked, add filter otherwise remove filter
 			if ($expire_caching_val == 'on') {
 				$rules = array_merge($rules, explode("\n", wppsb_expire_caching_filter()));
 			}
-<<<<<<< HEAD
 			return insert_with_markers( $htaccess_file, 'WP Performance Score Booster Settings', $rules );
 		}
 	}
 	return false;
 }
 ?>
-=======
-
-			return insert_with_markers( $htaccess_file, 'WP Performance Score Booster Settings', $rules );
-		}
-	}
-
-	return false;
-}
->>>>>>> origin/master
