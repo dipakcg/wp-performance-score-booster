@@ -3,7 +3,7 @@
 Plugin Name: WP Performance Score Booster
 Plugin URI: https://github.com/dipakcg/wp-performance-score-booster
 Description: Speed-up page load times and improve website scores in services like PageSpeed, YSlow, Pingdom and GTmetrix.
-Version: 1.3
+Version: 1.4
 Author: Dipak C. Gajjar
 Author URI: http://dipakgajjar.com
 Text Domain: wp-performance-score-booster
@@ -14,7 +14,7 @@ if (!defined('WPPSB_PLUGIN_VERSION')) {
     define('WPPSB_PLUGIN_VERSION', 'wppsb_plugin_version');
 }
 if (!defined('WPPSB_PLUGIN_VERSION_NUM')) {
-    define('WPPSB_PLUGIN_VERSION_NUM', '1.3');
+    define('WPPSB_PLUGIN_VERSION_NUM', '1.4');
 }
 update_option(WPPSB_PLUGIN_VERSION, WPPSB_PLUGIN_VERSION_NUM);
 
@@ -70,7 +70,7 @@ AddOutputFilterByType DEFLATE application/x-httpd-fastphp
 AddOutputFilterByType DEFLATE image/svg+xml
 SetOutputFilter DEFLATE
 </IfModule>
-## END Enable GZIP Compression ##
+## END Enable GZIP Compression ##\n
 EOD;
     return $gzip_htaccess_content . $rules;
 }
@@ -92,7 +92,7 @@ ExpiresByType application/x-shockwave-flash "access 2 week"
 ExpiresByType image/x-icon "access 2 week"
 ExpiresDefault "access 2 week"
 </IfModule>
-## END Expires Caching (Leverage Browser Caching) ##
+## END Expires Caching (Leverage Browser Caching) ##\n
 EOD;
     return $expire_cache_htaccess_content . $rules;
 }
@@ -106,7 +106,7 @@ $vary_accept_encoding_header = <<<EOD
 Header append Vary: Accept-Encoding
 </FilesMatch>
 </IfModule>
-## END Vary: Accept-Encoding Header ##
+## END Vary: Accept-Encoding Header ##\n
 EOD;
     return $vary_accept_encoding_header . $rules;
 }
@@ -214,7 +214,7 @@ function wppsb_admin_options() {
 	</td>
 	<td style="text-align: left;">
 	<div class="wppsb_admin_dev_sidebar_div">
-	<img src="http://www.gravatar.com/avatar/38b380cf488d8f8c4007cf2015dc16ac.jpg" width="100px" height="100px" /> <br />
+	<img src="//www.gravatar.com/avatar/38b380cf488d8f8c4007cf2015dc16ac.jpg" width="100px" height="100px" /> <br />
 	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-support-this-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3S8BRPLWLNQ38" target="_blank"> <?php _e('Support this plugin and donate', 'wp-performance-score-booster'); ?> </a> </span>
 	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-rate-this-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="http://wordpress.org/support/view/plugin-reviews/wp-performance-score-booster" target="_blank"> <?php _e('Rate this plugin on WordPress.org', 'wp-performance-score-booster'); ?> </a> </span>
 	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-wordpress-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="http://wordpress.org/support/plugin/wp-performance-score-booster" target="_blank"> <?php _e('Get support on on WordPress.org', 'wp-performance-score-booster'); ?> </a> </span>
@@ -229,6 +229,25 @@ function wppsb_admin_options() {
 	</table>
 	</div>
 	<?php
+	echo '<hr style="margin-bottom: 2em;" />';
+    echo '<table cellspacing="0" cellpadding="0" class="news_section"> <tr>';
+    echo '<td width="50%" valign="top">';
+    echo '<h1>News & Updates from Dipak C. Gajjar</h1>';
+    echo '<div class="rss-widget">';
+     wp_widget_rss_output(array(
+          'url' => 'https://dipakgajjar.com/category/news/feed/?refresh='.rand(10,100).'',  // feed URL
+          'title' => 'News & Updates from Dipak C. Gajjar',
+          'items' => 3, // nubmer of posts to display
+          'show_summary' => 1,
+          'show_author' => 0,
+          'show_date' => 0
+     ));
+     echo '</div> <td width="5%"> &nbsp </td>';
+     echo '</td> <td valign="top">';
+     ?>
+     <a class="twitter-timeline" data-dnt="true" href="https://twitter.com/dipakcgajjar" data-widget-id="547661367281729536">Tweets by @dipakcgajjar</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+	<?php echo '</td> </tr> </table>';
 }
 
 // Register admin menu
@@ -262,15 +281,12 @@ function wppsb_activate_plugin() {
 
 	if (function_exists('ob_gzhandler') || ini_get('zlib.output_compression')) {
 		update_option( 'wppsb_enable_gzip', 'on' );
-		add_filter('mod_rewrite_rules', 'wppsb_enable_gzip_filter');
-		add_filter('mod_rewrite_rules', 'wppsb_vary_accept_encoding_filter');
 	}
 	else {
 		update_option( 'wppsb_enable_gzip', '' );
 	}
 
 	update_option( 'wppsb_expire_caching', 'on' );
-	add_filter('mod_rewrite_rules', 'wppsb_expire_caching_filter');
 
     flush_rewrite_rules();
     wppsb_save_mod_rewrite_rules();
