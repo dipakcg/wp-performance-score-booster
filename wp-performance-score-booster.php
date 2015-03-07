@@ -281,12 +281,21 @@ function wppsb_activate_plugin() {
 
 	if (function_exists('ob_gzhandler') || ini_get('zlib.output_compression')) {
 		update_option( 'wppsb_enable_gzip', 'on' );
+<<<<<<< HEAD
+=======
+		//add_filter('mod_rewrite_rules', 'wppsb_enable_gzip_filter');
+		//add_filter('mod_rewrite_rules', 'wppsb_vary_accept_encoding_filter');
+>>>>>>> origin/master
 	}
 	else {
 		update_option( 'wppsb_enable_gzip', '' );
 	}
 
 	update_option( 'wppsb_expire_caching', 'on' );
+<<<<<<< HEAD
+=======
+	//add_filter('mod_rewrite_rules', 'wppsb_expire_caching_filter');
+>>>>>>> origin/master
 
     flush_rewrite_rules();
     wppsb_save_mod_rewrite_rules();
