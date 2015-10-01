@@ -5,7 +5,7 @@ Plugin URI: https://github.com/dipakcg/wp-performance-score-booster
 Description: Speed-up page load times and improve website scores in services like PageSpeed, YSlow, Pingdom and GTmetrix.
 Version: 1.4
 Author: Dipak C. Gajjar
-Author URI: http://dipakgajjar.com
+Author URI: https://dipakgajjar.com
 Text Domain: wp-performance-score-booster
 */
 
@@ -281,21 +281,12 @@ function wppsb_activate_plugin() {
 
 	if (function_exists('ob_gzhandler') || ini_get('zlib.output_compression')) {
 		update_option( 'wppsb_enable_gzip', 'on' );
-<<<<<<< HEAD
-=======
-		//add_filter('mod_rewrite_rules', 'wppsb_enable_gzip_filter');
-		//add_filter('mod_rewrite_rules', 'wppsb_vary_accept_encoding_filter');
->>>>>>> origin/master
 	}
 	else {
 		update_option( 'wppsb_enable_gzip', '' );
 	}
 
 	update_option( 'wppsb_expire_caching', 'on' );
-<<<<<<< HEAD
-=======
-	//add_filter('mod_rewrite_rules', 'wppsb_expire_caching_filter');
->>>>>>> origin/master
 
     flush_rewrite_rules();
     wppsb_save_mod_rewrite_rules();
