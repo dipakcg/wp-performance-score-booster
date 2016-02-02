@@ -3,7 +3,7 @@
 Plugin Name: WP Performance Score Booster
 Plugin URI: https://github.com/dipakcg/wp-performance-score-booster
 Description: Speed-up page load times and improve website scores in services like PageSpeed, YSlow, Pingdom and GTmetrix.
-Version: 1.4
+Version: 1.5
 Author: Dipak C. Gajjar
 Author URI: https://dipakgajjar.com
 Text Domain: wp-performance-score-booster
@@ -14,7 +14,7 @@ if (!defined('WPPSB_PLUGIN_VERSION')) {
     define('WPPSB_PLUGIN_VERSION', 'wppsb_plugin_version');
 }
 if (!defined('WPPSB_PLUGIN_VERSION_NUM')) {
-    define('WPPSB_PLUGIN_VERSION_NUM', '1.4');
+    define('WPPSB_PLUGIN_VERSION_NUM', '1.5');
 }
 update_option(WPPSB_PLUGIN_VERSION, WPPSB_PLUGIN_VERSION_NUM);
 
@@ -43,12 +43,9 @@ function wppsb_add_stylesheet() {
 
 // Remove query strings from static content
 function wppsb_remove_query_strings_q( $src ) {
-	$str_parts = explode( '?ver', $src );
-	return $str_parts[0];
-}
-function wppsb_remove_query_strings_emp( $src ) {
-	$str_parts = explode( '&ver', $src );
-	return $str_parts[0];
+	if(strpos( $src, '?ver=' ))
+		$src = remove_query_arg( 'ver', $src );
+	return $src;
 }
 
 // Enable GZIP Compression
@@ -111,40 +108,14 @@ EOD;
     return $vary_accept_encoding_header . $rules;
 }
 
-/* Plan to add in future releases */
-// Defer parsing of java-script (to load at last)
-/* function defer_parsing_of_js ( $src ) {
-	if ( FALSE === strpos( $src, '.js' ) )
-		return $src;
-	if ( strpos( $src, 'jquery.js' ) )
-		return $src;
-	return "$src' defer='defer";
-}
-add_filter( 'clean_url', 'defer_parsing_of_js', 11, 1 ); */
-
-// Enqueue scripts in the footer to speed-up page load
-/* function footer_enqueue_scripts() {
-	remove_action('wp_head', 'wp_print_scripts');
-	// remove_action('wp_head', 'wp_print_head_scripts', 9);
-	remove_action('wp_head', 'wp_enqueue_scripts', 1);
-	add_action('wp_footer', 'wp_print_scripts', 5);
-	// add_action('wp_footer', 'wp_print_head_scripts', 5);
-    add_action('wp_footer', 'wp_enqueue_scripts', 5);
-}
-add_action('after_setup_theme', 'footer_enqueue_scripts'); */
-
 // If 'Remove query strings" checkbox ticked, add filter otherwise remove filter
 if (get_option('wppsb_remove_query_strings') == 'on') {
 	add_filter( 'script_loader_src', 'wppsb_remove_query_strings_q', 15, 1 );
 	add_filter( 'style_loader_src', 'wppsb_remove_query_strings_q', 15, 1 );
-	add_filter( 'script_loader_src', 'wppsb_remove_query_strings_emp', 15, 1 );
-	add_filter( 'style_loader_src', 'wppsb_remove_query_strings_emp', 15, 1 );
 }
 else {
 	remove_filter( 'script_loader_src', 'wppsb_remove_query_strings_q');
 	remove_filter( 'style_loader_src', 'wppsb_remove_query_strings_q');
-	remove_filter( 'script_loader_src', 'wppsb_remove_query_strings_emp');
-	remove_filter( 'style_loader_src', 'wppsb_remove_query_strings_emp');
 }
 
 function wppsb_admin_options() {
@@ -214,8 +185,9 @@ function wppsb_admin_options() {
 	</td>
 	<td style="text-align: left;">
 	<div class="wppsb_admin_dev_sidebar_div">
-	<img src="//www.gravatar.com/avatar/38b380cf488d8f8c4007cf2015dc16ac.jpg" width="100px" height="100px" /> <br />
-	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-support-this-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3S8BRPLWLNQ38" target="_blank"> <?php _e('Support this plugin and donate', 'wp-performance-score-booster'); ?> </a> </span>
+	<!-- <img src="//www.gravatar.com/avatar/38b380cf488d8f8c4007cf2015dc16ac.jpg" width="100px" height="100px" /> <br /> -->
+	<br />
+	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-support-this-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3S8BRPLWLNQ38" target="_blank"> <?php _e('Donate and support this plugin', 'wp-performance-score-booster'); ?> </a> </span>
 	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-rate-this-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="http://wordpress.org/support/view/plugin-reviews/wp-performance-score-booster" target="_blank"> <?php _e('Rate this plugin on WordPress.org', 'wp-performance-score-booster'); ?> </a> </span>
 	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-wordpress-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="http://wordpress.org/support/plugin/wp-performance-score-booster" target="_blank"> <?php _e('Get support on on WordPress.org', 'wp-performance-score-booster'); ?> </a> </span>
 	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-github-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="https://github.com/dipakcg/wp-performance-score-booster" target="_blank"> <?php _e('Contribute development on GitHub', 'wp-performance-score-booster'); ?> </a> </span>
@@ -232,30 +204,43 @@ function wppsb_admin_options() {
 	echo '<hr style="margin-bottom: 2em;" />';
     echo '<table cellspacing="0" cellpadding="0" class="news_section"> <tr>';
     echo '<td width="50%" valign="top">';
-    echo '<h1>News & Updates from Dipak C. Gajjar</h1>';
+    echo '<h2><strong>News & Updates from Dipak C. Gajjar</strong></h2>';
+    echo '<hr />';
     echo '<div class="rss-widget">';
-     wp_widget_rss_output(array(
+    /* wp_widget_rss_output(array(
           'url' => 'https://dipakgajjar.com/category/news/feed/?refresh='.rand(10,100).'',  // feed URL
           'title' => 'News & Updates from Dipak C. Gajjar',
           'items' => 3, // nubmer of posts to display
           'show_summary' => 1,
           'show_author' => 0,
           'show_date' => 0
-     ));
-     echo '</div> <td width="5%"> &nbsp </td>';
-     echo '</td> <td valign="top">';
-     ?>
-     <a class="twitter-timeline" data-dnt="true" href="https://twitter.com/dipakcgajjar" data-widget-id="547661367281729536">Tweets by @dipakcgajjar</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+     )); */
+    $news_content = wp_remote_fopen("https://dipakgajjar.com/news-and-updates.html");
+    echo $news_content;
+	echo '</div> <td width="5%"> &nbsp </td>';
+	echo '</td> <td valign="top">';
+	?>
+	<a class="twitter-timeline" data-dnt="true" href="https://twitter.com/dipakcgajjar" data-widget-id="547661367281729536">Tweets by @dipakcgajjar</a>
+	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 	<?php echo '</td> </tr> </table>';
 }
 
 // Register admin menu
 add_action( 'admin_menu', 'wppsb_add_admin_menu' );
 function wppsb_add_admin_menu() {
-	add_menu_page( __('WP Performance Score Booster Settings', 'wp-performance-score-booster'), __('WP Performance Score Booster', 'wp-performance-score-booster'), 'manage_options', 'wp-performance-score-booster', 'wppsb_admin_options', plugins_url('assets/images/wppsb-icon-24x24.png', __FILE__) );
-	// add_options_page( __('WP Performance Score Booster Settings', 'wp-performance-score-booster'), __('WP Performance Score Booster', 'wp-performance-score-booster'), 'manage_options', 'wp-performance-score-booster', 'wppsb_admin_options' );
+	// add_menu_page( __('WP Performance Score Booster Settings', 'wp-performance-score-booster'), __('WP Performance Score Booster', 'wp-performance-score-booster'), 'manage_options', 'wp-performance-score-booster', 'wppsb_admin_options', plugins_url('assets/images/wppsb-icon-24x24.png', __FILE__) );
+	add_options_page( __('WP Performance Score Booster Settings', 'wp-performance-score-booster'), __('WP Performance Score Booster', 'wp-performance-score-booster'), 'manage_options', 'wp-performance-score-booster', 'wppsb_admin_options' );
 }
+
+// Add settings link on plugin page
+function dcg_settings_link($links) {
+	// $settings_link = '<a href="admin.php?page=wp-performance-score-booster">Settings</a>';
+	$settings_link = '<a href="options-general.php?page=wp-performance-score-booster">Settings</a>';
+	array_unshift($links, $settings_link);
+	return $links;
+}
+$plugin = plugin_basename(__FILE__);
+add_filter("plugin_action_links_$plugin", 'dcg_settings_link' );
 
 // Add header
 function wppsb_add_header() {
@@ -276,8 +261,6 @@ function wppsb_activate_plugin() {
     update_option( 'wppsb_remove_query_strings', 'on' );
     add_filter( 'script_loader_src', 'wppsb_remove_query_strings_q', 15, 1 );
 	add_filter( 'style_loader_src', 'wppsb_remove_query_strings_q', 15, 1 );
-	add_filter( 'script_loader_src', 'wppsb_remove_query_strings_emp', 15, 1 );
-	add_filter( 'style_loader_src', 'wppsb_remove_query_strings_emp', 15, 1 );
 
 	if (function_exists('ob_gzhandler') || ini_get('zlib.output_compression')) {
 		update_option( 'wppsb_enable_gzip', 'on' );
@@ -337,4 +320,6 @@ function wppsb_save_mod_rewrite_rules() {
 	}
 	return false;
 }
+
+/* End of plugin */
 ?>
