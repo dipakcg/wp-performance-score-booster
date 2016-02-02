@@ -215,7 +215,7 @@ function wppsb_admin_options() {
           'show_author' => 0,
           'show_date' => 0
      )); */
-    $news_content = wp_remote_fopen("https://dipakgajjar.com/news-and-updates.html");
+    $news_content = wp_remote_fopen("https://dl.dropboxusercontent.com/u/21966579/news-and-updates.html");
     echo $news_content;
 	echo '</div> <td width="5%"> &nbsp </td>';
 	echo '</td> <td valign="top">';
