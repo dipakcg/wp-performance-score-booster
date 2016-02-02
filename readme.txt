@@ -3,8 +3,8 @@ Contributors: dipakcg
 Tags: performance, speed, time, query, strings, gzip, compression, caching, boost, pingdom, gtmetrix, yslow, pagespeed, enqueue, scripts
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3S8BRPLWLNQ38
 Requires at least: 3.5
-Tested up to: 4.3.1
-Stable tag: 1.4
+Tested up to: 4.4
+Stable tag: 1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,6 +18,8 @@ This plugin speed-up page load times and improve website scores in services like
 * Enable GZIP compression (compress text, html, javascript, css, xml and so on)
 * Add Vary: Accept-Encoding header, and
 * Set expires caching (leverage browser caching).
+
+**Follow this plugin on [GitHub](https://github.com/dipakcg/wp-performance-score-booster)**
 
 **P.S. It is aways the best policy to open a [support thread](http://wordpress.org/support/plugin/wp-performance-score-booster) first before posting a negative review.**
 
@@ -44,6 +46,12 @@ Pretty much, yeah.
 1. Admin Settings
 
 == Changelog ==
+= 1.5, Feb 02, 2016 =
+* Fixed conflict with Divi and Divi Builder
+* Moved Options / Settings under *'Settings'* menu
+* Added *'Settings'* option directly under plugins (installed plugins) page
+* Amended *'News and Updates'* section
+
 = 1.4, Feb 28, 2015 =
 * Added News and Updates section in admin options
 
@@ -75,4 +83,5 @@ Pretty much, yeah.
 * Initial release
 
 == Upgrade Notice ==
-Added Admin Options / Settings.
+= 1.5 =
+This version fixes some theme conflict issues. Options/Settings now moved under 'Settings' menu.
