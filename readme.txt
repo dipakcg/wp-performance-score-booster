@@ -3,7 +3,7 @@ Contributors: dipakcg
 Tags: performance, speed, time, query, strings, gzip, compression, caching, boost, pingdom, gtmetrix, yslow, pagespeed, enqueue, scripts
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3S8BRPLWLNQ38
 Requires at least: 3.5
-Tested up to: 4.4
+Tested up to: 4.5
 Stable tag: 1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -19,9 +19,9 @@ This plugin speed-up page load times and improve website scores in services like
 * Add Vary: Accept-Encoding header, and
 * Set expires caching (leverage browser caching).
 
-**Follow this plugin on [GitHub](https://github.com/dipakcg/wp-performance-score-booster)**
+**Follow the development of this plugin on [GitHub](https://github.com/dipakcg/wp-performance-score-booster)**
 
-**P.S. It is aways the best policy to open a [support thread](http://wordpress.org/support/plugin/wp-performance-score-booster) first before posting a negative review.**
+**P.S. It is always the best policy to open a [support thread](http://wordpress.org/support/plugin/wp-performance-score-booster) first before posting any negative review.**
 
 == Installation ==
 1. Upload the ‘wp-performance-score-booster’ folder to the ‘/wp-content/plugins/‘ directory
@@ -46,6 +46,7 @@ Pretty much, yeah.
 1. Admin Settings
 
 == Changelog ==
+
 = 1.5, Feb 02, 2016 =
 * Fixed conflict with Divi and Divi Builder
 * Moved Options / Settings under *'Settings'* menu
