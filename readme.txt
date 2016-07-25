@@ -4,7 +4,7 @@ Tags: performance, speed, time, query, strings, gzip, compression, caching, boos
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3S8BRPLWLNQ38
 Requires at least: 3.5
 Tested up to: 4.5
-Stable tag: 1.5
+Stable tag: 1.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,6 +47,10 @@ Pretty much, yeah.
 
 == Changelog ==
 
+= 1.6, July 26, 2016 =
+* Improved UI
+* Fixed minor bugs
+
 = 1.5, Feb 02, 2016 =
 * Fixed conflict with Divi and Divi Builder
 * Moved Options / Settings under *'Settings'* menu
@@ -84,5 +88,5 @@ Pretty much, yeah.
 * Initial release
 
 == Upgrade Notice ==
-= 1.5 =
-This version fixes some theme conflict issues. Options/Settings now moved under 'Settings' menu.
+= 1.6 =
+This version has improved UI, and fixes minor bugs.

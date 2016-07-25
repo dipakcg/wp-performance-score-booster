@@ -3,7 +3,7 @@
 Plugin Name: WP Performance Score Booster
 Plugin URI: https://github.com/dipakcg/wp-performance-score-booster
 Description: Speed-up page load times and improve website scores in services like PageSpeed, YSlow, Pingdom and GTmetrix.
-Version: 1.5
+Version: 1.6
 Author: Dipak C. Gajjar
 Author URI: https://dipakgajjar.com
 Text Domain: wp-performance-score-booster
@@ -14,7 +14,7 @@ if (!defined('WPPSB_PLUGIN_VERSION')) {
     define('WPPSB_PLUGIN_VERSION', 'wppsb_plugin_version');
 }
 if (!defined('WPPSB_PLUGIN_VERSION_NUM')) {
-    define('WPPSB_PLUGIN_VERSION_NUM', '1.5');
+    define('WPPSB_PLUGIN_VERSION_NUM', '1.6');
 }
 update_option(WPPSB_PLUGIN_VERSION, WPPSB_PLUGIN_VERSION_NUM);
 
@@ -37,7 +37,7 @@ add_action( 'init', 'wppsb_load_plugin_textdomain' );
 add_action( 'admin_init', 'wppsb_add_stylesheet' );
 function wppsb_add_stylesheet() {
     // Respects SSL, Style.css is relative to the current file
-    wp_register_style( 'wppsb-stylesheet', plugins_url('assets/css/style.css', __FILE__) );
+    wp_register_style( 'wppsb-stylesheet', plugins_url('assets/css/style.min.css', __FILE__) );
     wp_enqueue_style( 'wppsb-stylesheet' );
 }
 
@@ -72,7 +72,7 @@ EOD;
     return $gzip_htaccess_content . $rules;
 }
 
-// Enable expire caching
+// Enable expire caching (Leverage browser caching)
 function wppsb_expire_caching_filter( $rules = '' ) {
 $expire_cache_htaccess_content = <<<EOD
 \n## BEGIN Expires Caching (Leverage Browser Caching) ##
@@ -160,27 +160,71 @@ function wppsb_admin_options() {
 
         // Put the settings updated message on the screen
    	?>
-   	<div class="updated"><p><strong><?php _e('Settings Saved.', 'wp-performance-score-booster'); ?></strong></p></div>
+   	<div class="updated"><p><strong><?php _e('<strong>Settings Saved.</strong>', 'wp-performance-score-booster'); ?></strong></p></div>
 	<?php
 	}
 	?>
 	<form method="post" name="options_form">
 	<input type="hidden" name="<?php echo $hidden_field_name; ?>" value="Y">
-	<p>
-	<input type="checkbox" name="<?php echo $remove_query_strings; ?>" <?php checked( $remove_query_strings_val == 'on',true); ?> /> &nbsp; <span class="wppsb_settings"> <?php _e('Remove query strings from static content', 'wp-performance-score-booster'); ?> </span>
-	</p>
-	<p>
-	<?php if (function_exists('ob_gzhandler') || ini_get('zlib.output_compression')) { ?>
-    	<input type="checkbox" name="<?php echo $enable_gzip; ?>" <?php checked( $enable_gzip_val == 'on',true); ?>  /> &nbsp; <span class="wppsb_settings"> <?php _e('Enable GZIP compression (compress text, html, javascript, css, xml and so on)', 'wp-performance-score-booster'); ?> </span>
+	<table>
+	<!-- Remove Query String -->
+	<tr> <td class="onoff">
+	<div class="onoffswitch">
+	<input type="checkbox" name="<?php echo $remove_query_strings; ?>" <?php checked( $remove_query_strings_val == 'on',true); ?> class="onoffswitch-checkbox" id="<?php echo $remove_query_strings; ?>" />
+	<label class="onoffswitch-label" for="<?php echo $remove_query_strings; ?>">
+		<span class="onoffswitch-inner"></span>
+		<span class="onoffswitch-switch"></span>
+	</label>
+	</div>
+	</td> <td>
+	<span class="wppsb_settings" style="display: inline;"> <?php _e('Remove query strings from static content', 'wp-performance-score-booster'); ?> </span>
+	</td> </tr>
+
+	<!-- Enable GZIP -->
+	<tr>
+	<?php if (function_exists('ob_gzhandler') || ini_get('zlib.output_compression')) { // if web server supports GZIP ?>
+	<td class="onoff">
+	<div class="onoffswitch">
+	<input type="checkbox" name="<?php echo $enable_gzip; ?>" <?php checked( $enable_gzip_val == 'on',true); ?> class="onoffswitch-checkbox" id="<?php echo $enable_gzip; ?>" />
+	<label class="onoffswitch-label" for="<?php echo $enable_gzip; ?>">
+		<span class="onoffswitch-inner"></span>
+		<span class="onoffswitch-switch"></span>
+	</label>
+	</div>
+	</td> <td>
+	<span class="wppsb_settings"> <?php _e('Enable GZIP compression <i>(compress text, html, javascript, css, xml and so on)</i>', 'wp-performance-score-booster'); ?> </span>
+	</td>
     <?php }
-    else { ?>
-    	<input type="checkbox" name="<?php echo $enable_gzip; ?>" disabled="true" <?php checked( $enable_gzip_val == 'on',true); ?> /> &nbsp; <span class="wppsb_settings"> <?php _e('Enable GZIP compression (compress text, html, javascript, css, xml and so on)', 'wp-performance-score-booster'); ?> </span> <br /> <span class="wppsb_settings" style="margin-left:30px; color:RED;"> <?php _e('Your web server does not support GZIP compression. Contact your hosting provider to enable it.', 'wp-performance-score-booster'); ?> </span>
+    else { // if web server doesn't support GZIP ?>
+	<td class="onoff">
+	<div class="onoffswitch">
+	<input type="checkbox" name="<?php echo $enable_gzip; ?>" disabled="true" <?php checked( $enable_gzip_val == 'on',true); ?> class="onoffswitch-checkbox" id="<?php echo $enable_gzip; ?>" />
+	<label class="onoffswitch-label" for="<?php echo $enable_gzip; ?>">
+		<span class="onoffswitch-inner"></span>
+		<span class="onoffswitch-switch"></span>
+	</label>
+	</div>
+	</td> <td>
+	<span class="wppsb_settings"> <?php _e('Enable GZIP compression <i>(compress text, html, javascript, css, xml and so on)</i>', 'wp-performance-score-booster'); ?> </span> <br />
+	<span class="wppsb_settings" style="color:RED; font-style: italic;"> <?php _e('Your web server does not support GZIP compression. Contact your hosting provider to enable it.', 'wp-performance-score-booster'); ?> </span>
+	</td>
     <?php } ?>
-    </p>
-    <p>
-    <input type="checkbox" name="<?php echo $expire_caching; ?>" <?php checked( $expire_caching_val == 'on',true); ?> /> &nbsp; <span class="wppsb_settings"> <?php _e('Set expire caching (Leverage Browser Caching)', 'wp-performance-score-booster'); ?> </span>
-    </p>
-    <p><input type="submit" value="<?php esc_attr_e('Save Changes', 'wp-performance-score-booster'); ?>" class="button button-primary" name="submit" /></p>
+    </tr>
+
+    <!-- Leverage Browser Caching -->
+    <tr> <td class="onoff">
+	<div class="onoffswitch">
+    <input type="checkbox" name="<?php echo $expire_caching; ?>" <?php checked( $expire_caching_val == 'on',true); ?> class="onoffswitch-checkbox" id="<?php echo $expire_caching; ?>" />
+	<label class="onoffswitch-label" for="<?php echo $expire_caching; ?>">
+		<span class="onoffswitch-inner"></span>
+		<span class="onoffswitch-switch"></span>
+	</label>
+	</div>
+    </td> <td>
+    <span class="wppsb_settings"> <?php _e('Leverage Browser Caching <i>(set expire caching)</i>', 'wp-performance-score-booster'); ?> </span>
+    </td> </tr>
+	</table>
+    <p><input style="font-size: 15px; color: white; font-weight: bold;" type="submit" value="<?php esc_attr_e('Save Changes', 'wp-performance-score-booster'); ?>" class="button button-primary" name="submit" /></p>
     </form>
 	</td>
 	<td style="text-align: left;">
@@ -189,7 +233,7 @@ function wppsb_admin_options() {
 	<br />
 	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-support-this-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3S8BRPLWLNQ38" target="_blank"> <?php _e('Donate and support this plugin', 'wp-performance-score-booster'); ?> </a> </span>
 	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-rate-this-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="http://wordpress.org/support/view/plugin-reviews/wp-performance-score-booster" target="_blank"> <?php _e('Rate this plugin on WordPress.org', 'wp-performance-score-booster'); ?> </a> </span>
-	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-wordpress-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="http://wordpress.org/support/plugin/wp-performance-score-booster" target="_blank"> <?php _e('Get support on on WordPress.org', 'wp-performance-score-booster'); ?> </a> </span>
+	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-wordpress-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="http://wordpress.org/support/plugin/wp-performance-score-booster" target="_blank"> <?php _e('Get support on WordPress.org', 'wp-performance-score-booster'); ?> </a> </span>
 	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-github-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="https://github.com/dipakcg/wp-performance-score-booster" target="_blank"> <?php _e('Contribute development on GitHub', 'wp-performance-score-booster'); ?> </a> </span>
 	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-other-plugins-16x16.png' , __FILE__ ) . '" > ';  ?> <a href="http://profiles.wordpress.org/dipakcg#content-plugins" target="_blank"> <?php _e('Get my other plugins', 'wp-performance-score-booster'); ?> </a> </span>
 	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . plugins_url( 'assets/images/wppsb-twitter-16x16.png' , __FILE__ ) . '" > ';  ?>Follow me on Twitter: <a href="https://twitter.com/dipakcgajjar" target="_blank">@dipakcgajjar</a> </span>
@@ -200,13 +244,21 @@ function wppsb_admin_options() {
 	</tr>
 	</table>
 	</div>
+	<hr style="margin: 2em 0 1.5em 0;" />
 	<?php
-	echo '<hr style="margin-bottom: 2em;" />';
-    echo '<table cellspacing="0" cellpadding="0" class="news_section"> <tr>';
-    echo '<td width="50%" valign="top">';
-    echo '<h2><strong>News & Updates from Dipak C. Gajjar</strong></h2>';
-    echo '<hr />';
-    echo '<div class="rss-widget">';
+	// Promo - Ad contents
+	$promo_content = wp_remote_fopen("https://dl.dropboxusercontent.com/u/21966579/promos.html");
+    echo $promo_content;
+	?>
+	<?php // Bottom - News and Tweets part ?>
+	<hr style="margin: 1.5em 0 2em 0;" />
+    <table cellspacing="0" cellpadding="0" class="news_section"> <tr>
+    <!-- News and Updates -->
+    <td width="50%" valign="top">
+    <h2><strong>News & Updates from Dipak C. Gajjar</strong></h2>
+    <hr />
+    <div class="rss-widget">
+	<?php
     /* wp_widget_rss_output(array(
           'url' => 'https://dipakgajjar.com/category/news/feed/?refresh='.rand(10,100).'',  // feed URL
           'title' => 'News & Updates from Dipak C. Gajjar',
@@ -218,9 +270,11 @@ function wppsb_admin_options() {
      /* Load the news content from Dropbox url */
     $news_content = wp_remote_fopen("https://dl.dropboxusercontent.com/u/21966579/news-and-updates.html");
     echo $news_content;
-	echo '</div> <td width="5%"> &nbsp </td>';
-	echo '</td> <td valign="top">';
-	?>
+    ?>
+	</div> </td>
+	<!-- Tweets -->
+	<td width="5%"> &nbsp </td>
+	<td valign="top">
 	<a class="twitter-timeline" data-dnt="true" href="https://twitter.com/dipakcgajjar" data-widget-id="547661367281729536">Tweets by @dipakcgajjar</a>
 	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 	<?php echo '</td> </tr> </table>';
