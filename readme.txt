@@ -90,4 +90,4 @@ Pretty much, yeah.
 
 == Upgrade Notice ==
 = 1.6 =
-This version has improved UI, and fixes minor bugs.
+This version has improved UI, minified CSS and fixes minor bugs.
