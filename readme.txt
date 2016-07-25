@@ -50,6 +50,7 @@ Pretty much, yeah.
 = 1.6, July 26, 2016 =
 * Improved UI
 * Fixed minor bugs
+* Minified CSS
 
 = 1.5, Feb 02, 2016 =
 * Fixed conflict with Divi and Divi Builder
