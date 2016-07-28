@@ -27,18 +27,8 @@ matrix:
     - php: hhvm
       env: WP_VERSION=4.0 WP_MULTISITE=0
 
-script:
-- if [[ $TRAVIS_PHP_VERSION != 'hhvm' && ( $TRAVIS_PHP_VERSION != '5.5'|| $WP_VERSION != 'latest'
-  || $WP_MULTISITE != '0' ) ]]; then phpenv config-rm xdebug.ini; fi
-- if [[ $TRAVIS_PHP_VERSION = '5.5' && $WP_VERSION = 'latest' && $WP_MULTISITE = '0'
-  ]]; then phpunit --coverage-clover=coverage.clover; else phpunit; fi
-
-after_script:
-- if [[ $TRAVIS_PHP_VERSION = '5.5' && $WP_VERSION = 'latest' && $WP_MULTISITE = '0'
-  ]]; then wget https://scrutinizer-ci.com/ocular.phar; fi
-- if [[ $TRAVIS_PHP_VERSION = '5.5' && $WP_VERSION = 'latest' && $WP_MULTISITE = '0'
-  ]]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover;
-  fi
+before_script: wget http://downloads.atoum.org/nightly/mageekguy.atoum.phar
+script: php mageekguy.atoum.phar
 
 branches:
   only:
