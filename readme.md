@@ -22,8 +22,8 @@ WP Performance Score Booster speed-up page load times and improve website scores
 * That’s it!
 
 #### Download links:
-* Stable version: [wordpress.org repo](https://wordpress.org/plugins/wp-performance-score-booster/)
-* Developer version: [Clone the GitHub repository](https://github.com/easydigitaldownloads/easy-digital-downloads.git) or [Download zip](https://github.com/dipakcg/wp-performance-score-booster/archive/master.zip)
+* Latest Stable version: [wordpress.org repo](https://wordpress.org/plugins/wp-performance-score-booster/)
+* Latest Developer version: [Clone the GitHub repository](https://github.com/easydigitaldownloads/easy-digital-downloads.git) or [Download zip](https://github.com/dipakcg/wp-performance-score-booster/archive/master.zip)
 
 ## Support
 This is a development reposiroty for WP Performance Score Booster and should _not_ be used for support. Please visit the [wordpress.org support forum](http://wordpress.org/support/plugin/wp-performance-score-booster) for any support request.
