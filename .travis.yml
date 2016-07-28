@@ -8,7 +8,6 @@ php:
 - 5.5
 - 5.6
 - 7.0
-- hhvm
 
 env:
 - WP_VERSION=latest WP_MULTISITE=0
@@ -18,14 +17,10 @@ env:
 - WP_VERSION=4.1 WP_MULTISITE=0
 - WP_VERSION=4.0 WP_MULTISITE=0
 
-
 matrix:
   include:
     - php: 5.3
       env: WP_VERSION=latest WP_MULTISITE=1
-  exclude:
-    - php: hhvm
-      env: WP_VERSION=4.0 WP_MULTISITE=0
 
 before_script: wget http://downloads.atoum.org/nightly/mageekguy.atoum.phar
 script: php mageekguy.atoum.phar
