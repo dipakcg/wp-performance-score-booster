@@ -1,1 +1,1 @@
-### [WP Performance Score Booster[(http://wordpress.org/plugins/wp-performance-score-booster/) is a must have WordPress Plugin, helps you to speed-up page load times and improve your website scores in services like PageSpeed, YSlow, Pingdom and GTmetrix. 
+### [WP Performance Score Booster](http://wordpress.org/plugins/wp-performance-score-booster/) is a must have WordPress Plugin, helps you to speed-up page load times and improve your website scores in services like PageSpeed, YSlow, Pingdom and GTmetrix. 
