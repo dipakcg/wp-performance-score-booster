@@ -1,4 +1,3 @@
-sudo: false
 language: php
 
 notifications:
@@ -26,4 +25,3 @@ before_script:
 
 script:
   - phpunit
-  - cd wp-tests/spec && bundle exec rspec test.rb
