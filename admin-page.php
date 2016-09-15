@@ -58,7 +58,7 @@ function wppsb_admin_options() {
 	</label>
 	</div>
 	</td> <td>
-	<span class="wppsb_settings" style="display: inline;"> <?php _e('Remove query strings from static content', 'wp-performance-score-booster'); ?> </span>
+	<label for="<?php echo $remove_query_strings; ?>" class="wppsb_settings" style="display: inline;"> <?php _e('Remove query strings from static content', 'wp-performance-score-booster'); ?> </label>
 	</td> </tr>
 
 	<!-- Enable GZIP -->
@@ -73,13 +73,13 @@ function wppsb_admin_options() {
 	</label>
 	</div>
 	</td> <td>
-	<span class="wppsb_settings"> <?php _e('Enable GZIP compression <i>(compress text, html, javascript, css, xml and so on)</i>', 'wp-performance-score-booster'); ?> </span>
+	<label for="<?php echo $enable_gzip; ?>" class="wppsb_settings" style="display: inline;"> <?php _e('Enable GZIP compression <i>(compress text, html, javascript, css, xml and so on)</i>', 'wp-performance-score-booster'); ?> </label>
 	</td>
     <?php }
     else { // if web server doesn't support GZIP ?>
 	<td class="wppsb_onoff">
 	<div class="wppsb_onoffswitch">
-	<input type="checkbox" name="<?php echo $enable_gzip; ?>" disabled="true" <?php checked( $enable_gzip_val == 'on',true); ?> class="wppsb_onoffswitch-checkbox" id="<?php echo $enable_gzip; ?>" />
+	<input type="checkbox" name="<?php echo $enable_gzip; ?>" disabled="true" <?php checked( $enable_gzip_val == 'off',true); ?> class="wppsb_onoffswitch-checkbox" id="<?php echo $enable_gzip; ?>" />
 	<label class="wppsb_onoffswitch-label" for="<?php echo $enable_gzip; ?>">
 		<span class="wppsb_onoffswitch-inner"></span>
 		<span class="wppsb_onoffswitch-switch"></span>
@@ -87,7 +87,7 @@ function wppsb_admin_options() {
 	</div>
 	</td> <td>
 	<span class="wppsb_settings"> <?php _e('Enable GZIP compression <i>(compress text, html, javascript, css, xml and so on)</i>', 'wp-performance-score-booster'); ?> </span> <br />
-	<span class="wppsb_settings" style="color:RED; font-style: italic;"> <?php _e('Your web server does not support GZIP compression. Contact your hosting provider to enable it.', 'wp-performance-score-booster'); ?> </span>
+	<span class="wppsb_settings" style="color:RED; font-style: italic; font-size: 13px !important;"> <?php _e('Your web server does not support GZIP compression. Contact your hosting provider to enable it.', 'wp-performance-score-booster'); ?> </span>
 	</td>
     <?php } ?>
     </tr>
@@ -102,7 +102,7 @@ function wppsb_admin_options() {
 	</label>
 	</div>
     </td> <td>
-    <span class="wppsb_settings"> <?php _e('Leverage Browser Caching <i>(set expire caching)</i>', 'wp-performance-score-booster'); ?> </span>
+	<label for="<?php echo $expire_caching; ?>" class="wppsb_settings" style="display: inline;"> <?php _e('Leverage Browser Caching <i>(set expire caching)</i>', 'wp-performance-score-booster'); ?> </label>
     </td> </tr>
 	</table>
     <p><input style="font-size: 15px; color: white; font-weight: bold;" type="submit" value="<?php esc_attr_e('Save Changes', 'wp-performance-score-booster'); ?>" class="button button-primary" name="submit" /></p>
