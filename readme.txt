@@ -3,8 +3,8 @@ Contributors: dipakcg
 Tags: performance, speed, time, query, strings, gzip, compression, caching, boost, pingdom, gtmetrix, yslow, pagespeed, enqueue, scripts
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3S8BRPLWLNQ38
 Requires at least: 3.5
-Tested up to: 4.5
-Stable tag: 1.6
+Tested up to: 4.6
+Stable tag: 1.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,48 +46,50 @@ Pretty much, yeah.
 1. Admin Settings
 
 == Changelog ==
+= 1.7, September 15, 2016 =
+* Fixed css conflict with WP Super Minify.
+* Improved deactivation and uninstallation hooks.
+* Organised file structure (custom MVC Skeleton).
+* Added hosting recommendations.
 
 = 1.6, July 26, 2016 =
-* Improved UI
-* Fixed minor bugs
-* Minified CSS
+* Improved UI.
+* Fixed minor bugs.
+* Minified CSS.
 
-= 1.5, Feb 02, 2016 =
-* Fixed conflict with Divi and Divi Builder
-* Moved Options / Settings under *'Settings'* menu
-* Added *'Settings'* option directly under plugins (installed plugins) page
-* Amended *'News and Updates'* section
+= 1.5, February 02, 2016 =
+* Fixed conflict with Divi and Divi Builder.
+* Moved Options / Settings under *'Settings'* menu.
+* Added *'Settings'* option directly under plugins (installed plugins) page.
+* Amended *'News and Updates'* section.
 
-= 1.4, Feb 28, 2015 =
-* Added News and Updates section in admin options
+= 1.4, February 28, 2015 =
+* Added News and Updates section in admin options.
 
-= 1.3.1, Dec 30, 2014 =
-* Fixed issues with htaccess causing internal server error
+= 1.3.1, December 30, 2014 =
+* Fixed issues with htaccess causing internal server error.
 
-= 1.3, Dec 29, 2014 =
-* Fixed issues with htaccess custom rules overrides
-* WP Performance Score Booster now adds rules to htaccess outside default WordPress block
+= 1.3, December 29, 2014 =
+* Fixed issues with htaccess custom rules overrides.
+* WP Performance Score Booster now adds rules to htaccess outside default WordPress block.
 
-= 1.2.2, Dec 27, 2014 =
-* Added support for language translations
+= 1.2.2, December 27, 2014 =
+* Added support for language translations.
 
-= 1.2.1, Nov 17, 2014 =
-* Removed (temporarily) feature to enqueue scripts to footer
+= 1.2.1, November 17, 2014 =
+* Removed (temporarily) feature to enqueue scripts to footer.
 
-= 1.2, Nov 17, 2014 =
-* Added feature to enqueue scripts to footer
-* Added support for Vary: Accept-Encoding header
-* Fixed minor issues for remove query strings from static resources
+= 1.2, November 17, 2014 =
+* Added feature to enqueue scripts to footer.
+* Added support for Vary: Accept-Encoding header.
+* Fixed minor issues for remove query strings from static resources.
 
-= 1.1.1, Sept 02, 2014 =
-* Added feature (for urls with &ver) to remove query strings from static resources
+= 1.1.1, September 02, 2014 =
+* Added feature (for urls with &ver) to remove query strings from static resources.
 
-= 1.1, Aug 31, 2014 =
-* Added Admin Options / Settings
+= 1.1, August 31, 2014 =
+* Added Admin Options / Settings.
 
-= 1.0, Aug 26, 2014 =
-* Initial release
-
-== Upgrade Notice ==
-= 1.6 =
-This version has improved UI, minified CSS and fixes minor bugs.
+= 1.0, August 26, 2014 =
+* Initial release.
+* Born of WP Performance Score Booster.

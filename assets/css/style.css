@@ -23,7 +23,7 @@
 	padding: 0 5px 0 0;
 	vertical-align: middle;
 }
-.news_section {
+.wppsb_news_section {
 	border-radius: 20px 20px 20px 0;
 	border: 1px solid #FF9900;
 	background-color: #FFFFFF;
@@ -31,52 +31,52 @@
 	width: 98%;
 }
 
-a.rsswidget {
+a.wppsb_rsswidget {
 	font-size: 16px !important;
 	text-decoration: none !important;
 }
-.rss-widget ul li {
+.wppsb_rss-widget ul li {
 	margin-bottom: 25px !important;
 }
 
-td.onoff {
+td.wppsb_onoff {
 	width: 75px;
-	height: 50px;
+	height: 40px;
 }
 /* ========= */
 
-.onoffswitch {
+.wppsb_onoffswitch {
     position: relative; width: 70px;
     -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
 }
-.onoffswitch-checkbox {
+.wppsb_onoffswitch-checkbox {
     display: none !important;
 }
-.onoffswitch-label {
+.wppsb_onoffswitch-label {
     display: block; overflow: hidden; cursor: pointer;
     border: 2px solid #999999; border-radius: 20px;
 }
-.onoffswitch-inner {
+.wppsb_onoffswitch-inner {
     display: block; width: 200%; margin-left: -100%;
     transition: margin 0.3s ease-in 0s;
 }
-.onoffswitch-inner:before, .onoffswitch-inner:after {
+.wppsb_onoffswitch-inner:before, .wppsb_onoffswitch-inner:after {
     display: block; float: left; width: 50%; padding: 0; /* height: 30px; line-height: 30px; */ height: 22px; line-height: 22px;
     font-size: 15px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
     box-sizing: border-box;
 }
-.onoffswitch-inner:before {
+.wppsb_onoffswitch-inner:before {
     content: "ON";
     padding-left: 10px;
     background-color: #5CA21E; color: #FFFFFF;
 }
-.onoffswitch-inner:after {
+.wppsb_onoffswitch-inner:after {
     content: "OFF";
     padding-right: 10px;
     background-color: #EEEEEE; color: #999999;
     text-align: right;
 }
-.onoffswitch-switch {
+.wppsb_onoffswitch-switch {
     display: block; /* width: 18px; */ width: 11px; margin: 6px;
     background: #FFFFFF;
     position: absolute; top: 0; bottom: 0;
@@ -84,9 +84,22 @@ td.onoff {
     border: 2px solid #999999; border-radius: 20px;
     transition: all 0.3s ease-in 0s;
 }
-.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+.wppsb_onoffswitch-checkbox:checked + .wppsb_onoffswitch-label .wppsb_onoffswitch-inner {
     margin-left: 0;
 }
-.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+.wppsb_onoffswitch-checkbox:checked + .wppsb_onoffswitch-label .wppsb_onoffswitch-switch {
     right: 0px;
+}
+.wppsb_referrals {
+	background: #FFF;
+	width: 250px;
+	min-height: 270px;
+	border: 1px solid #CCC;
+	float: left;
+	padding: 15px;
+	position: relative;
+	margin: 32px 10px 10px 0;
+	color: #0073AA;
+	font-size: 14px;
+	line-height: 1.5;
 }
