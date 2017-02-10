@@ -4,7 +4,7 @@ Tags: performance, speed, time, query, strings, gzip, compression, caching, boos
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3S8BRPLWLNQ38
 Requires at least: 3.5
 Tested up to: 4.7
-Stable tag: 1.7
+Stable tag: 1.7.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,6 +46,9 @@ Pretty much, yeah.
 1. Admin Settings
 
 == Changelog ==
+= 1.7.1, February 10, 2017 =
+* Improved recommendations area.
+
 = 1.7, September 15, 2016 =
 * Fixed css conflict with WP Super Minify.
 * Improved deactivation and uninstallation hooks.
