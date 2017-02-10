@@ -146,7 +146,7 @@ function wppsb_admin_options() {
     ?>
 	</div> </td>
 	<!-- Referrals -->
-	<td width="1%"> &nbsp </td>
+	<td width="1%"> &nbsp; </td>
 	<td width="51%" valign="top">
 	<?php
      /* Load the referrals content from Github url */
