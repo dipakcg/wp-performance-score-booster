@@ -89,4 +89,8 @@ td.wppsb_onoff {
 }
 .wppsb_onoffswitch-checkbox:checked + .wppsb_onoffswitch-label .wppsb_onoffswitch-switch {
     right: 0px;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 1378fa1772ed1377fa838d1d0c0f6fadd925a47e
