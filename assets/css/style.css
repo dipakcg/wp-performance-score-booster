@@ -90,16 +90,3 @@ td.wppsb_onoff {
 .wppsb_onoffswitch-checkbox:checked + .wppsb_onoffswitch-label .wppsb_onoffswitch-switch {
     right: 0px;
 }
-.wppsb_referrals {
-	background: #FFF;
-	width: 250px;
-	min-height: 270px;
-	border: 1px solid #CCC;
-	float: left;
-	padding: 15px;
-	position: relative;
-	margin: 32px 10px 10px 0;
-	color: #0073AA;
-	font-size: 14px;
-	line-height: 1.5;
-}
