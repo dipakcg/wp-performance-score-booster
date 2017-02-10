@@ -140,15 +140,7 @@ function wppsb_admin_options() {
     <hr />
     <div class="wppsb_rss-widget">
 	<?php
-    /* wp_widget_rss_output(array(
-          'url' => 'https://dipakgajjar.com/category/news/feed/?refresh='.rand(10,100).'',  // feed URL
-          'title' => 'News & Updates from Dipak C. Gajjar',
-          'items' => 3, // nubmer of posts to display
-          'show_summary' => 1,
-          'show_author' => 0,
-          'show_date' => 0
-     )); */
-     /* Load the news content from Dropbox url */
+     /* Load the news content from Github url */
     $news_content = wp_remote_fopen("https://cdn.rawgit.com/dipakcg/wp-performance-score-booster/master/news-and-updates.html");
     echo $news_content;
     ?>
@@ -156,15 +148,12 @@ function wppsb_admin_options() {
 	<!-- Referrals -->
 	<td width="1%"> &nbsp </td>
 	<td width="51%" valign="top">
-	<div class="wppsb_referrals">
-		Scalable and affordable SSD VPS at DigitalOcean starting from $5 per month. <br /> <br />
-		<a href="https://www.digitalocean.com" target="_blank" onClick="this.href='https://m.do.co/c/f90a24a27dcc'" ><img src="https://dl.dropboxusercontent.com/u/21966579/do-ssd-virtual-servers-250x250.jpg" alt="Digital Ocean SSD VPS" width="250" height="250" border="0"></a>
-	</div>
-	<div class="wppsb_referrals">
-		Great managed WordPress hosting at SiteGround starting from $3.95 per month. <br /> <br />
-		<a href="http://www.siteground.com" target="_blank" onClick="this.href='https://www.siteground.com/wordpress-hosting.htm?afbannercode=783dd6fb6802e26ada6cf20768622fda'" ><img src="https://ua.siteground.com/img/banners/general/best-pack/250x250.gif" alt="WordPress Hosting" width="250" height="250" border="0"></a>
-	</div>
-	<?php echo '</td> </tr> </table>'; ?>
+	<?php
+     /* Load the referrals content from Github url */
+    $referrals_content = wp_remote_fopen("https://cdn.rawgit.com/dipakcg/wp-performance-score-booster/master/referrals.html");
+    echo $referrals_content;
+    ?>
+	</td> </tr> </table>
 	<?php
 }
 
