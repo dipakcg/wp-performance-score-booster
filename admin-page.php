@@ -128,7 +128,7 @@ function wppsb_admin_options() {
 	<hr style="margin: 2em 0 1.5em 0;" />
 	<?php
 	// Promo - Ad contents
-	$promo_content = wp_remote_fopen("https://cdn.rawgit.com/dipakcg/wp-performance-score-booster/master/promos.html");
+	$promo_content = wp_remote_fopen("https://dipakgajjar.com/public/promos.html");
     echo $promo_content;
 	?>
 	<?php // Bottom - News and Tweets part ?>
@@ -141,7 +141,7 @@ function wppsb_admin_options() {
     <div class="wppsb_rss-widget">
 	<?php
      /* Load the news content from Github url */
-    $news_content = wp_remote_fopen("https://cdn.rawgit.com/dipakcg/wp-performance-score-booster/master/news-and-updates.html");
+    $news_content = wp_remote_fopen("https://dipakgajjar.com/public/news-and-updates.html");
     echo $news_content;
     ?>
 	</div> </td>
@@ -150,7 +150,7 @@ function wppsb_admin_options() {
 	<td width="51%" valign="top">
 	<?php
      /* Load the referrals content from Github url */
-    $referrals_content = wp_remote_fopen("https://cdn.rawgit.com/dipakcg/wp-performance-score-booster/master/referrals.html");
+    $referrals_content = wp_remote_fopen("https://dipakgajjar.com/public/recommendations.html");
     echo $referrals_content;
     ?>
 	</td> </tr> </table>
