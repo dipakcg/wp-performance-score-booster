@@ -3,7 +3,7 @@
 Plugin Name: WP Performance Score Booster
 Plugin URI: https://github.com/dipakcg/wp-performance-score-booster
 Description: Speed-up page load times and improve website scores in services like PageSpeed, YSlow, Pingdom and GTmetrix.
-Version: 1.7.2
+Version: 1.7.3
 Author: Dipak C. Gajjar
 Author URI: https://dipakgajjar.com
 Text Domain: wp-performance-score-booster
@@ -11,14 +11,16 @@ Text Domain: wp-performance-score-booster
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly.
 
+// Include to get get_home_path() function work
+require_once(ABSPATH . 'wp-admin/includes/file.php');
+
 // Define plugin version for future releases
 if (!defined('WPPSB_PLUGIN_VERSION')) {
     define('WPPSB_PLUGIN_VERSION', 'wppsb_plugin_version');
 }
 if (!defined('WPPSB_PLUGIN_VERSION_NUM')) {
-    define('WPPSB_PLUGIN_VERSION_NUM', '1.7.2');
+    define('WPPSB_PLUGIN_VERSION_NUM', '1.7.3');
 }
-update_option(WPPSB_PLUGIN_VERSION, WPPSB_PLUGIN_VERSION_NUM);
 
 /* Plugin Path */
 define( 'WPPSB_PATH', WP_PLUGIN_DIR . '/' . basename( dirname( __FILE__ ) ) );
@@ -26,6 +28,8 @@ define( 'WPPSB_PATH', WP_PLUGIN_DIR . '/' . basename( dirname( __FILE__ ) ) );
 define( 'WPPSB_FILE', __FILE__ );
 /* Plugin URL */
 define( 'WPPSB_URL', plugins_url( '', __FILE__ ) );
+/* Storage path to store .htaccess backups */
+define( 'WPPSB_STORAGE_PATH', get_home_path() . 'wp-content/wp-performance-score-booster' );
 
 require_once 'admin-page.php'; // admin options page.
 require_once 'data-processing.php'; // process the data such as remove query strings, enable gzip and leverage browser caching.
@@ -91,7 +95,11 @@ add_action('wp_head', 'wppsb_add_header', 1);
 // Calling this function will make flush_rules to be called at the end of the PHP execution
 function wppsb_activate_plugin() {
 
+    // Backup .htacces before appending any rules
+    wppsb_htaccess_bakup();
+
     // Save default options value in the database
+    update_option(WPPSB_PLUGIN_VERSION, WPPSB_PLUGIN_VERSION_NUM);
     update_option( 'wppsb_remove_query_strings', 'on' );
     add_filter( 'script_loader_src', 'wppsb_remove_query_strings_q', 15, 1 );
 	add_filter( 'style_loader_src', 'wppsb_remove_query_strings_q', 15, 1 );
@@ -107,14 +115,28 @@ function wppsb_activate_plugin() {
 
     flush_rewrite_rules();
     wppsb_save_mod_rewrite_rules();
-
-    register_uninstall_hook( __FILE__, 'wppsb_uninstall_plugin' );
 }
 register_activation_hook( __FILE__, 'wppsb_activate_plugin' );
 
+function wppsb_htaccess_bakup() {
+    if (!file_exists( WPPSB_STORAGE_PATH )) {
+        mkdir( WPPSB_STORAGE_PATH, 0777, true );
+    }
+
+    $home_path = get_home_path();
+    $htaccess_file = $home_path . '.htaccess'; // original .htaccess file
+    $htaccess_bak = WPPSB_STORAGE_PATH . '/.htaccess.wppsb';
+
+    if (file_exists($htaccess_bak)) {
+        copy($htaccess_file, $htaccess_bak . "."  . date('mdYhis'));
+    } else {
+        copy($htaccess_file, $htaccess_bak);
+    }
+}
+
 // Remove filters/functions on plugin deactivation
 function wppsb_deactivate_plugin() {
-	delete_option( 'wppsb_plugin_version' );
+
 	// Clear (off) all the options value (from database)
 	update_option( 'wppsb_remove_query_strings', "" );
     update_option( 'wppsb_enable_gzip', "" );
@@ -124,11 +146,4 @@ function wppsb_deactivate_plugin() {
     wppsb_save_mod_rewrite_rules();
 }
 register_deactivation_hook( __FILE__, 'wppsb_deactivate_plugin' );
-
-// Delete all the options (from database) on plugin uninstall
-function wppsb_uninstall_plugin(){
-	delete_option( 'wppsb_remove_query_strings' );
-    delete_option( 'wppsb_enable_gzip' );
-    delete_option( 'wppsb_expire_caching' );
-}
 ?>

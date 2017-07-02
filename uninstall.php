@@ -1,0 +1,30 @@
+<?php
+if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) exit; // Exit if accessed directly.
+
+// Include to get get_home_path() function work
+require_once(ABSPATH . 'wp-admin/includes/file.php');
+
+delete_option( 'wppsb_plugin_version' );
+delete_option( 'wppsb_remove_query_strings' );
+delete_option( 'wppsb_enable_gzip' );
+delete_option( 'wppsb_expire_caching' );
+
+// Delete .htaccess backups (including directory)
+$home_path = get_home_path();
+delete_storage_dir($home_path . 'wp-content/wp-performance-score-booster');
+
+function delete_storage_dir($dir) {
+    $it = new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS);
+    $files = new RecursiveIteratorIterator($it,
+                 RecursiveIteratorIterator::CHILD_FIRST);
+    foreach($files as $file) {
+        if ($file->isDir()){
+            rmdir($file->getRealPath());
+        } else {
+            unlink($file->getRealPath());
+        }
+    }
+    rmdir($dir);
+}
+
+?>
