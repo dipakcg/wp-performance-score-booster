@@ -1,10 +1,10 @@
 === WP Performance Score Booster ===
 Contributors: dipakcg
-Tags: performance, speed, time, query, strings, gzip, compression, caching, boost, pingdom, gtmetrix, yslow, pagespeed, enqueue, scripts
+Tags: performance, speed, compression, caching, booster, query
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3S8BRPLWLNQ38
 Requires at least: 3.5
 Tested up to: 4.8
-Stable tag: 1.7.3
+Stable tag: 1.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,14 +38,27 @@ It speed-up page load times and improve website scores in services like PageSpee
 * GZIP compression should be enabled in your web-server (apache?). If not then you can ask your web hosting provider.
 * .htaccess in your WordPress root folder must have write permissions.
 
-= Is that it? =
+= What if I get 500 Internal Server Error after I activate the plugin? =
 
-Pretty much, yeah.
+If you get "500 - Internal Server Error" after you activate the plugin, Follow the steps below:
+
+1. Login to your FTP or open File Manager (ask your hosting provider)
+2. Go to the WordPress installation folder and then 'wp-content/wp-performance-score-booster' folder
+3. Copy `.htaccess.wppsb` file
+4. Now move back to WordPress installation folder and Rename the '.htaccess' file (to something like .htaccess.bak)
+5. Paste '.htaccess.wppsb' file (copied from step 3) and rename it to '.htaccess'
+
+That's it! Your site should be up now.
 
 == Screenshots ==
 1. Admin Settings
 
 == Changelog ==
+= 1.8, July 03, 2017 =
+* Added a feature that auto-backup .htaccess file before appending any rules (for GZIP and browser caching)
+* Improved uninstallation process
+* Added a topic on 500 - Internal Server Error Fix into FAQ
+
 = 1.7.2, March 21, 2017 =
 * Improved Promos, News and Updates, and recommendations area.
 
