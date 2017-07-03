@@ -21,7 +21,7 @@ This plugin speed-up page load times and improve website scores in services like
 
 **Follow the development of this plugin on [GitHub](https://github.com/dipakcg/wp-performance-score-booster)**
 
-**P.S. It is always the best policy to open a [support thread](http://wordpress.org/support/plugin/wp-performance-score-booster) first before posting any negative review.**
+**P.S. It is always the best policy to open a [support thread](http://wordpress.org/support/plugin/wp-performance-score-booster#new-topic-0) first before posting any negative review.**
 
 == Installation ==
 1. Upload the ‘wp-performance-score-booster’ folder to the ‘/wp-content/plugins/‘ directory
@@ -49,6 +49,8 @@ If you get "500 - Internal Server Error" after you activate the plugin, Follow t
 5. Paste '.htaccess.wppsb' file (copied from step 3) and rename it to '.htaccess'
 
 That's it! Your site should be up now.
+
+Alternatively, you can open a [support thread](http://wordpress.org/support/plugin/wp-performance-score-booster#new-topic-0)
 
 == Screenshots ==
 1. Admin Settings
