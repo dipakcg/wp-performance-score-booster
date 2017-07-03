@@ -38,15 +38,15 @@ It speed-up page load times and improve website scores in services like PageSpee
 * GZIP compression should be enabled in your web-server (apache?). If not then you can ask your web hosting provider.
 * .htaccess in your WordPress root folder must have write permissions.
 
-= What if I get 500 Internal Server Error after I activate the plugin? =
+= What if I get 500 Internal Server Error? =
 
 If you get "500 - Internal Server Error" after you activate the plugin, Follow the steps below:
 
-1. Login to your FTP or open File Manager (ask your hosting provider)
-2. Go to the WordPress installation folder and then 'wp-content/wp-performance-score-booster' folder
-3. Copy `.htaccess.wppsb` file
-4. Now move back to WordPress installation folder and Rename the '.htaccess' file (to something like .htaccess.bak)
-5. Paste '.htaccess.wppsb' file (copied from step 3) and rename it to '.htaccess'
+(1) Login to your FTP or open File Manager (ask your hosting provider)
+(2) Go to the WordPress installation folder and then `wp-content/wp-performance-score-booster` folder
+(3) Copy `.htaccess.wppsb` file
+(4) Now move back to WordPress installation folder and Rename the `.htaccess` file (to something like .htaccess.bak)
+(5) Paste `.htaccess.wppsb` file (copied from step 3) and rename it to `.htaccess`
 
 That's it! Your site should be up now.
 
