@@ -19,9 +19,17 @@ function wppsb_admin_options() {
     $expire_caching = 'wppsb_expire_caching';
 
     // Read in existing option value from database
-    $remove_query_strings_val = get_option($remove_query_strings);
-    $enable_gzip_val = get_option($enable_gzip);
-    $expire_caching_val = get_option($expire_caching);
+    global $wppsb_plugin_version, $wppsb_remove_query_strings, $wppsb_enable_gzip, $wppsb_expire_caching;
+    $remove_query_strings_val = $wppsb_remove_query_strings;
+    $enable_gzip_val = $wppsb_enable_gzip;
+    $expire_caching_val = $wppsb_expire_caching;
+
+    // Display notice if clicked 'Apply Updates' button (applicable to plugin updates)
+    if ( isset($_GET['update-applied']) && $_GET['update-applied'] == 'true' ) {
+	?>
+	    <div class="updated"><p><strong><?php _e('<strong>Update applied successfully!</strong>', 'wp-performance-score-booster'); ?></strong></p></div>
+	<?php
+    }
 
 	// See if the user has posted us some information
     // If they did, this hidden field will be set to 'Y'
@@ -37,14 +45,15 @@ function wppsb_admin_options() {
         update_option( $expire_caching, $expire_caching_val );
 
 	    flush_rewrite_rules();
-	    wppsb_save_mod_rewrite_rules();
+	    wppsb_save_mod_rewrite_rules($enable_gzip_val, $expire_caching_val);
 
         // Put the settings updated message on the screen
-   	?>
-   	<div class="updated"><p><strong><?php _e('<strong>Settings Saved.</strong>', 'wp-performance-score-booster'); ?></strong></p></div>
+   	    ?>
+   	    <div class="updated"><p><strong><?php _e('<strong>Settings Saved.</strong>', 'wp-performance-score-booster'); ?></strong></p></div>
 	<?php
 	}
-	?>
+    ?>
+
 	<form method="post" name="options_form">
 	<input type="hidden" name="<?php echo $hidden_field_name; ?>" value="Y">
 	<table>
@@ -112,14 +121,14 @@ function wppsb_admin_options() {
 	<div class="wppsb_admin_dev_sidebar_div">
 	<!-- <img src="//www.gravatar.com/avatar/38b380cf488d8f8c4007cf2015dc16ac.jpg" width="100px" height="100px" /> <br /> -->
 	<br />
-	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-support-this-16x16.png' . '" > ';  ?> <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3S8BRPLWLNQ38" target="_blank"> <?php _e('Donate and support this plugin', 'wp-performance-score-booster'); ?> </a> </span>
+	<!-- <span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-support-this-16x16.png' . '" > ';  ?> <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3S8BRPLWLNQ38" target="_blank"> <?php _e('Donate and support this plugin', 'wp-performance-score-booster'); ?> </a> </span> -->
 	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-rate-this-16x16.png' . '" > ';  ?> <a href="http://wordpress.org/support/view/plugin-reviews/wp-performance-score-booster" target="_blank"> <?php _e('Rate this plugin on WordPress.org', 'wp-performance-score-booster'); ?> </a> </span>
 	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-wordpress-16x16.png' . '" > ';  ?> <a href="http://wordpress.org/support/plugin/wp-performance-score-booster" target="_blank"> <?php _e('Get support on WordPress.org', 'wp-performance-score-booster'); ?> </a> </span>
 	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-github-16x16.png' . '" > ';  ?> <a href="https://github.com/dipakcg/wp-performance-score-booster" target="_blank"> <?php _e('Contribute development on GitHub', 'wp-performance-score-booster'); ?> </a> </span>
 	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-other-plugins-16x16.png' . '" > ';  ?> <a href="http://profiles.wordpress.org/dipakcg#content-plugins" target="_blank"> <?php _e('Get my other plugins', 'wp-performance-score-booster'); ?> </a> </span>
 	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-twitter-16x16.png' . '" > ';  ?>Follow me on Twitter: <a href="https://twitter.com/dipakcgajjar" target="_blank">@dipakcgajjar</a> </span>
 	<br />
-	<span class="wppsb_admin_dev_sidebar" style="float: right;"> <?php _e('Version:', 'wp-performance-score-booster'); ?> <strong> <?php echo get_option('wppsb_plugin_version'); ?> </strong> </span>
+	<span class="wppsb_admin_dev_sidebar" style="float: right;"> <?php _e('Version:', 'wp-performance-score-booster'); ?> <strong> <?php echo $wppsb_plugin_version; ?> </strong> </span>
 	</div>
 	</td>
 	</tr>

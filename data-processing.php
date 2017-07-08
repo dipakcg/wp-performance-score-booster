@@ -8,16 +8,6 @@ function wppsb_remove_query_strings_q( $src ) {
 	return $src;
 }
 
-// If 'Remove query strings" checkbox ticked, add filter otherwise remove filter
-if (get_option('wppsb_remove_query_strings') == 'on') {
-	add_filter( 'script_loader_src', 'wppsb_remove_query_strings_q', 15, 1 );
-	add_filter( 'style_loader_src', 'wppsb_remove_query_strings_q', 15, 1 );
-}
-else {
-	remove_filter( 'script_loader_src', 'wppsb_remove_query_strings_q');
-	remove_filter( 'style_loader_src', 'wppsb_remove_query_strings_q');
-}
-
 /* ========================================
    Enable GZIP Compression
    ======================================== */
@@ -97,24 +87,24 @@ EOD;
 
 // Special thanks to Marin Atanasov ( https://github.com/tyxla ) for contributing this awesome function.
 // Updates the htaccess file with the current rules if it is writable.
-function wppsb_save_mod_rewrite_rules() {
+function wppsb_save_mod_rewrite_rules($enable_gzip_val, $expire_caching_val) {
 	if ( is_multisite() )
 		return;
 	global $wp_rewrite;
-	$home_path = get_home_path();
-	$htaccess_file = $home_path.'.htaccess';
+	$htaccess_file = get_home_path() . '.htaccess';
 
 	/*
 	 * If the file doesn't already exist check for write access to the directory
 	 * and whether we have some rules. Else check for write access to the file.
 	 */
-	if ((!file_exists($htaccess_file) && is_writable($home_path) && $wp_rewrite->using_mod_rewrite_permalinks()) || is_writable($htaccess_file)) {
-		if ( got_mod_rewrite() ) {
+	if ((!file_exists($htaccess_file) && is_writable( get_home_path() ) && $wp_rewrite->using_mod_rewrite_permalinks()) || is_writable($htaccess_file)) {
+    	$mod_rewrite_enabled = function_exists('got_mod_rewrite') ? got_mod_rewrite() : false;
+		if ( $mod_rewrite_enabled ) {
 			$rules = explode( "\n", $wp_rewrite->mod_rewrite_rules() );
 		    $enable_gzip = 'wppsb_enable_gzip';
 		    $expire_caching = 'wppsb_expire_caching';
-		    $enable_gzip_val = get_option($enable_gzip);
-		    $expire_caching_val = get_option($expire_caching);
+		    // $enable_gzip_val = get_option($enable_gzip);
+		    // $expire_caching_val = get_option($expire_caching);
 		    $rules = array();
 			if ($enable_gzip_val == 'on') {
 				$rules = array_merge($rules, explode("\n", wppsb_enable_gzip_filter()));
