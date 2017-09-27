@@ -4,7 +4,7 @@ Tags: performance, speed, compression, caching, booster, query
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3S8BRPLWLNQ38
 Requires at least: 3.5
 Tested up to: 4.8
-Stable tag: 1.9
+Stable tag: 1.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,6 +18,8 @@ This plugin speed-up page load times and improve website scores in services like
 * Enable GZIP compression (compress text, html, javascript, css, xml and so on)
 * Add Vary: Accept-Encoding header, and
 * Set expires caching (leverage browser caching).
+
+[youtube https://www.youtube.com/watch?v=nEFZLFyZNcE]
 
 **Follow the development of this plugin on [GitHub](https://github.com/dipakcg/wp-performance-score-booster)**
 
@@ -48,33 +50,14 @@ If you get "500 - Internal Server Error" after you activate the plugin, Follow t
 (4) Now move back to WordPress installation folder and Rename the `.htaccess` file (to something like .htaccess.bak)
 (5) Paste `.htaccess.wppsb` file (copied from step 3) and rename it to `.htaccess`
 
-**Method 2:**
-
-(1) Login to your FTP or open File Manager (ask your hosting provider)
-(2) Go to the WordPress installation folder and open `.htaccess` file
-(3) Delete all the lines that comes in-between `# BEGIN WP Performance Score Booster Settings` and `# END WP Performance Score Booster Settings`.
-(4) Save the file
-
 That's it! Your site should be up now.
 
-You can always submit a [support topic](http://wordpress.org/support/plugin/wp-performance-score-booster#new-topic-0) if you have any issues.
+Alternatively, you can open a [support thread](http://wordpress.org/support/plugin/wp-performance-score-booster#new-topic-0)
 
 == Screenshots ==
 1. Admin Settings
 
 == Changelog ==
-= 1.9, Not confirmed yet! =
-* Added a functionality that allow users to apply configuration changes when plugin updated
-* All new updated code, with better hooks and filters
-* User settings will remain intact even after plugin deactivation
-* Updated a topic on *500 - Internal Server Error Fix* into FAQ
-* Fixed minor bugs with *Remove query strings from static content* filter
-
-= 1.8, July 03, 2017 =
-* Added a feature that auto-backup .htaccess file before appending any rules (for GZIP and browser caching)
-* Improved uninstallation process
-* Added a topic on 500 - Internal Server Error Fix into FAQ
-
 = 1.8, July 03, 2017 =
 * Added a feature that auto-backup .htaccess file before appending any rules (for GZIP and browser caching)
 * Improved uninstallation process
