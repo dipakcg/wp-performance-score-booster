@@ -144,7 +144,7 @@ function wppsb_admin_options() {
 	<hr style="margin: 1.5em 0 2em 0;" />
     <table cellspacing="0" cellpadding="0" class="wppsb_news_section"> <tr>
     <!-- News and Updates -->
-    <td width="49%" valign="top">
+    <td width="48%" valign="top">
     <h2><strong>News & Updates from Dipak C. Gajjar</strong></h2>
     <hr />
     <div class="wppsb_rss-widget">
