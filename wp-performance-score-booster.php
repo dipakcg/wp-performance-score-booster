@@ -3,7 +3,7 @@
 Plugin Name: WP Performance Score Booster
 Plugin URI: https://github.com/dipakcg/wp-performance-score-booster
 Description: Speed-up page load times and improve website scores in services like PageSpeed, YSlow, Pingdom and GTmetrix.
-Version: 1.9
+Version: 1.9.1
 Author: Dipak C. Gajjar
 Author URI: https://dipakgajjar.com
 Text Domain: wp-performance-score-booster
@@ -16,7 +16,7 @@ include_once ( ABSPATH . 'wp-admin/includes/plugin.php' ); // to is_plugin_activ
 
 // Define plugin version for future releases
 if (!defined('WPPSB_PLUGIN_VERSION')) {
-    define('WPPSB_PLUGIN_VERSION', '1.9');
+    define('WPPSB_PLUGIN_VERSION', '1.9.1');
 }
 
 define( 'WPPSB_PATH', WP_PLUGIN_DIR . '/' . basename( dirname( __FILE__ ) ) ); // plugin Path
@@ -56,6 +56,29 @@ add_action( 'init', 'wppsb_master_init' );
 function wppsb_master_admin_init () {
     wppsb_add_stylesheet(); // adds plugin stylesheet
     wppsb_update_processor(); // Reload the config (rewrite rules) after applying plugin updates
+    
+    /* BEGIN : Rate this plugin on wordpress */
+    // check for admin notice dismissal
+    if ( isset( $_GET['wppsb-already-reviewed'] ) ) {
+        update_option( 'wppsb_review_notice', "" );
+    }
+    
+    // display admin notice after 7 days if clicked 'May be later'
+    if ( isset( $_GET['wppsb-review-later'] ) ) {
+        update_option( 'wppsb_review_notice', "" );
+        $now = strtotime( "now" );
+        add_option( 'wppsb_activation_date', $now );
+    }
+    
+    $install_date = get_option( 'wppsb_activation_date' );
+    $past_date = strtotime( '-10 days' );
+
+    if ( $past_date >= $install_date ) {
+        update_option( 'wppsb_review_notice', "on" );
+        $now = strtotime( "now" );
+        update_option( 'wppsb_activation_date', $now );
+    }
+    /* END : Rate this plugin on wordpress */
 }
 add_action( 'admin_init', 'wppsb_master_admin_init' );
 
@@ -149,6 +172,17 @@ function wppsb_activate_plugin() {
 
     global $wppsb_remove_query_strings, $wppsb_enable_gzip, $wppsb_expire_caching;
     wppsb_htaccess_bakup(); // Backup .htacces before appending any rules
+    
+    /* Create transient data for submit review admin notice */
+	// set_transient( 'wppsb_submit_review_transient', true, 360 );
+	
+	// Rate this plugin on wordpress - check for admin notice dismissal
+    if ( FALSE !== get_option( 'wppsb_review_notice' ) ) {
+        update_option( 'wppsb_review_notice', "on" );
+    }
+    else {
+        add_option( 'wppsb_review_notice', "on" );
+    }
 
     // Save default options value in the database
     add_option( 'wppsb_plugin_version', WPPSB_PLUGIN_VERSION );
@@ -172,6 +206,48 @@ function wppsb_activate_plugin() {
     wppsb_save_mod_rewrite_rules($wppsb_enable_gzip, $wppsb_expire_caching);
 }
 register_activation_hook( __FILE__, 'wppsb_activate_plugin' );
+
+
+/* Add admin notice for requesting plugin review */
+add_action( 'admin_notices', 'wppsb_submit_review_notice' );
+function wppsb_submit_review_notice() {
+    global $wppsb_plugin_version;
+    
+    /* Display review plugin notice if plugin updated and plugin version is older than 1.9.1.
+    This will help boosting plugin review for older installs */
+    if ( isset( $_GET['update-applied'] ) && $_GET['update-applied'] == 'true' && $wppsb_plugin_version <= "1.9.1" ) {
+        if ( !isset( $_GET['wppsb-already-reviewed'] ) && !isset( $_GET['wppsb-review-later'] ) ) { // if url doesn't contain wppsb-already-reviewed and review-later string
+            if ( FALSE !== get_option('wppsb_review_notice' ) ) {
+                update_option( 'wppsb_review_notice', "on" );
+            }
+        }
+    }
+    
+	/* Check transient that's been set on plugin activation or check if user has already submitted review */
+	// if( get_transient( 'wppsb_submit_review_transient' ) || !get_user_meta( $user_id, 'wppsb_submit_review_dismissed' ) ) {
+	if( FALSE !== get_option( 'wppsb_review_notice') && get_option( 'wppsb_review_notice' ) == "on"  ) {
+    	
+    	$notice_contents = "<p> Thank you for using <strong>WP Performance Score Booster</strong>. </p>";
+    	$notice_contents .= "<p> Could you please do me a BIG favour and give this plugin a 5-star rating on WordPress? It will help me spread the word and boost my motivation. — Dipak C. Gajjar </p>";
+    	$notice_contents .= "<p> <a href=\"//wordpress.org/support/plugin/wp-performance-score-booster/reviews/?rate=5#new-post\" target=\"_blank\" style=\"font-weight: bold;\">Yes, you deserve it</a> <br /> <a href=\"#\" id=\"willReviewLater\" style=\"font-weight: bold;\">May be later</a> <br /> <a href=\"#\" id=\"alredyReviewed\" style=\"font-weight: bold; cursor: hand;\">I already did it</a> </p>";
+		?>
+		<div class="notice notice-info is-dismissible"> <?php _e($notice_contents, 'wp-performance-score-booster'); ?> </div>
+		<script>
+			jQuery("#alredyReviewed").on('click', function() {
+                var loc = location.href;
+                loc += loc.indexOf("?") === -1 ? "?" : "&";
+                location.href = loc + "wppsb-already-reviewed";
+            });
+            jQuery("#willReviewLater").on('click', function() {
+                var loc = location.href;
+                loc += loc.indexOf("?") === -1 ? "?" : "&";
+                location.href = loc + "wppsb-review-later";
+            });
+        </script>
+		<?php
+        // delete_transient( 'wppsb_submit_review_transient' );
+    }
+}
 
 function wppsb_htaccess_bakup() {
     if (!file_exists( WPPSB_STORAGE_PATH )) {

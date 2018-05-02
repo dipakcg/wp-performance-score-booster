@@ -28,7 +28,7 @@ function wppsb_admin_options() {
     if ( isset($_GET['update-applied']) && $_GET['update-applied'] == 'true' ) {
 	?>
 	    <div class="updated"><p><strong><?php _e('<strong>Update applied successfully!</strong>', 'wp-performance-score-booster'); ?></strong></p></div>
-	<?php
+	<?php 
     }
 
 	// See if the user has posted us some information
@@ -113,6 +113,37 @@ function wppsb_admin_options() {
     </td> <td>
 	<label for="<?php echo $expire_caching; ?>" class="wppsb_settings" style="display: inline;"> <?php _e('Leverage Browser Caching <i>(set expire caching)</i>', 'wp-performance-score-booster'); ?> </label>
     </td> </tr>
+    
+    <!-- Extra Options - must be added in the future version -->
+    
+    <!--    
+    <tr> <td colspan="2"> <h2> <?php _e('More settings <i>(optional)</i>', 'wp-performance-score-booster'); ?> </h2> </td> </tr>
+    
+    <tr> <td class="wppsb_onoff">
+	<div class="wppsb_onoffswitch">
+    <input type="checkbox" name="<?php echo $expire_caching; ?>" <?php checked( $expire_caching_val == 'on',true); ?> class="wppsb_onoffswitch-checkbox" id="<?php echo $expire_caching; ?>" />
+	<label class="wppsb_onoffswitch-label" for="<?php echo $expire_caching; ?>">
+		<span class="wppsb_onoffswitch-inner"></span>
+		<span class="wppsb_onoffswitch-switch"></span>
+	</label>
+	</div>
+    </td> <td>
+	<label for="<?php echo $expire_caching; ?>" class="wppsb_settings" style="display: inline;"> <?php _e('Disable Heartbeat API completely', 'wp-performance-score-booster'); ?> </label>
+    </td> </tr>
+    
+    <tr> <td class="wppsb_onoff">
+	<div class="wppsb_onoffswitch">
+    <input type="checkbox" name="<?php echo $expire_caching; ?>" <?php checked( $expire_caching_val == 'on',true); ?> class="wppsb_onoffswitch-checkbox" id="<?php echo $expire_caching; ?>" />
+	<label class="wppsb_onoffswitch-label" for="<?php echo $expire_caching; ?>">
+		<span class="wppsb_onoffswitch-inner"></span>
+		<span class="wppsb_onoffswitch-switch"></span>
+	</label>
+	</div>
+    </td> <td>
+	<label for="<?php echo $expire_caching; ?>" class="wppsb_settings" style="display: inline;"> <?php _e('Remove WordPress Emoji scripts', 'wp-performance-score-booster'); ?> </label>
+    </td> </tr>
+    -->
+     
 	</table>
     <p><input style="font-size: 15px; color: white; font-weight: bold;" type="submit" value="<?php esc_attr_e('Save Changes', 'wp-performance-score-booster'); ?>" class="button button-primary" name="submit" /></p>
     </form>
@@ -122,11 +153,11 @@ function wppsb_admin_options() {
 	<!-- <img src="//www.gravatar.com/avatar/38b380cf488d8f8c4007cf2015dc16ac.jpg" width="100px" height="100px" /> <br /> -->
 	<br />
 	<!-- <span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-support-this-16x16.png' . '" > ';  ?> <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3S8BRPLWLNQ38" target="_blank"> <?php _e('Donate and support this plugin', 'wp-performance-score-booster'); ?> </a> </span> -->
-	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-rate-this-16x16.png' . '" > ';  ?> <a href="http://wordpress.org/support/view/plugin-reviews/wp-performance-score-booster" target="_blank"> <?php _e('Rate this plugin on WordPress.org', 'wp-performance-score-booster'); ?> </a> </span>
-	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-wordpress-16x16.png' . '" > ';  ?> <a href="http://wordpress.org/support/plugin/wp-performance-score-booster" target="_blank"> <?php _e('Get support on WordPress.org', 'wp-performance-score-booster'); ?> </a> </span>
-	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-github-16x16.png' . '" > ';  ?> <a href="https://github.com/dipakcg/wp-performance-score-booster" target="_blank"> <?php _e('Contribute development on GitHub', 'wp-performance-score-booster'); ?> </a> </span>
-	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-other-plugins-16x16.png' . '" > ';  ?> <a href="http://profiles.wordpress.org/dipakcg#content-plugins" target="_blank"> <?php _e('Get my other plugins', 'wp-performance-score-booster'); ?> </a> </span>
-	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-twitter-16x16.png' . '" > ';  ?>Follow me on Twitter: <a href="https://twitter.com/dipakcgajjar" target="_blank">@dipakcgajjar</a> </span>
+	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-rate-this-16x16.png' . '" > ';  ?> <a href="//wordpress.org/support/plugin/wp-performance-score-booster/reviews/?rate=5#new-post" target="_blank"> <?php _e('Rate this plugin on WordPress.org', 'wp-performance-score-booster'); ?> </a> </span>
+	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-wordpress-16x16.png' . '" > ';  ?> <a href="//wordpress.org/support/plugin/wp-performance-score-booster" target="_blank"> <?php _e('Get support on WordPress.org', 'wp-performance-score-booster'); ?> </a> </span>
+	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-github-16x16.png' . '" > ';  ?> <a href="//github.com/dipakcg/wp-performance-score-booster" target="_blank"> <?php _e('Contribute development on GitHub', 'wp-performance-score-booster'); ?> </a> </span>
+	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-other-plugins-16x16.png' . '" > ';  ?> <a href="//profiles.wordpress.org/dipakcg#content-plugins" target="_blank"> <?php _e('Get my other plugins', 'wp-performance-score-booster'); ?> </a> </span>
+	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-twitter-16x16.png' . '" > ';  ?>Follow me on Twitter: <a href="//twitter.com/dipakcgajjar" target="_blank">@dipakcgajjar</a> </span>
 	<br />
 	<span class="wppsb_admin_dev_sidebar" style="float: right;"> <?php _e('Version:', 'wp-performance-score-booster'); ?> <strong> <?php echo $wppsb_plugin_version; ?> </strong> </span>
 	</div>
@@ -149,7 +180,7 @@ function wppsb_admin_options() {
     <hr />
     <div class="wppsb_rss-widget">
 	<?php
-     /* Load the news content from Github url */
+    /* Load the news content from site url */
     $news_content = wp_remote_fopen("https://dipakgajjar.com/public/news-and-updates.html");
     echo $news_content;
     ?>
@@ -158,7 +189,7 @@ function wppsb_admin_options() {
 	<td width="1%"> &nbsp; </td>
 	<td width="51%" valign="top">
 	<?php
-     /* Load the referrals content from Github url */
+    /* Load the referrals content from site url */
     $referrals_content = wp_remote_fopen("https://dipakgajjar.com/public/recommendations.html");
     echo $referrals_content;
     ?>
