@@ -4,7 +4,7 @@ Tags: performance, speed, gzip, booster, query string
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3S8BRPLWLNQ38
 Requires at least: 3.5
 Tested up to: 4.9
-Stable tag: 1.9.1
+Stable tag: 1.9.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,6 +58,11 @@ Alternatively, you can open a [support thread](http://wordpress.org/support/plug
 1. Admin Settings
 
 == Changelog ==
+= 1.9.2, May 10, 2017 =
+* Fixed bug with Review Plugin notice.
+* - Review Plugin notice is now dismissible (permanently) when a user click the (X) on the top right.
+* Improved user experience (by implementing jQuery - Ajax calls).
+
 = 1.9.1, May 02, 2017 =
 * Added Review Plugin - admin notice
 * Improved Recommendations tab
