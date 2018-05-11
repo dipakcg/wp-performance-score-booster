@@ -230,7 +230,7 @@ function wppsb_submit_review_notice() {
     	
     	$notice_contents = "<p> Thank you for using <strong>WP Performance Score Booster</strong>. </p>";
     	$notice_contents .= "<p> Could you please do me a BIG favour and give this plugin a 5-star rating on WordPress? It will help me spread the word and boost my motivation. — Dipak C. Gajjar </p>";
-    	$notice_contents .= "<p> <a href=\"#\"id=\"letMeReview\" class=\"button button-primary\">Yes, you deserve it</a> <a href=\"#\" id=\"willReviewLater\" class=\"button button-primary\">May be later</a> <a href=\"#\" id=\"alredyReviewed\" class=\"button button-primary\">I already did it</a> </p>";
+    	$notice_contents .= "<p> <a href=\"#\"id=\"letMeReview\" class=\"button button-primary\">Yes, you deserve it</a> &nbsp; <a href=\"#\" id=\"willReviewLater\" class=\"button button-primary\">May be later</a> &nbsp; <a href=\"#\" id=\"alredyReviewed\" class=\"button button-primary\">I already did it</a> </p>";
 		?>
 		<div class="notice notice-info is-dismissible" id="wppsb-review-notice"> <?php _e($notice_contents, 'wp-performance-score-booster'); ?> </div>
 		<script>
