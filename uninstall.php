@@ -5,6 +5,8 @@ delete_option( 'wppsb_plugin_version' );
 delete_option( 'wppsb_remove_query_strings' );
 delete_option( 'wppsb_enable_gzip' );
 delete_option( 'wppsb_expire_caching' );
+delete_option( 'wppsb_review_notice' );
+delete_option( 'wppsb_activation_date' );
 
 // Delete .htaccess backups (including backup storage page directory)
 delete_storage_dir( get_home_path() . 'wp-content/wp-performance-score-booster');

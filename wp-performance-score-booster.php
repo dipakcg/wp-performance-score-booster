@@ -66,8 +66,7 @@ function wppsb_master_admin_init () {
     // display admin notice after 15 days if clicked 'May be later'
     if ( isset( $_POST['wppsb-review-later'] ) ) {
         update_option( 'wppsb_review_notice', "" );
-        $now = strtotime( "now" );
-        add_option( 'wppsb_activation_date', $now );
+        update_option( 'wppsb_activation_date', strtotime( "now" ) );
     }
     
     $install_date = get_option( 'wppsb_activation_date' );
@@ -75,8 +74,7 @@ function wppsb_master_admin_init () {
 
     if ( $past_date >= $install_date ) {
         update_option( 'wppsb_review_notice', "on" );
-        $now = strtotime( "now" );
-        update_option( 'wppsb_activation_date', $now );
+        delete_option( 'wppsb_activation_date' );
     }
     /* END : Rate this plugin on wordpress */
 }
