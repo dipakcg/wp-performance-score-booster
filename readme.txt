@@ -58,7 +58,7 @@ Alternatively, you can open a [support thread](http://wordpress.org/support/plug
 1. Admin Settings
 
 == Changelog ==
-= 1.9.2, May 10, 2017 =
+= 1.9.2, May 11, 2017 =
 * Fixed bug with Review Plugin notice.
 * - Review Plugin notice is now dismissible (permanently) when a user click the (X) on the top right.
 * Improved user experience (by implementing jQuery - Ajax calls).

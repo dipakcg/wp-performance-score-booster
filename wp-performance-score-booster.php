@@ -214,8 +214,8 @@ function wppsb_submit_review_notice() {
     This will help boosting plugin review for older installs */
     if ( isset( $_GET['update-applied'] ) && $_GET['update-applied'] == 'true' ) {
         if ( !isset( $_POST['wppsb-already-reviewed'] ) && !isset( $_POST['wppsb-review-later'] ) ) { // if url doesn't contain wppsb-already-reviewed and review-later
-            /* Uncomment to force users to leave review on plugin update
-                if ( FALSE !== get_option('wppsb_review_notice' ) ) {
+            /* Uncomment to force users to leave review on plugin update */
+            /* if ( FALSE !== get_option('wppsb_review_notice' ) ) {
                 update_option( 'wppsb_review_notice', "on" );
             } */
             if ( FALSE === get_option('wppsb_review_notice' ) ) {
