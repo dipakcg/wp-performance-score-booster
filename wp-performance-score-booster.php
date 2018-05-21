@@ -231,56 +231,61 @@ function wppsb_submit_review_notice() {
     	$notice_contents .= "<p> <a href=\"#\"id=\"letMeReview\" class=\"button button-primary\">Yes, you deserve it</a> &nbsp; <a href=\"#\" id=\"willReviewLater\" class=\"button button-primary\">May be later</a> &nbsp; <a href=\"#\" id=\"alredyReviewed\" class=\"button button-primary\">I already did it</a> </p>";
 		?>
 		<div class="notice notice-info is-dismissible" id="wppsb-review-notice"> <?php _e($notice_contents, 'wp-performance-score-booster'); ?> </div>
-		<script>
-    		var loc = location.href;
-            loc += loc.indexOf("?") === -1 ? "?" : "&";
-            jQuery("#letMeReview").on('click', function() {
-                /*jQuery('.notice').slideUp("slow", function(){;
-                    window.open("//wordpress.org/support/plugin/wp-performance-score-booster/reviews/?rate=5#new-post", "_blank");
-                });*/
-                jQuery('.notice').slideUp();
-                jQuery.ajax({
-                    url: loc,
-                    type: 'POST',
-                    data: {
-                        "wppsb-review-later": ''
-                    },
-                    success: function(msg) {
+		<script type="text/javascript">
+    		// set jQuery in noConflict mode. This helps to mitigate conflicts between jQuery scripts. jQuery conflicts are all too common with themes and plugins.
+    		var $j = jQuery.noConflict();
+            $j(document).ready( function() { 
+                var loc = location.href;
+                // loc += loc.indexOf("?") === -1 ? "?" : "&";
+                
+                $j("#letMeReview").on('click', function() {
+                    /*jQuery('.notice').slideUp("slow", function(){;
                         window.open("//wordpress.org/support/plugin/wp-performance-score-booster/reviews/?rate=5#new-post", "_blank");
-                    }         
+                    });*/
+                    $j('.notice').slideUp();
+                    $j.ajax({
+                        url: loc,
+                        type: 'POST',
+                        data: {
+                            "wppsb-review-later": ''
+                        },
+                        success: function(msg) {
+                            window.open("//wordpress.org/support/plugin/wp-performance-score-booster/reviews/?rate=5#new-post", "_blank");
+                        }         
+                    });
                 });
-            });
-            jQuery("#willReviewLater").on('click', function() {
-                jQuery('.notice').slideUp();
-                jQuery.ajax({
-                    url: loc,
-                    type: 'POST',
-                    data: {
-                        "wppsb-review-later": ''
-                    }/*,
-                    success: function(msg) {
-                        console.log("WPPSB DEBUG: Review the Plugin Later.");
-                    }*/         
+                $j("#willReviewLater").on('click', function() {
+                    $j('.notice').slideUp();
+                    $j.ajax({
+                        url: loc,
+                        type: 'POST',
+                        data: {
+                            "wppsb-review-later": ''
+                        }/* ,
+                        success: function(msg) {
+                            console.log("WPPSB DEBUG: Review the Plugin Later.");
+                        } */
+                    });
                 });
-            });
-            jQuery("#alredyReviewed").on('click', function() {
-                jQuery('.notice').slideUp();
-                jQuery.ajax({
-                    url: loc,
-                    type: 'POST',
-                    data: {
-                        "wppsb-already-reviewed": ''
-                    }             
+                $j("#alredyReviewed").on('click', function() {
+                    $j('.notice').slideUp();
+                    $j.ajax({
+                        url: loc,
+                        type: 'POST',
+                        data: {
+                            "wppsb-already-reviewed": ''
+                        }             
+                    });
                 });
-            });
-            /* If top-right X button clicked */
-            jQuery('#wppsb-review-notice').on('click', '.notice-dismiss', function(event){
-                jQuery.ajax({
-                    url: loc,
-                    type: 'POST',
-                    data: {
-                        "wppsb-already-reviewed": ''
-                    }             
+                /* If top-right X button clicked */
+                $j('#wppsb-review-notice').on('click', '.notice-dismiss', function(event){
+                    $j.ajax({
+                        url: loc,
+                        type: 'POST',
+                        data: {
+                            "wppsb-already-reviewed": ''
+                        }             
+                    });
                 });
             });
         </script>
