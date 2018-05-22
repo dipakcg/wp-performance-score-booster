@@ -63,14 +63,14 @@ function wppsb_master_admin_init () {
         update_option( 'wppsb_review_notice', "" );
     }
     
-    // display admin notice after 15 days if clicked 'May be later'
+    // display admin notice after 30 days if clicked 'May be later'
     if ( isset( $_POST['wppsb-review-later'] ) ) {
         update_option( 'wppsb_review_notice', "" );
         update_option( 'wppsb_activation_date', strtotime( "now" ) );
     }
     
     $install_date = get_option( 'wppsb_activation_date' );
-    $past_date = strtotime( '-15 days' );
+    $past_date = strtotime( '-30 days' );
 
     if ( $past_date >= $install_date ) {
         update_option( 'wppsb_review_notice', "on" );
@@ -208,23 +208,17 @@ add_action( 'admin_notices', 'wppsb_submit_review_notice' );
 function wppsb_submit_review_notice() {
     global $wppsb_plugin_version;
     
-    /* Display review plugin notice if plugin updated and plugin version is older than 1.9.1.
-    This will help boosting plugin review for older installs */
+    /* Display review plugin notice if plugin updated */
+    // only applies to older versions of the plugin (older than 1.9.1) where option isn't set
     if ( isset( $_GET['update-applied'] ) && $_GET['update-applied'] == 'true' ) {
-        if ( !isset( $_POST['wppsb-already-reviewed'] ) && !isset( $_POST['wppsb-review-later'] ) ) { // if url doesn't contain wppsb-already-reviewed and review-later
-            /* Uncomment to force users to leave review on plugin update */
-            /* if ( FALSE !== get_option('wppsb_review_notice' ) ) {
-                update_option( 'wppsb_review_notice', "on" );
-            } */
-            if ( FALSE === get_option('wppsb_review_notice' ) ) {
-                update_option( 'wppsb_review_notice', "on" );
-            }
+        if ( FALSE === get_option('wppsb_review_notice' ) ) {
+            update_option( 'wppsb_review_notice', "on" );
         }
     }
     
 	/* Check transient that's been set on plugin activation or check if user has already submitted review */
 	// if( get_transient( 'wppsb_submit_review_transient' ) || !get_user_meta( $user_id, 'wppsb_submit_review_dismissed' ) ) {
-	if( FALSE !== get_option( 'wppsb_review_notice') && get_option( 'wppsb_review_notice' ) == "on"  ) {
+	if( get_option( 'wppsb_review_notice') && get_option( 'wppsb_review_notice' ) == "on"  ) {
     	
     	$notice_contents = "<p> Thank you for using <strong>WP Performance Score Booster</strong>. </p>";
     	$notice_contents .= "<p> Could you please do me a BIG favour and give this plugin a 5-star rating on WordPress? It will help me spread the word and boost my motivation. — Dipak C. Gajjar </p>";
