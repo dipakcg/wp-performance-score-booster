@@ -61,6 +61,9 @@ function wppsb_master_admin_init () {
     // check for admin notice dismissal
     if ( isset( $_POST['wppsb-already-reviewed'] ) ) {
         update_option( 'wppsb_review_notice', "" );
+        if ( get_option( 'wppsb_activation_date' ) ) {
+            delete_option( 'wppsb_activation_date' );
+        }
     }
     
     // display admin notice after 30 days if clicked 'May be later'
@@ -72,7 +75,7 @@ function wppsb_master_admin_init () {
     $install_date = get_option( 'wppsb_activation_date' );
     $past_date = strtotime( '-30 days' );
 
-    if ( $past_date >= $install_date ) {
+    if ( FALSE !== get_option( 'wppsb_activation_date' ) && $past_date >= $install_date ) {
         update_option( 'wppsb_review_notice', "on" );
         delete_option( 'wppsb_activation_date' );
     }
@@ -222,7 +225,7 @@ function wppsb_submit_review_notice() {
     	
     	$notice_contents = "<p> Thank you for using <strong>WP Performance Score Booster</strong>. </p>";
     	$notice_contents .= "<p> Could you please do me a BIG favour and give this plugin a 5-star rating on WordPress? It will help me spread the word and boost my motivation. — Dipak C. Gajjar </p>";
-    	$notice_contents .= "<p> <a href=\"#\"id=\"letMeReview\" class=\"button button-primary\">Yes, you deserve it</a> &nbsp; <a href=\"#\" id=\"willReviewLater\" class=\"button button-primary\">May be later</a> &nbsp; <a href=\"#\" id=\"alredyReviewed\" class=\"button button-primary\">I already did it</a> </p>";
+    	$notice_contents .= "<p> <a href=\"#\"id=\"letMeReview\" class=\"button button-primary\">Yes, you deserve it</a> &nbsp; <a href=\"#\" id=\"willReviewLater\" class=\"button button-primary\">Maybe later</a> &nbsp; <a href=\"#\" id=\"alredyReviewed\" class=\"button button-primary\">I already did it</a> </p>";
 		?>
 		<div class="notice notice-info is-dismissible" id="wppsb-review-notice"> <?php _e($notice_contents, 'wp-performance-score-booster'); ?> </div>
 		<script type="text/javascript">
@@ -272,13 +275,13 @@ function wppsb_submit_review_notice() {
                     });
                 });
                 /* If top-right X button clicked */
-                $j('#wppsb-review-notice').on('click', '.notice-dismiss', function(event){
+                $j(document).on('click', '#wppsb-review-notice .notice-dismiss', function() {
                     $j.ajax({
                         url: loc,
                         type: 'POST',
                         data: {
                             "wppsb-already-reviewed": ''
-                        }             
+                        }
                     });
                 });
             });
