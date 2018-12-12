@@ -28,7 +28,7 @@ function wppsb_admin_options() {
     if ( isset($_GET['update-applied']) && $_GET['update-applied'] == 'true' ) {
 	?>
 	    <div class="updated"><p><strong><?php _e('<strong>Update applied successfully!</strong>', 'wp-performance-score-booster'); ?></strong></p></div>
-	<?php 
+	<?php
     }
 
 	// See if the user has posted us some information
@@ -113,12 +113,12 @@ function wppsb_admin_options() {
     </td> <td>
 	<label for="<?php echo $expire_caching; ?>" class="wppsb_settings" style="display: inline;"> <?php _e('Leverage Browser Caching <i>(set expire caching)</i>', 'wp-performance-score-booster'); ?> </label>
     </td> </tr>
-    
+
     <!-- Extra Options - must be added in the future version -->
-    
-    <!--    
+
+    <!--
     <tr> <td colspan="2"> <h2> <?php _e('More settings <i>(optional)</i>', 'wp-performance-score-booster'); ?> </h2> </td> </tr>
-    
+
     <tr> <td class="wppsb_onoff">
 	<div class="wppsb_onoffswitch">
     <input type="checkbox" name="<?php echo $expire_caching; ?>" <?php checked( $expire_caching_val == 'on',true); ?> class="wppsb_onoffswitch-checkbox" id="<?php echo $expire_caching; ?>" />
@@ -130,7 +130,7 @@ function wppsb_admin_options() {
     </td> <td>
 	<label for="<?php echo $expire_caching; ?>" class="wppsb_settings" style="display: inline;"> <?php _e('Disable Heartbeat API completely', 'wp-performance-score-booster'); ?> </label>
     </td> </tr>
-    
+
     <tr> <td class="wppsb_onoff">
 	<div class="wppsb_onoffswitch">
     <input type="checkbox" name="<?php echo $expire_caching; ?>" <?php checked( $expire_caching_val == 'on',true); ?> class="wppsb_onoffswitch-checkbox" id="<?php echo $expire_caching; ?>" />
@@ -143,12 +143,12 @@ function wppsb_admin_options() {
 	<label for="<?php echo $expire_caching; ?>" class="wppsb_settings" style="display: inline;"> <?php _e('Remove WordPress Emoji scripts', 'wp-performance-score-booster'); ?> </label>
     </td> </tr>
     -->
-     
+
 	</table>
     <p><input style="font-size: 15px; color: white; font-weight: bold;" type="submit" value="<?php esc_attr_e('Save Changes', 'wp-performance-score-booster'); ?>" class="button button-primary" name="submit" /></p>
     </form>
 	</td>
-	<td style="text-align: left;">
+	<td width="25%" valign="bottom" style="text-align: left;">
 	<div class="wppsb_admin_dev_sidebar_div">
 	<!-- <img src="//www.gravatar.com/avatar/38b380cf488d8f8c4007cf2015dc16ac.jpg" width="100px" height="100px" /> <br /> -->
 	<br />
