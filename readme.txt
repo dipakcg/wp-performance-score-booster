@@ -4,7 +4,7 @@ Tags: performance, speed, gzip, booster, query string
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3S8BRPLWLNQ38
 Requires at least: 3.5
 Tested up to: 5.0
-Stable tag: 1.9.2.1
+Stable tag: 1.9.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,6 +58,9 @@ Alternatively, you can open a [support thread](http://wordpress.org/support/plug
 1. Admin Settings
 
 == Changelog ==
+= 1.9.2.2, December 19, 2018 =
+* Fixed "Remove any query strings from static resources" conflict in admin
+
 = 1.9.2.1, May 26, 2018 =
 * Fixed jQuery conflict with Review Plugin notice.
 * Fixed minor typo
