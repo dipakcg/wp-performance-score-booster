@@ -1,6 +1,6 @@
 === WP Performance Score Booster ===
 Contributors: dipakcg
-Tags: performance, speed, gzip, booster, query string
+Tags: performance, optimize, pagespeed, gzip, speed, query string, gtmetrix, cache
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3S8BRPLWLNQ38
 Requires at least: 3.5
 Tested up to: 5.3
@@ -8,10 +8,10 @@ Stable tag: 1.9.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Speed-up page load times and improve website scores in services like PageSpeed, YSlow, Pingdom and GTmetrix.
+Make website faster, speed up page load time and instantly improve performance scores in services like GTmetrix, Pingdom, YSlow and PageSpeed.
 
 == Description ==
-This plugin speed-up page load times and improve website scores in services like PageSpeed, YSlow, Pingdom and GTmetrix.
+WP Performance Score Booster makes website faster, speed up page load time and instantly improve WordPress performance scores in services like GTmetrix, Pingdom, YSlow and PageSpeed.
 
 = This plugin will... =
 * Remove any query strings from static resources like CSS & JS files
