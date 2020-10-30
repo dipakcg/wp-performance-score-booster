@@ -68,25 +68,14 @@ function wppsb_load_plugin_textdomain() {
 // Call all the functions together to hook with init()
 function wppsb_master_init () {
     
-    global $wppsb_remove_query_strings;
-    
     wppsb_load_plugin_textdomain(); // load plugin textdomain for language trnaslation
     wppsb_update_checker(); // Check if plugin updated
     
-    // If 'Remove query strings" checkbox ticked, add filter otherwise remove filter
-    if ( $wppsb_remove_query_strings == 'on' ) {
-    	// Disable the functionality under Admin to avoid any conflicts
-    	if ( ! is_admin() ) {
-    		add_filter( 'script_loader_src', 'wppsb_remove_query_strings_q', 15, 1 );
-    		add_filter( 'style_loader_src', 'wppsb_remove_query_strings_q', 15, 1 );
-    	}
-    } else {
-    	remove_filter( 'script_loader_src', 'wppsb_remove_query_strings_q');
-    	remove_filter( 'style_loader_src', 'wppsb_remove_query_strings_q');
-    }
+    do_action( 'wppsb_remove_query_string_action' );
 
 }
 add_action( 'init', 'wppsb_master_init' );
+
 
 // Call all the functions together to hook with admin_init()
 function wppsb_master_admin_init () {
@@ -130,7 +119,6 @@ function dcg_settings_link( $links ) {
 	$links = array_merge($wppsb_links, $links);
 	
 	return $links;
-	
 }
 add_filter( 'plugin_action_links_' . WPPSB_BASE, 'dcg_settings_link' );
 
@@ -152,26 +140,6 @@ add_filter( 'plugin_row_meta', 'wppsb_plugin_meta_links', 10, 2 );
 function wppsb_add_stylesheet() {
     wp_enqueue_style( 'wppsb-stylesheet', WPPSB_URL . '/assets/css/style.css' );
 }
-
-
-function wppsb_enqueue_scripts() {
-    global $wppsb_instant_page_preload;
-    
-    if ( $wppsb_instant_page_preload == 'on' ) {
-        wp_enqueue_script( 'wppsb-page-preload', WPPSB_URL . '/assets/js/page-preloader.js', array(), '5.1.0', true );
-    }
-}
-add_action( 'wp_enqueue_scripts', 'wppsb_enqueue_scripts' );
-
-
-// This script loader is needed for instant.page preloader
-function wppsb_script_loader_tag( $tag, $handle ) {
-    if ( 'wppsb-page-preload' === $handle ) {
-        $tag = str_replace( 'text/javascript', 'module', $tag );
-    }
-    return $tag;
-}
-add_filter( 'script_loader_tag', 'wppsb_script_loader_tag', 10, 2 );
 
 
 // Add header

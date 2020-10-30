@@ -2,11 +2,50 @@
 /**********************************
 * Remove query strings from static content
 **********************************/
+function wppsb_remove_query_string_init() {
+    global $wppsb_remove_query_strings;
+    
+    // If 'Remove query strings" checkbox ticked, add filter otherwise remove filter
+    if ( $wppsb_remove_query_strings == 'on' ) {
+    	// Disable the functionality under Admin to avoid any conflicts
+    	if ( ! is_admin() ) {
+    		add_filter( 'script_loader_src', 'wppsb_remove_query_strings_q', 15, 1 );
+    		add_filter( 'style_loader_src', 'wppsb_remove_query_strings_q', 15, 1 );
+    	}
+    } else {
+    	remove_filter( 'script_loader_src', 'wppsb_remove_query_strings_q');
+    	remove_filter( 'style_loader_src', 'wppsb_remove_query_strings_q');
+    }
+}
+add_action( 'wppsb_remove_query_string_action', 'wppsb_remove_query_string_init' );
+
 function wppsb_remove_query_strings_q( $src ) {
 	if(strpos( $src, '?ver=' ))
 		$src = remove_query_arg( 'ver', $src );
 	return $src;
 }
+
+/**********************************
+* instant.page preoloader
+**********************************/
+function wppsb_enqueue_scripts() {
+    global $wppsb_instant_page_preload;
+    
+    // Only enqueu instant.page script if option is selected under plugin settings
+    if ( $wppsb_instant_page_preload == 'on' ) {
+        wp_enqueue_script( 'wppsb-page-preload', WPPSB_URL . '/assets/js/page-preloader.js', array(), '5.1.0', true );
+    }
+}
+add_action( 'wp_enqueue_scripts', 'wppsb_enqueue_scripts' );
+
+// This script loader is needed for instant.page preloader
+function wppsb_script_loader_tag( $tag, $handle ) {
+    if ( 'wppsb-page-preload' === $handle ) {
+        $tag = str_replace( 'text/javascript', 'module', $tag );
+    }
+    return $tag;
+}
+add_filter( 'script_loader_tag', 'wppsb_script_loader_tag', 10, 2 );
 
 
 /**********************************
@@ -61,7 +100,7 @@ EOD;
 
 
 /**********************************
-* Enable expire caching (Leverage browser caching)
+* Leverage Browser Caching (Expires headers) for better cache control
 **********************************/
 function wppsb_expire_caching_filter( $rules = '' ) {
 $expire_cache_htaccess_content = <<<EOD
@@ -106,6 +145,10 @@ EOD;
     return $expire_cache_htaccess_content . $rules;
 }
 
+
+/**********************************
+* ETag headers
+**********************************/
 function wppsb_etag_headers_filter( $rules = '' ) {
 $wppsb_plugin_version = WPPSB_PLUGIN_VERSION;
 $etag_headers_content = <<<EOD
@@ -136,6 +179,10 @@ EOD;
     return $etag_headers_content . $rules;
 }
 
+
+/**********************************
+* Set Strict-Transport-Security headers
+**********************************/
 function wppsb_strict_headers_filter( $rules = '' ) {
 $strict_headers_content = <<<EOD
 \n## BEGIN Strict-Transport-Security header ##

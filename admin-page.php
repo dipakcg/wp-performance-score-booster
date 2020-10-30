@@ -263,8 +263,7 @@ function wppsb_admin_options() {
     	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-other-plugins-16x16.png' . '" > ';  ?> <a href="//profiles.wordpress.org/dipakcg#content-plugins" target="_blank"> <?php _e('Get my other plugins', 'wp-performance-score-booster'); ?> </a> </span> -->
     	<span id="td_section"  class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-icon-24x24.png' . '" width="16" height="16" > ';  ?> <a href="//profiles.wordpress.org/dipakcg#content-plugins" target="_blank"> <?php _e('Buy my Speed Optimisation Service', 'wp-performance-score-booster'); ?> </a> </span>
     	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-twitter-16x16.png' . '" width="16" height="16" > ';  ?> <a href="//twitter.com/dipakcgajjar" target="_blank"> <?php _e('Follow me on Twitter: @dipakcgajjar', 'wp-performance-score-booster'); ?> </a> </span>
-    	<br />
-    	<span class="wppsb_admin_dev_sidebar" style="float: right;"> <?php _e('Version:', 'wp-performance-score-booster'); ?> <strong> <?php echo $wppsb_plugin_version; ?> </strong> </span>
+    	<span id="td_section" class="wppsb_admin_dev_sidebar" style="float: right;"> <?php _e('Version:', 'wp-performance-score-booster'); ?> <strong> <?php echo $wppsb_plugin_version; ?> </strong> </span>
     	</div>
     	</td>
     	</tr>

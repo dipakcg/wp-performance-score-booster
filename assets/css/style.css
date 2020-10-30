@@ -2,14 +2,16 @@
 	font-size: 14px !important;
 }
 .wppsb_admin_dev_sidebar_div {
-	width:300px;
-	height:210px;
+	/* width:300px; */
+	display: table;
+	width: 70%;
+	min-height:210px;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
 	border: 1px solid #CCC;
 	background-color:#FFFFFF;
-	padding: 10px 10px 0 30px;
+	padding: 0 10px 0 30px;
 }
 .wppsb_admin_dev_sidebar {
 	font-size: 13px;
