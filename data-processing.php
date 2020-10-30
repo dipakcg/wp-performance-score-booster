@@ -1,121 +1,189 @@
 <?php
-/* ========================================
-   Remove query strings from static content
-   ======================================== */
+/**********************************
+* Remove query strings from static content
+**********************************/
 function wppsb_remove_query_strings_q( $src ) {
 	if(strpos( $src, '?ver=' ))
 		$src = remove_query_arg( 'ver', $src );
 	return $src;
 }
 
-/* ========================================
-   Enable GZIP Compression
-   ======================================== */
+
+/**********************************
+* Enable GZIP Compression and Set Vary: Accept-Encoding Header (as a part of compression) 
+**********************************/
 function wppsb_enable_gzip_filter( $rules = '' ) {
 $gzip_htaccess_content = <<<EOD
 \n## BEGIN GZIP Compression ##
 <IfModule mod_deflate.c>
-AddOutputFilterByType DEFLATE text/plain
-AddOutputFilterByType DEFLATE text/html
-AddOutputFilterByType DEFLATE text/xml
-AddOutputFilterByType DEFLATE text/css
-AddOutputFilterByType DEFLATE application/xml
-AddOutputFilterByType DEFLATE application/xhtml+xml
-AddOutputFilterByType DEFLATE application/rss+xml
-AddOutputFilterByType DEFLATE application/javascript
-AddOutputFilterByType DEFLATE application/x-javascript
-AddOutputFilterByType DEFLATE application/x-httpd-php
-AddOutputFilterByType DEFLATE application/x-httpd-fastphp
-AddOutputFilterByType DEFLATE image/svg+xml
-SetOutputFilter DEFLATE
+    SetOutputFilter DEFLATE
+    <IfModule mod_setenvif.c>
+        <IfModule mod_headers.c>
+            SetEnvIfNoCase ^(Accept-EncodXng|X-cept-Encoding|X{15}|~{15}|-{15})$ ^((gzip|deflate)\s*,?\s*)+|[X~-]{4,13}$ HAVE_Accept-Encoding
+            RequestHeader append Accept-Encoding "gzip,deflate" env=HAVE_Accept-Encoding
+            SetEnvIfNoCase Request_URI \
+                \.(?:gif|jpe?g|png|rar|zip|exe|flv|mov|wma|mp3|avi|swf|mp?g|mp4|webm|webp|pdf)$ no-gzip dont-vary
+        </IfModule>
+    </IfModule>
+    <IfModule mod_filter.c>
+        AddOutputFilterByType DEFLATE application/atom+xml \
+        	                          application/javascript \
+        	                          application/json \
+        	                          application/rss+xml \
+        	                          application/vnd.ms-fontobject \
+        	                          application/x-font-ttf \
+        	                          application/xhtml+xml \
+        	                          application/xml \
+        	                          font/opentype \
+        	                          image/svg+xml \
+        	                          image/x-icon \
+        	                          text/css \
+        	                          text/html \
+        	                          text/plain \
+        	                          text/x-component \
+        	                          text/xml
+    </IfModule>
+    <IfModule mod_headers.c>
+        Header append Vary: Accept-Encoding
+    </IfModule>
+</IfModule>
+<IfModule mod_mime.c>
+    AddType text/html .html_gzip
+    AddEncoding gzip .html_gzip
+</IfModule>
+<IfModule mod_setenvif.c>
+    SetEnvIfNoCase Request_URI \.html_gzip$ no-gzip
 </IfModule>
 ## END GZIP Compression ##
 EOD;
     return $gzip_htaccess_content . $rules;
 }
 
-// Set Vary: Accept-Encoding Header (as a part of compression)
-function wppsb_vary_accept_encoding_filter( $rules = '' ) {
-$vary_accept_encoding_header = <<<EOD
-\n## BEGIN Vary: Accept-Encoding Header ##
-<IfModule mod_headers.c>
-<FilesMatch "\.(js|css|xml|gz)$">
-Header append Vary: Accept-Encoding
-</FilesMatch>
-</IfModule>
-## END Vary: Accept-Encoding Header ##
-EOD;
-    return $vary_accept_encoding_header . $rules;
-}
 
-/* ================================================
-   Enable expire caching (Leverage browser caching)
-   ================================================ */
+/**********************************
+* Enable expire caching (Leverage browser caching)
+**********************************/
 function wppsb_expire_caching_filter( $rules = '' ) {
 $expire_cache_htaccess_content = <<<EOD
-\n## BEGIN Leverage Browser Caching (Expires Caching) ##
+\n## BEGIN Leverage Browser Caching (Expires headers) for better cache control ##
 <IfModule mod_expires.c>
-ExpiresActive On
-ExpiresByType text/css "access 1 month"
-ExpiresByType text/html "access 1 month"
-ExpiresByType image/jpg "access 1 year"
-ExpiresByType image/jpeg "access 1 year"
-ExpiresByType image/gif "access 1 year"
-ExpiresByType image/png "access 1 year"
-ExpiresByType image/x-icon "access 1 year"
-ExpiresByType application/pdf "access 1 month"
-ExpiresByType application/javascript "access 1 month"
-ExpiresByType text/x-javascript "access 1 month"
-ExpiresByType application/x-shockwave-flash "access 1 month"
-ExpiresDefault "access 1 month"
+    ExpiresActive on
+    ExpiresByType text/cache-manifest           "access plus 0 seconds"
+    # Media files
+    ExpiresByType image/gif                     "access plus 4 months"
+    ExpiresByType image/png                     "access plus 4 months"
+    ExpiresByType image/jpeg                    "access plus 4 months"
+    ExpiresByType image/webp                    "access plus 4 months"
+    ExpiresByType video/ogg                     "access plus 1 month"
+    ExpiresByType audio/ogg                     "access plus 1 month"
+    ExpiresByType video/mp4                     "access plus 1 month"
+    ExpiresByType video/webm                    "access plus 1 month"
+    ExpiresByType text/x-component              "access plus 1 month"
+    # Webfonts
+    ExpiresByType font/ttf                      "access plus 4 months"
+    ExpiresByType font/otf                      "access plus 4 months"
+    ExpiresByType font/woff                     "access plus 4 months"
+    ExpiresByType font/woff2                    "access plus 4 months"
+    ExpiresByType image/svg+xml                 "access plus 1 month"
+    ExpiresByType application/vnd.ms-fontobject "access plus 1 month"
+    ExpiresByType text/css                      "access plus 1 year"
+    ExpiresByType application/javascript        "access plus 1 year"
+    # HTML and Data
+    ExpiresByType text/html                     "access plus 0 seconds"
+    ExpiresByType text/xml                      "access plus 0 seconds"
+    ExpiresByType application/xml               "access plus 0 seconds"
+    ExpiresByType application/json              "access plus 0 seconds"
+    # Feed
+    ExpiresByType application/rss+xml           "access plus 1 hour"
+    ExpiresByType application/atom+xml          "access plus 1 hour"
+    # Favicon
+    ExpiresByType image/x-icon                  "access plus 1 week"
+    # Default
+    ExpiresDefault "access plus 2 days"
 </IfModule>
-## END Leverage Browser Caching (Expires Caching) ##
+## END Leverage Browser Caching (Expires headers) for better cache control ##
 EOD;
     return $expire_cache_htaccess_content . $rules;
 }
 
-function wppsb_disable_etag_filter( $rules = '' ) {
-$disable_etag_header_content = <<<EOD
-\n## BEGIN Disable ETag header ##
-Header unset Pragma
-Header unset ETag
+function wppsb_etag_headers_filter( $rules = '' ) {
+$wppsb_plugin_version = WPPSB_PLUGIN_VERSION;
+$etag_headers_content = <<<EOD
+\n## BEGIN ETag headers ##
+<IfModule mod_headers.c>
+    Header unset ETag
+</IfModule>
+# Since we’re sending far-future expires, we don’t need ETags for static content.
 FileETag None
-## END Disable ETag header ##
+<IfModule mod_alias.c>
+    <FilesMatch "\.(css|htc|js|asf|asx|wax|wmv|wmx|avi|bmp|class|divx|doc|docx|eot|exe|gif|gz|gzip|ico|jpg|jpeg|jpe|json|mdb|mid|midi|mov|qt|mp3|m4a|mp4|m4v|mpeg|mpg|mpe|mpp|otf|odb|odc|odf|odg|odp|ods|odt|ogg|pdf|png|pot|pps|ppt|pptx|ra|ram|svg|svgz|swf|tar|tif|tiff|ttf|ttc|wav|wma|wri|xla|xls|xlsx|xlt|xlw|zip)$">
+        <IfModule mod_headers.c>
+            Header unset Pragma
+            Header append Cache-Control "public"
+        </IfModule>
+    </FilesMatch>
+    <FilesMatch "\.(html|htm|rtf|rtx|txt|xsd|xsl|xml)$">
+        <IfModule mod_headers.c>
+            Header set X-Powered-By "WP Performance Score Booster/$wppsb_plugin_version"
+            Header unset Pragma
+            Header append Cache-Control "public"
+            Header unset Last-Modified
+        </IfModule>
+    </FilesMatch>
+</IfModule>
+## END ETag headers ##
 EOD;
-    return $disable_etag_header_content . $rules;
+    return $etag_headers_content . $rules;
+}
+
+function wppsb_strict_headers_filter( $rules = '' ) {
+$strict_headers_content = <<<EOD
+\n## BEGIN Strict-Transport-Security header ##
+<IfModule mod_headers.c>
+    # Header always set Strict-Transport-Security "max-age=31536000" env=HTTPS
+    Header set Strict-Transport-Security "max-age=31536000"
+</IfModule>
+## END Strict-Transport-Security header ##
+EOD;
+    return $strict_headers_content . $rules;
 }
 
 // Special thanks to Marin Atanasov ( https://github.com/tyxla ) for contributing this awesome function.
 // Updates the htaccess file with the current rules if it is writable.
-function wppsb_save_mod_rewrite_rules($enable_gzip_val, $expire_caching_val) {
-	if ( is_multisite() )
+function wppsb_save_mod_rewrite_rules( $enable_gzip_val, $expire_caching_val ) {
+	if ( is_multisite() ) {
 		return;
+    }
+	
 	global $wp_rewrite;
+	
 	$htaccess_file = get_home_path() . '.htaccess';
 
 	/*
 	 * If the file doesn't already exist check for write access to the directory
 	 * and whether we have some rules. Else check for write access to the file.
 	 */
-	if ((!file_exists($htaccess_file) && is_writable( get_home_path() ) && $wp_rewrite->using_mod_rewrite_permalinks()) || is_writable($htaccess_file)) {
-    	$mod_rewrite_enabled = function_exists('got_mod_rewrite') ? got_mod_rewrite() : false;
+	if ( ( ! file_exists( $htaccess_file ) && is_writable( get_home_path() ) && $wp_rewrite->using_mod_rewrite_permalinks() ) || is_writable( $htaccess_file ) ) {
+    	$mod_rewrite_enabled = function_exists( 'got_mod_rewrite' ) ? got_mod_rewrite() : false;
 		if ( $mod_rewrite_enabled ) {
 			$rules = explode( "\n", $wp_rewrite->mod_rewrite_rules() );
-		    $enable_gzip = 'wppsb_enable_gzip';
-		    $expire_caching = 'wppsb_expire_caching';
+		    // $enable_gzip = 'wppsb_enable_gzip';
+		    // $expire_caching = 'wppsb_expire_caching';
 		    // $enable_gzip_val = get_option($enable_gzip);
 		    // $expire_caching_val = get_option($expire_caching);
 		    $rules = array();
-			if ($enable_gzip_val == 'on') {
-				$rules = array_merge($rules, explode("\n", wppsb_enable_gzip_filter()));
-				$rules = array_merge($rules, explode("\n", wppsb_vary_accept_encoding_filter()));
+			if ( $enable_gzip_val == 'on' ) {
+				$rules = array_merge( $rules, explode( '\n', wppsb_enable_gzip_filter() ) );
 			}
-			if ($expire_caching_val == 'on') {
-				$rules = array_merge($rules, explode("\n", wppsb_expire_caching_filter()));
-				$rules = array_merge($rules, explode("\n", wppsb_disable_etag_filter()));
+			if ( $expire_caching_val == 'on' ) {
+				$rules = array_merge( $rules, explode( '\n', wppsb_expire_caching_filter() ) );
+				$rules = array_merge( $rules, explode( '\n', wppsb_etag_headers_filter() ) );
+				$rules = array_merge( $rules, explode( '\n', wppsb_strict_headers_filter() ) );
 			}
 
+            // chmod( $htaccess_file, 0777 );
 			return insert_with_markers( $htaccess_file, 'WP Performance Score Booster Settings', $rules );
+			// chmod( $htaccess_file, 0644 );
 		}
 	}
 	return false;

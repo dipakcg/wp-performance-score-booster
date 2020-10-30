@@ -1,18 +1,18 @@
 .wppsb_settings {
-	font-size: 16px !important;
+	font-size: 14px !important;
 }
 .wppsb_admin_dev_sidebar_div {
 	width:300px;
-	height:225px;
+	height:210px;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
-	border-radius: 20px 20px 20px 0;
-	border: 1px solid #FF9900;
+	border-radius: 10px;
+	border: 1px solid #CCC;
 	background-color:#FFFFFF;
 	padding: 10px 10px 0 30px;
 }
 .wppsb_admin_dev_sidebar {
-	font-size: 14px;
+	font-size: 13px;
 	margin: 0 20px 10px 0;
 	display: block;
 }
@@ -30,15 +30,13 @@
 	padding: 20px 20px 20px 20px;
 	width: 98%;
 }
-
 a.wppsb_rsswidget {
-	font-size: 16px !important;
+	font-size: 14px !important;
 	text-decoration: none !important;
 }
 .wppsb_rss-widget ul li {
 	margin-bottom: 25px !important;
 }
-
 td.wppsb_onoff {
 	width: 75px;
 	height: 40px;
@@ -46,7 +44,7 @@ td.wppsb_onoff {
 /* ========= */
 
 .wppsb_onoffswitch {
-    position: relative; width: 70px;
+    position: relative; width: 65px;
     -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
 }
 .wppsb_onoffswitch-checkbox {
@@ -62,7 +60,7 @@ td.wppsb_onoff {
 }
 .wppsb_onoffswitch-inner:before, .wppsb_onoffswitch-inner:after {
     display: block; float: left; width: 50%; padding: 0; /* height: 30px; line-height: 30px; */ height: 22px; line-height: 22px;
-    font-size: 15px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    font-size: 13px; color: white; /* font-family: Trebuchet, Arial, sans-serif; font-weight: bold; */
     box-sizing: border-box;
 }
 .wppsb_onoffswitch-inner:before {
@@ -80,7 +78,7 @@ td.wppsb_onoff {
     display: block; /* width: 18px; */ width: 11px; margin: 6px;
     background: #FFFFFF;
     position: absolute; top: 0; bottom: 0;
-    right: 43px;
+    /* right: 43px; */
     border: 2px solid #999999; border-radius: 20px;
     transition: all 0.3s ease-in 0s;
 }
@@ -89,4 +87,16 @@ td.wppsb_onoff {
 }
 .wppsb_onoffswitch-checkbox:checked + .wppsb_onoffswitch-label .wppsb_onoffswitch-switch {
     right: 0px;
+}
+#td_section {
+    padding-top: 20px;
+}
+.wppsb_plugin_info {
+    vertical-align: top;
+    text-align: left;
+}
+#wppsb_save_button {
+    font-size: 14px;
+    color: white;
+    font-weight: bold;
 }

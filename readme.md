@@ -12,8 +12,10 @@ WP Performance Score Booster speed-up page load times and improve website scores
 **This plugin will...**
 * Remove any query strings from static resources like CSS & JS files
 * Enable GZIP compression (compress text, html, javascript, css, xml and so on)
-* Add Vary: Accept-Encoding header, and
-* Set expires caching (leverage browser caching).
+* Leverage browser caching (expires headers) for better cache control
+* Conditionally controls ETag headers
+* Set Strict-Transport-Security headers
+* Page preload to preload a page right before a use clicks on a link
 
 ## Installation
 * Download the stable version of plugin from wordpress.org repo or developer version from GitHub.

@@ -8,21 +8,28 @@ delete_option( 'wppsb_expire_caching' );
 delete_option( 'wppsb_review_notice' );
 delete_option( 'wppsb_activation_date' );
 
-// Delete .htaccess backups (including backup storage page directory)
-delete_storage_dir( get_home_path() . 'wp-content/wp-performance-score-booster');
+$wppsb_backup_dir = get_home_path() . 'wp-content/wp-performance-score-booster'
 
-function delete_storage_dir($dir) {
-    $it = new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS);
-    $files = new RecursiveIteratorIterator($it,
-                 RecursiveIteratorIterator::CHILD_FIRST);
-    foreach($files as $file) {
-        if ($file->isDir()){
-            rmdir($file->getRealPath());
-        } else {
-            unlink($file->getRealPath());
-        }
-    }
-    rmdir($dir);
+if( chmod( $wppsb_backup_dir , 0777 ) ) {
+   delete_storage_dir( $wppsb_backup_dir );
 }
 
-?>
+function delete_storage_dir( $dirPath ) {
+    if ( ! is_dir( $dirPath ) ) {
+        throw new InvalidArgumentException( "$dirPath must be a directory" );
+    }
+    
+    if ( substr( $dirPath, strlen( $dirPath ) - 1, 1 ) != '/' ) {
+        $dirPath .= '/';
+    }
+    
+    $files = glob( $dirPath . '*', GLOB_MARK);
+    foreach ( $files as $file ) {
+        if ( is_dir( $file ) ) {
+            self::deleteDir( $file );
+        } else {
+            unlink( $file );
+        }
+    }
+    rmdir( $dirPath );
+}
