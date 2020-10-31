@@ -138,7 +138,7 @@ add_filter( 'plugin_row_meta', 'wppsb_plugin_meta_links', 10, 2 );
 
 
 function wppsb_add_stylesheet() {
-    wp_enqueue_style( 'wppsb-stylesheet', WPPSB_URL . '/assets/css/style.css' );
+    wp_enqueue_style( 'wppsb-stylesheet', WPPSB_URL . '/assets/css/style.min.css' );
 }
 
 

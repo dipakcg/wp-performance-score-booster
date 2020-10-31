@@ -81,7 +81,7 @@ function wppsb_admin_options() {
 	<div class="wrap">
 	<table width="100%" border="0">
     	<tr>
-    	<td width="75%">
+    	<td width="65%">
     	<?php
     	if ( !current_user_can( 'manage_options' ) )  {
     		wp_die( __('You do not have sufficient permissions to access this page.') );
@@ -252,7 +252,7 @@ function wppsb_admin_options() {
         </form>
     	</td>
     	
-    	<td width="25%" class="wppsb_plugin_info">
+    	<td width="35%" class="wppsb_plugin_info">
     	<div class="wppsb_admin_dev_sidebar_div">
     	<!-- <img src="//www.gravatar.com/avatar/38b380cf488d8f8c4007cf2015dc16ac.jpg" width="100px" height="100px" /> <br /> -->
     	<br />
@@ -261,8 +261,8 @@ function wppsb_admin_options() {
     	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-wordpress-16x16.png' . '" width="16" height="16" > ';  ?> <a href="//wordpress.org/support/plugin/wp-performance-score-booster" target="_blank"> <?php _e('Get FREE support on WordPress.org', 'wp-performance-score-booster'); ?> </a> </span>
     	<!-- <span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-github-16x16.png' . '" > ';  ?> <a href="//github.com/dipakcg/wp-performance-score-booster" target="_blank"> <?php _e('Contribute development on GitHub', 'wp-performance-score-booster'); ?> </a> </span>
     	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-other-plugins-16x16.png' . '" > ';  ?> <a href="//profiles.wordpress.org/dipakcg#content-plugins" target="_blank"> <?php _e('Get my other plugins', 'wp-performance-score-booster'); ?> </a> </span> -->
-    	<span id="td_section"  class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-icon-24x24.png' . '" width="16" height="16" > ';  ?> <a href="//profiles.wordpress.org/dipakcg#content-plugins" target="_blank"> <?php _e('Buy my Speed Optimisation Service', 'wp-performance-score-booster'); ?> </a> </span>
-    	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-twitter-16x16.png' . '" width="16" height="16" > ';  ?> <a href="//twitter.com/dipakcgajjar" target="_blank"> <?php _e('Follow me on Twitter: @dipakcgajjar', 'wp-performance-score-booster'); ?> </a> </span>
+    	<span id="td_section"  class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-icon-24x24.png' . '" width="16" height="16" > ';  ?> <a href="//profiles.wordpress.org/dipakcg#content-plugins" target="_blank"> <?php _e('Get my Speed Optimisation Service', 'wp-performance-score-booster'); ?> </a> </span>
+    	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-twitter-16x16.png' . '" width="16" height="16" > ';  ?> <a href="//twitter.com/dipakcgajjar" target="_blank"> <?php _e('Let\'s connect on Twitter: @dipakcgajjar', 'wp-performance-score-booster'); ?> </a> </span>
     	<span id="td_section" class="wppsb_admin_dev_sidebar" style="float: right;"> <?php _e('Version:', 'wp-performance-score-booster'); ?> <strong> <?php echo $wppsb_plugin_version; ?> </strong> </span>
     	</div>
     	</td>

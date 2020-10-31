@@ -4,14 +4,14 @@
 .wppsb_admin_dev_sidebar_div {
 	/* width:300px; */
 	display: table;
-	width: 70%;
-	min-height:210px;
+	/* min-height:210px; */
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
 	border: 1px solid #CCC;
 	background-color:#FFFFFF;
 	padding: 0 10px 0 30px;
+	float: right;
 }
 .wppsb_admin_dev_sidebar {
 	font-size: 13px;
@@ -46,42 +46,66 @@ td.wppsb_onoff {
 /* ========= */
 
 .wppsb_onoffswitch {
-    position: relative; width: 65px;
-    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+    position: relative;
+    width: 65px;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select: none;
 }
 .wppsb_onoffswitch-checkbox {
     display: none !important;
 }
 .wppsb_onoffswitch-label {
-    display: block; overflow: hidden; cursor: pointer;
-    border: 2px solid #999999; border-radius: 20px;
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid #999999;
+    border-radius: 20px;
 }
 .wppsb_onoffswitch-inner {
-    display: block; width: 200%; margin-left: -100%;
+    display: block;
+    width: 200%;
+    margin-left: -100%;
     transition: margin 0.3s ease-in 0s;
 }
 .wppsb_onoffswitch-inner:before, .wppsb_onoffswitch-inner:after {
-    display: block; float: left; width: 50%; padding: 0; /* height: 30px; line-height: 30px; */ height: 22px; line-height: 22px;
-    font-size: 13px; color: white; /* font-family: Trebuchet, Arial, sans-serif; font-weight: bold; */
+    display: block;
+    float:left;
+    width: 50%;
+    padding: 0;
+    /* height: 30px;
+    line-height: 30px; */
+    height: 22px;
+    line-height: 22px;
+    font-size: 13px;
+    color: white; /* font-family: Trebuchet, Arial, sans-serif; font-weight: bold; */
     box-sizing: border-box;
 }
 .wppsb_onoffswitch-inner:before {
     content: "ON";
     padding-left: 10px;
-    background-color: #5CA21E; color: #FFFFFF;
+    background-color: #5CA21E;
+    color: #FFFFFF;
 }
 .wppsb_onoffswitch-inner:after {
     content: "OFF";
     padding-right: 10px;
-    background-color: #EEEEEE; color: #999999;
+    background-color: #EEEEEE;
+    color: #999999;
     text-align: right;
 }
 .wppsb_onoffswitch-switch {
-    display: block; /* width: 18px; */ width: 11px; margin: 6px;
+    display: block;
+    /* width: 18px; */
+    width: 11px;
+    margin: 6px;
     background: #FFFFFF;
-    position: absolute; top: 0; bottom: 0;
+    position: absolute;
+    top: 0;
+    bottom: 0;
     /* right: 43px; */
-    border: 2px solid #999999; border-radius: 20px;
+    border: 2px solid #999999;
+    border-radius: 20px;
     transition: all 0.3s ease-in 0s;
 }
 .wppsb_onoffswitch-checkbox:checked + .wppsb_onoffswitch-label .wppsb_onoffswitch-inner {
