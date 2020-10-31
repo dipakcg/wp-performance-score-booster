@@ -1,35 +1,55 @@
 <?php
-if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) exit; // Exit if accessed directly.
+// Exit if accessed directly.
+if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) exit;
 
-delete_option( 'wppsb_plugin_version' );
-delete_option( 'wppsb_remove_query_strings' );
-delete_option( 'wppsb_enable_gzip' );
-delete_option( 'wppsb_expire_caching' );
-delete_option( 'wppsb_review_notice' );
-delete_option( 'wppsb_activation_date' );
+// Load WP Performance Score Booster - main file.
+include_once( 'wp-performance-score-booster.php' );
 
-$wppsb_backup_dir = get_home_path() . 'wp-content/wp-performance-score-booster'
+/** Delete all the Plugin Options */
+$options = array(
+    'wppsb_plugin_version',
+    'wppsb_remove_query_strings',
+    'wppsb_enable_gzip',
+    'wppsb_expire_caching',
+    'wppsb_review_notice',
+    'wppsb_activation_date',
+    'wppsb_instant_page_preload'
+);
 
-if( chmod( $wppsb_backup_dir , 0777 ) ) {
-   delete_storage_dir( $wppsb_backup_dir );
+foreach ( $options as $option ) {
+    if ( get_option( $option ) ) {
+        delete_option( $option );
+    }
 }
 
-function delete_storage_dir( $dirPath ) {
-    if ( ! is_dir( $dirPath ) ) {
-        throw new InvalidArgumentException( "$dirPath must be a directory" );
+/**********************************
+* Delete the directory created for htaccess backup at the time of plugin activation
+* location: wp-content/wp-performance-score-booster
+**********************************/
+wppsb_delete_dir( WPPSB_STORAGE_PATH );
+
+function wppsb_delete_dir( $folderName ) {
+
+    if ( is_dir( $folderName ) ) {
+        $folderHandle = opendir( $folderName );
     }
     
-    if ( substr( $dirPath, strlen( $dirPath ) - 1, 1 ) != '/' ) {
-        $dirPath .= '/';
+    if ( !$folderHandle ) {
+        return false;
     }
     
-    $files = glob( $dirPath . '*', GLOB_MARK);
-    foreach ( $files as $file ) {
-        if ( is_dir( $file ) ) {
-            self::deleteDir( $file );
-        } else {
-            unlink( $file );
+    while( $file = readdir( $folderHandle ) ) {
+        if( $file != '.' && $file != '..' ) {
+            if( ! is_dir( $folderName. '/' . $file ) ) {
+                unlink( $folderName . '/' . $file );
+            } else {
+                wppsb_delete_dir( $folderName . '/' . $file );
+            }
         }
     }
-    rmdir( $dirPath );
+    
+    closedir( $folderHandle );
+    rmdir( $folderName );
+    
+    return true;
 }
