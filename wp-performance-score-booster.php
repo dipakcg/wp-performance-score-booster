@@ -27,10 +27,6 @@ if ( ! defined( 'WPPSB_PATH' ) ) {
     define( 'WPPSB_PATH', plugin_dir_path( __FILE__ ) ); // /home/user/var/www/wordpress/wp-content/plugins/wp-performance-score-booster/  
 }
 
-if ( ! defined( 'WPPSB_FILE' ) ) {
-    define( 'WPPSB_FILE', __FILE__ ); // wp-performance-score-booster    
-}
-
 if ( ! defined( 'WPPSB_URL' ) ) {
     define( 'WPPSB_URL', plugin_dir_url( __FILE__ ) ); // http://example.com/wp-content/plugins/wp-performance-score-booster/
 }
@@ -232,7 +228,7 @@ function wppsb_activate_plugin() {
         add_filter( 'style_loader_src', 'wppsb_remove_query_strings_q', 15, 1 );
     }
 
-	if (function_exists('ob_gzhandler') || ini_get('zlib.output_compression')) {
+	if ( function_exists( 'ob_gzhandler' ) || ini_get( 'zlib.output_compression' ) ) {
 		add_option( 'wppsb_enable_gzip', $wppsb_enable_gzip );
 	}
 	else {
@@ -242,18 +238,13 @@ function wppsb_activate_plugin() {
 	add_option( 'wppsb_expire_caching', $wppsb_expire_caching );
 
     flush_rewrite_rules();
-    wppsb_save_mod_rewrite_rules($wppsb_enable_gzip, $wppsb_expire_caching);
+    wppsb_save_mod_rewrite_rules( $wppsb_enable_gzip, $wppsb_expire_caching );
 }
 register_activation_hook( __FILE__, 'wppsb_activate_plugin' );
 
 
 // Remove filters/functions on plugin deactivation
 function wppsb_deactivate_plugin() {
-
-	// Clear (off) all the options value (from database)
-	/* update_option( 'wppsb_remove_query_strings', "" );
-    update_option( 'wppsb_enable_gzip', "" );
-    update_option( 'wppsb_expire_caching', "" ); */
 
     flush_rewrite_rules();
     wppsb_save_mod_rewrite_rules( '', '' );
