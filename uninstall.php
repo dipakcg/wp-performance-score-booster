@@ -2,7 +2,7 @@
 // Exit if accessed directly.
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) exit;
 
-// Load WP Performance Score Booster - main file.
+// Load WP Performance Score Booster - plugin main file.
 include_once( 'wp-performance-score-booster.php' );
 
 /** Delete all the Plugin Options */
