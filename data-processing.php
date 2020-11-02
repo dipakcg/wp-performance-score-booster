@@ -147,12 +147,12 @@ EOD;
 
 
 /**********************************
-* ETag headers
+* Disable ETag and set Cache-Control headers
 **********************************/
 function wppsb_etag_headers_filter( $rules = '' ) {
 $wppsb_plugin_version = WPPSB_PLUGIN_VERSION;
 $etag_headers_content = <<<EOD
-\n## BEGIN ETag headers ##
+\n## BEGIN Disable ETag and set Cache-Control headers ##
 <IfModule mod_headers.c>
     Header unset ETag
 </IfModule>
@@ -174,26 +174,11 @@ FileETag None
         </IfModule>
     </FilesMatch>
 </IfModule>
-## END ETag headers ##
+## END Disable ETag and set Cache-Control headers ##
 EOD;
     return $etag_headers_content . $rules;
 }
 
-
-/**********************************
-* Set Strict-Transport-Security headers
-**********************************/
-function wppsb_strict_headers_filter( $rules = '' ) {
-$strict_headers_content = <<<EOD
-\n## BEGIN Strict-Transport-Security header ##
-<IfModule mod_headers.c>
-    # Header always set Strict-Transport-Security "max-age=31536000" env=HTTPS
-    Header set Strict-Transport-Security "max-age=31536000"
-</IfModule>
-## END Strict-Transport-Security header ##
-EOD;
-    return $strict_headers_content . $rules;
-}
 
 // Special thanks to Marin Atanasov ( https://github.com/tyxla ) for contributing this awesome function.
 // Updates the htaccess file with the current rules if it is writable.
@@ -225,7 +210,6 @@ function wppsb_save_mod_rewrite_rules( $enable_gzip_val, $expire_caching_val ) {
 			if ( $expire_caching_val == 'on' ) {
 				$rules = array_merge( $rules, explode( '\n', wppsb_expire_caching_filter() ) );
 				$rules = array_merge( $rules, explode( '\n', wppsb_etag_headers_filter() ) );
-				$rules = array_merge( $rules, explode( '\n', wppsb_strict_headers_filter() ) );
 			}
 
             // chmod( $htaccess_file, 0777 );
@@ -235,4 +219,3 @@ function wppsb_save_mod_rewrite_rules( $enable_gzip_val, $expire_caching_val ) {
 	}
 	return false;
 }
-?>
