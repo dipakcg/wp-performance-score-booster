@@ -1,4 +1,4 @@
-# [WP Performance Score Booster](https://wordpress.org/plugins/wp-performance-score-booster/)
+# [WP Performance Score Booster – Optimize Speed, Enable Cache & Page Preload](https://wordpress.org/plugins/wp-performance-score-booster/)
 
 ![Plugin Version](https://img.shields.io/wordpress/plugin/v/wp-performance-score-booster.svg?maxAge=2592000)
 ![Total Downloads](https://img.shields.io/wordpress/plugin/dt/wp-performance-score-booster.svg?maxAge=2592000)
@@ -7,15 +7,14 @@
 [![Build Status](https://img.shields.io/travis/dipakcg/wp-performance-score-booster/master.svg?maxAge=2592000)](https://travis-ci.org/dipakcg/wp-performance-score-booster)
 [![License](https://img.shields.io/badge/license-GPL--2.0%2B-red.svg)](https://github.com/dipakcg/wp-performance-score-booster/blob/master/license.txt)
 
-WP Performance Score Booster speed-up page load times and improve website scores in services like PageSpeed, YSlow, Pingdom and GTmetrix.
+WP Performance Score Booster makes website faster, speeds up page load time, and instantly improves website performance scores in services like GTmetrix, Pingdom, YSlow, and PageSpeed.
 
 **This plugin will...**
 * Remove any query strings from static resources like CSS & JS files
 * Enable GZIP compression (compress text, html, javascript, css, xml and so on)
 * Leverage browser caching (expires headers) for better cache control
-* Conditionally control ETag headers
-* Set Strict-Transport-Security headers
 * Preload a page (on mouse hover) right before a user click on a link
+* Disable ETag and set Cache-Control headers
 
 ## Installation
 * Download the stable version of plugin from wordpress.org repo or developer version from GitHub.
