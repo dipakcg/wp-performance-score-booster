@@ -318,7 +318,6 @@ add_action( 'admin_notices', 'wppsb_submit_review_notice' );
 function wppsb_activate_plugin() {
 
     global $wppsb_remove_query_strings, $wppsb_enable_gzip, $wppsb_expire_caching, $wppsb_instant_page_preload;
-    wppsb_htaccess_bakup(); // Backup .htacces before appending any rules
     
     /* Yes, we're using add_option, not update_option intentionally just to force rewrite htaccess rules */
 
@@ -341,6 +340,8 @@ function wppsb_activate_plugin() {
 	}
 
 	add_option( 'wppsb_expire_caching', $wppsb_expire_caching );
+	
+	wppsb_htaccess_bakup(); // Backup .htacces before appending any rules
 
     flush_rewrite_rules();
     wppsb_save_mod_rewrite_rules( $wppsb_enable_gzip, $wppsb_expire_caching );
