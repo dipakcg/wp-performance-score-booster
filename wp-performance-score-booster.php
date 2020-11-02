@@ -174,6 +174,8 @@ function wppsb_update_processor() {
                 add_option( 'wppsb_instant_page_preload', $wppsb_instant_page_preload );
             }
             
+            wppsb_htaccess_bakup(); // Backup .htacces before appending any rules
+            
             flush_rewrite_rules();
             wppsb_save_mod_rewrite_rules( $wppsb_enable_gzip, $wppsb_expire_caching );
             exit ( wp_redirect( admin_url( 'options-general.php?page=wp-performance-score-booster&update-applied=true' ) ) );
