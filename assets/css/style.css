@@ -126,3 +126,11 @@ td.wppsb_onoff {
     color: white;
     font-weight: bold;
 }
+.update_notice {
+    font-size: 15px;
+    color: #FF9900;
+}
+#wppsb_notice_div {
+    margin-top: 25px;
+    margin-left:2px
+}
