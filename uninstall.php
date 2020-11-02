@@ -6,21 +6,14 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) exit;
 include_once( 'wp-performance-score-booster.php' );
 
 /** Delete all the Plugin Options */
-$options = array(
-    'wppsb_plugin_version',
-    'wppsb_remove_query_strings',
-    'wppsb_enable_gzip',
-    'wppsb_expire_caching',
-    'wppsb_review_notice',
-    'wppsb_activation_date',
-    'wppsb_instant_page_preload'
-);
+delete_option( 'wppsb_plugin_version' );
+delete_option( 'wppsb_remove_query_strings' );
+delete_option( 'wppsb_enable_gzip' );
+delete_option( 'wppsb_expire_caching' );
+delete_option( 'wppsb_instant_page_preload' );
+delete_option( 'wppsb_review_notice' );
+delete_option( 'wppsb_activation_date' );
 
-foreach ( $options as $option ) {
-    if ( get_option( $option ) ) {
-        delete_option( $option );
-    }
-}
 
 /**********************************
 * Delete the directory created for htaccess backup at the time of plugin activation
