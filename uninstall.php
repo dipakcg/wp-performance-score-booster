@@ -28,6 +28,10 @@ foreach ( $options as $option ) {
 **********************************/
 wppsb_delete_dir( WPPSB_STORAGE_PATH );
 
+
+/**********************************
+* Delete directory and all the files within
+**********************************/
 function wppsb_delete_dir( $folderName ) {
 
     if ( is_dir( $folderName ) ) {
