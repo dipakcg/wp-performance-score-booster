@@ -27,10 +27,9 @@ function wppsb_admin_settings_page() {
 // Settings tab
 add_action( 'wppsb_settings_tab', 'wppsb_settings_tab_fn', 1 );
 function wppsb_settings_tab_fn() {
-    global $wppsb_active_tab; ?>
-	
+    global $wppsb_active_tab;
+    ?>
 	<a class="nav-tab <?php echo $wppsb_active_tab == 'settings' || '' ? 'nav-tab-active' : ''; ?>" href="<?php echo admin_url( 'options-general.php?page=wp-performance-score-booster&tab=settings' ); ?>"><?php _e( 'Settings', 'wp-performance-score-booster' ); ?> </a>
-	
 	<?php
 }
 
@@ -48,10 +47,9 @@ function wppsb_settings_content_fn() {
 // Optimize more tab
 add_action( 'wppsb_optimize_more_tab', 'wppsb_optimize_more_tab_fn', 1 );
 function wppsb_optimize_more_tab_fn() {
-    global $wppsb_active_tab; ?>
-	
+    global $wppsb_active_tab;
+    ?>
 	<a class="nav-tab <?php echo $wppsb_active_tab == 'optimize-more' || '' ? 'nav-tab-active' : ''; ?>" href="<?php echo admin_url( 'options-general.php?page=wp-performance-score-booster&tab=optimize-more' ); ?>"><?php _e( 'Optimize More!', 'wp-performance-score-booster' ); ?> </a>
-	
 	<?php
 }
 
@@ -257,10 +255,10 @@ function wppsb_admin_options() {
     	<!-- <img src="//www.gravatar.com/avatar/38b380cf488d8f8c4007cf2015dc16ac.jpg" width="100px" height="100px" /> <br /> -->
     	<br />
     	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-support-this-16x16.png' . '" > ';  ?> <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3S8BRPLWLNQ38" target="_blank"> <?php _e('Donate and support this plugin', 'wp-performance-score-booster'); ?> </a> </span>
-    	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-rate-this-16x16.png' . '" width="16" height="16" > ';  ?> <a href="//wordpress.org/support/plugin/wp-performance-score-booster/reviews/?rate=5#new-post" target="_blank"> <?php _e('Rate this plugin on WordPress.org', 'wp-performance-score-booster'); ?> </a> </span>
-    	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-wordpress-16x16.png' . '" width="16" height="16" > ';  ?> <a href="//wordpress.org/support/plugin/wp-performance-score-booster" target="_blank"> <?php _e('Get FREE support on WordPress.org', 'wp-performance-score-booster'); ?> </a> </span>
+    	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-rate-this-16x16.png' . '" width="16" height="16" > ';  ?> <a href="//wordpress.org/support/plugin/wp-performance-score-booster/reviews/?rate=5#new-post" target="_blank"> <?php _e('Rate this plugin on WordPress', 'wp-performance-score-booster'); ?> </a> </span>
+    	<!-- <span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-wordpress-16x16.png' . '" width="16" height="16" > ';  ?> <a href="//wordpress.org/support/plugin/wp-performance-score-booster" target="_blank"> <?php _e('Get FREE support on WordPress', 'wp-performance-score-booster'); ?> </a> </span> -->
     	<!-- <span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-other-plugins-16x16.png' . '" > ';  ?> <a href="//profiles.wordpress.org/dipakcg#content-plugins" target="_blank"> <?php _e('Get my other plugins', 'wp-performance-score-booster'); ?> </a> </span> -->
-    	<span id="td_section"  class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-icon-24x24.png' . '" width="16" height="16" > ';  ?> <a href="//dipakgajjar.com/product/wordpress-speed-optimization-service/" target="_blank"> <?php _e('Get my Speed Optimisation Service', 'wp-performance-score-booster'); ?> </a> </span>
+    	<span id="td_section"  class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-icon-24x24.png' . '" width="16" height="16" > ';  ?> <a href="//dipakgajjar.com/product/wordpress-speed-optimization-service/" target="_blank"> <?php _e('Order Speed Optimisation Service', 'wp-performance-score-booster'); ?> </a> </span>
     	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-twitter-16x16.png' . '" width="16" height="16" > ';  ?> <a href="//twitter.com/dipakcgajjar" target="_blank"> <?php _e('Let\'s connect on Twitter: @dipakcgajjar', 'wp-performance-score-booster'); ?> </a> </span>
     	<span id="td_section" class="wppsb_admin_dev_sidebar" style="float: right;"> <?php _e('Version:', 'wp-performance-score-booster'); ?> <strong> <?php echo $wppsb_plugin_version; ?> </strong> </span>
     	</div>
