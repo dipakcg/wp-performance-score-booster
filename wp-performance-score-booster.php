@@ -3,7 +3,7 @@
 Plugin Name: WP Performance Score Booster 
 Plugin URI: https://github.com/dipakcg/wp-performance-score-booster
 Description: Makes website faster, speeds up page load time, and instantly improves website performance scores in services like GTmetrix, Pingdom, YSlow, and PageSpeed.
-Version: 2.0
+Version: 2.1
 Author: Dipak C. Gajjar
 Author URI: https://dipakgajjar.com
 License: GPL-2.0+
@@ -14,14 +14,12 @@ Contributors: dipakcg (for wordpress.org submission)
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly.
-
 include_once ( ABSPATH . 'wp-admin/includes/file.php' ); // to get get_home_path() function work
 include_once ( ABSPATH . 'wp-admin/includes/plugin.php' ); // to is_plugin_active()() function work
 
 // Define plugin version for future releases
 if ( ! defined( 'WPPSB_PLUGIN_VERSION' ) ) {
-    define( 'WPPSB_PLUGIN_VERSION', '2.0' );
+    define( 'WPPSB_PLUGIN_VERSION', '2.1' );
 }
 
 if ( ! defined( 'WPPSB_BASE' ) ) {
@@ -110,7 +108,7 @@ function wppsb_plugin_meta_links( $links, $file ) {
 	if ( $file === plugin_basename(__FILE__) ) {
 		return array_merge(
 			$links,
-			array( '<a href="https://dipakgajjar.com/products/wordpress-speed-optimization-service?utm_source=plugins%20page&utm_medium=text%20link&utm_campaign=wordplress%20plugins" style="color:#FF0000;" target="_blank">Order WordPress Speed Optimisation Service</a>' )
+			array( '<a href="https://dipakgajjar.com/product/wordpress-speed-optimization-service?utm_source=plugins%20page&utm_medium=text%20link&utm_campaign=wppsb%20plugin" style="color:#FF0000;" target="_blank">Improve your site\'s performance even more!</a>' )
 		);
 	}
 	return $links;

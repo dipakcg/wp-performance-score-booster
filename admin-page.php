@@ -106,10 +106,9 @@ function wppsb_admin_options() {
     	    <div class="updated" id='update-applied'><p><strong><?php _e( '<strong>WP Performance Score Booster - Update applied successfully!</strong>', 'wp-performance-score-booster' ); ?></strong></p></div>
     	<?php
         }
-    
-    	// See if the user has posted us some information
-        // If they did, this hidden field will be set to 'Y'
-        if( isset( $_POST[$hidden_field_name] ) && $_POST[$hidden_field_name] == 'Y' ) {
+        
+    	// CSRF Check
+        if ( isset( $_REQUEST['_wpnonce'] ) && wp_verify_nonce( $_REQUEST['_wpnonce'], 'wppsb_settings_nonce' ) ) {
             
             if ( isset($_GET['update-applied']) && $_GET['update-applied'] == 'true' ) {
     	    ?>
@@ -132,17 +131,17 @@ function wppsb_admin_options() {
             update_option( $instant_page_preload, $instant_page_preload_val );
     
     	    flush_rewrite_rules();
-    	    wppsb_save_mod_rewrite_rules($enable_gzip_val, $expire_caching_val);
+    	    wppsb_save_mod_rewrite_rules( $enable_gzip_val, $expire_caching_val );
     
             // Put the settings updated message on the screen
        	    ?>
        	    <div class="updated"><p><strong><?php _e( '<strong>Settings Saved.</strong>', 'wp-performance-score-booster' ); ?></strong></p></div>
     	<?php
     	}
-        ?>
+    	?>
     
     	<form method="post" name="options_form">
-        	<input type="hidden" name="<?php echo $hidden_field_name; ?>" value="Y">
+        	<?php wp_nonce_field( 'wppsb_settings_nonce' ); ?>
         	<table>
             	
         	<!-- Remove Query String -->
@@ -246,7 +245,7 @@ function wppsb_admin_options() {
             -->
         
         	</table>
-            <p><input id='wppsb_save_button'  type="submit" value="<?php esc_attr_e('Save Changes', 'wp-performance-score-booster'); ?>" class="button button-primary" name="submit" /></p>
+        	<p><input id='wppsb_save_button'  type="submit" value="<?php esc_attr_e('Save Changes', 'wp-performance-score-booster'); ?>" class="button button-primary" name="submit" /></p>
         </form>
     	</td>
     	
@@ -258,7 +257,7 @@ function wppsb_admin_options() {
     	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-rate-this-16x16.png' . '" width="16" height="16" > ';  ?> <a href="//wordpress.org/support/plugin/wp-performance-score-booster/reviews/?rate=5#new-post" target="_blank"> <?php _e('Rate this plugin on WordPress', 'wp-performance-score-booster'); ?> </a> </span>
     	<!-- <span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-wordpress-16x16.png' . '" width="16" height="16" > ';  ?> <a href="//wordpress.org/support/plugin/wp-performance-score-booster" target="_blank"> <?php _e('Get FREE support on WordPress', 'wp-performance-score-booster'); ?> </a> </span> -->
     	<!-- <span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-other-plugins-16x16.png' . '" > ';  ?> <a href="//profiles.wordpress.org/dipakcg#content-plugins" target="_blank"> <?php _e('Get my other plugins', 'wp-performance-score-booster'); ?> </a> </span> -->
-    	<span id="td_section"  class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-icon-24x24.png' . '" width="16" height="16" > ';  ?> <a href="//dipakgajjar.com/product/wordpress-speed-optimization-service/" target="_blank"> <?php _e('Order Speed Optimisation Service', 'wp-performance-score-booster'); ?> </a> </span>
+    	<span id="td_section"  class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-icon-24x24.png' . '" width="16" height="16" > ';  ?> <a href="//dipakgajjar.com/product/wordpress-speed-optimization-service/" target="_blank"> <?php _e('Order Speed Optimization Service', 'wp-performance-score-booster'); ?> </a> </span>
     	<span class="wppsb_admin_dev_sidebar"> <?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-twitter-16x16.png' . '" width="16" height="16" > ';  ?> <a href="//twitter.com/dipakcgajjar" target="_blank"> <?php _e('Let\'s connect on Twitter: @dipakcgajjar', 'wp-performance-score-booster'); ?> </a> </span>
     	<span id="td_section" class="wppsb_admin_dev_sidebar" style="float: right;"> <?php _e('Version:', 'wp-performance-score-booster'); ?> <strong> <?php echo $wppsb_plugin_version; ?> </strong> </span>
     	</div>
