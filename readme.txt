@@ -69,6 +69,9 @@ If this plugin has helped you in any way, you can:
 1. Admin Settings
 
 == Changelog ==
+= 2.2, October 13, 2021 =
+* Improve: Data Sanitization / Escaping
+
 = 2.1, October 12, 2021 =
 * Improve: CSRF Check
 

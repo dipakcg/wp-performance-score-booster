@@ -9,7 +9,7 @@ add_action( 'admin_menu', 'wppsb_admin_settings_setup' );
 // Settings main page
 function wppsb_admin_settings_page() {
 	global $wppsb_active_tab;
-	$wppsb_active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'settings'; ?>
+	$wppsb_active_tab = isset( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : 'settings'; ?>
  
     <h2><?php echo '<img src="' . WPPSB_URL . '/assets/images/wppsb-icon-24x24.png' . '" > ';  ?> <?php _e( 'WP Performance Score Booster', 'wp-performance-score-booster' ); ?></h2>
  
@@ -60,17 +60,9 @@ function wppsb_optimize_more_content_fn() {
 	if ( '' || 'optimize-more' != $wppsb_active_tab ) {
 		return;
     }
-	?>
- 
-	<h3><?php _e( 'These products will improve your site\'s performance even more!', 'wp-performance-score-booster' ); ?></h3>
-	
-	<?php
-    $referrals_content = wp_remote_fopen("https://dipakgajjar.com/public/recommendations_2.html");
-    echo $referrals_content;
-    ?>
-    <div class="clear"></div>
-    <div id='footer-thankyou'><?php _e( '* I only recommend the products that I use personally or for my clients.', 'wp-performance-score-booster' ); ?></div>
-    <?php
+    
+    // Calls optimize-more.php
+    wppsb_optimize_more();
 }
 
 // Admin option
@@ -119,10 +111,10 @@ function wppsb_admin_options() {
             }
             
             // Read their posted value
-            $remove_query_strings_val = ( isset( $_POST[$remove_query_strings] ) ? $_POST[$remove_query_strings] : '' );
-            $enable_gzip_val = ( isset( $_POST[$enable_gzip] ) ? $_POST[$enable_gzip] : '' );
-            $expire_caching_val = ( isset( $_POST[$expire_caching] ) ? $_POST[$expire_caching] : '' );
-            $instant_page_preload_val = ( isset( $_POST[$instant_page_preload] ) ? $_POST[$instant_page_preload] : '' );
+            $remove_query_strings_val = ( isset( $_POST[$remove_query_strings] ) ? sanitize_text_field( $_POST[$remove_query_strings] ) : '' );
+            $enable_gzip_val = ( isset( $_POST[$enable_gzip] ) ? sanitize_text_field( $_POST[$enable_gzip] ) : '' );
+            $expire_caching_val = ( isset( $_POST[$expire_caching] ) ? sanitize_text_field( $_POST[$expire_caching] ) : '' );
+            $instant_page_preload_val = ( isset( $_POST[$instant_page_preload] ) ? sanitize_text_field( $_POST[$instant_page_preload] ) : '' );
     
             // Save the posted value in the database
             update_option( $remove_query_strings, $remove_query_strings_val );
@@ -147,14 +139,14 @@ function wppsb_admin_options() {
         	<!-- Remove Query String -->
         	<tr> <td class="wppsb_onoff">
         	<div class="wppsb_onoffswitch">
-        	<input type="checkbox" name="<?php echo $remove_query_strings; ?>" <?php checked( $remove_query_strings_val == 'on', true ); ?> class="wppsb_onoffswitch-checkbox" id="<?php echo $remove_query_strings; ?>" />
-        	<label class="wppsb_onoffswitch-label" for="<?php echo $remove_query_strings; ?>">
+        	<input type="checkbox" name="<?php echo esc_attr( $remove_query_strings ); ?>" <?php checked( $remove_query_strings_val == 'on', true ); ?> class="wppsb_onoffswitch-checkbox" id="<?php echo esc_attr( $remove_query_strings ); ?>" />
+        	<label class="wppsb_onoffswitch-label" for="<?php echo esc_attr( $remove_query_strings ); ?>">
         		<span class="wppsb_onoffswitch-inner"></span>
         		<span class="wppsb_onoffswitch-switch"></span>
         	</label>
         	</div>
         	</td> <td>
-        	<label for="<?php echo $remove_query_strings; ?>" class="wppsb_settings" style="display: inline;"> <?php _e( 'Remove query strings from static content', 'wp-performance-score-booster' ); ?> </label>
+        	<label for="<?php echo esc_attr( $remove_query_strings ); ?>" class="wppsb_settings" style="display: inline;"> <?php _e( 'Remove query strings from static content', 'wp-performance-score-booster' ); ?> </label>
         	</td> </tr>
         
             <!-- Enable GZIP -->
@@ -162,21 +154,21 @@ function wppsb_admin_options() {
         	<?php if ( function_exists( 'ob_gzhandler' ) || ini_get( 'zlib.output_compression' ) ) { // if web server supports GZIP ?>
         	<td class="wppsb_onoff">
         	<div class="wppsb_onoffswitch">
-        	<input type="checkbox" name="<?php echo $enable_gzip; ?>" <?php checked( $enable_gzip_val == 'on', true ); ?> class="wppsb_onoffswitch-checkbox" id="<?php echo $enable_gzip; ?>" />
-        	<label class="wppsb_onoffswitch-label" for="<?php echo $enable_gzip; ?>">
+        	<input type="checkbox" name="<?php echo esc_attr( $enable_gzip ); ?>" <?php checked( $enable_gzip_val == 'on', true ); ?> class="wppsb_onoffswitch-checkbox" id="<?php echo esc_attr( $enable_gzip ); ?>" />
+        	<label class="wppsb_onoffswitch-label" for="<?php echo esc_attr( $enable_gzip ); ?>">
         		<span class="wppsb_onoffswitch-inner"></span>
         		<span class="wppsb_onoffswitch-switch"></span>
         	</label>
         	</div>
         	</td> <td>
-        	<label for="<?php echo $enable_gzip; ?>" class="wppsb_settings" style="display: inline;"> <?php _e('Enable GZIP compression <i>(compress text, html, javascript, css, xml and so on)</i>', 'wp-performance-score-booster'); ?> </label>
+        	<label for="<?php echo esc_attr( $enable_gzip ); ?>" class="wppsb_settings" style="display: inline;"> <?php _e('Enable GZIP compression <i>(compress text, html, javascript, css, xml and so on)</i>', 'wp-performance-score-booster'); ?> </label>
         	</td>
             <?php }
             else { // if web server doesn't support GZIP ?>
         	<td class="wppsb_onoff">
         	<div class="wppsb_onoffswitch">
-        	<input type="checkbox" name="<?php echo $enable_gzip; ?>" disabled="true" <?php checked( $enable_gzip_val == 'off', true ); ?> class="wppsb_onoffswitch-checkbox" id="<?php echo $enable_gzip; ?>" />
-        	<label class="wppsb_onoffswitch-label" for="<?php echo $enable_gzip; ?>">
+        	<input type="checkbox" name="<?php echo esc_attr( $enable_gzip ); ?>" disabled="true" <?php checked( $enable_gzip_val == 'off', true ); ?> class="wppsb_onoffswitch-checkbox" id="<?php echo esc_attr( $enable_gzip ); ?>" />
+        	<label class="wppsb_onoffswitch-label" for="<?php echo esc_attr(  $enable_gzip ); ?>">
         		<span class="wppsb_onoffswitch-inner"></span>
         		<span class="wppsb_onoffswitch-switch"></span>
         	</label>
@@ -191,27 +183,27 @@ function wppsb_admin_options() {
             <!-- Leverage Browser Caching -->
             <tr> <td class="wppsb_onoff">
         	<div class="wppsb_onoffswitch">
-            <input type="checkbox" name="<?php echo $expire_caching; ?>" <?php checked( $expire_caching_val == 'on', true); ?> class="wppsb_onoffswitch-checkbox" id="<?php echo $expire_caching; ?>" />
-        	<label class="wppsb_onoffswitch-label" for="<?php echo $expire_caching; ?>">
+            <input type="checkbox" name="<?php echo esc_attr( $expire_caching ); ?>" <?php checked( $expire_caching_val == 'on', true); ?> class="wppsb_onoffswitch-checkbox" id="<?php echo esc_attr( $expire_caching ); ?>" />
+        	<label class="wppsb_onoffswitch-label" for="<?php echo esc_attr( $expire_caching ); ?>">
         		<span class="wppsb_onoffswitch-inner"></span>
         		<span class="wppsb_onoffswitch-switch"></span>
         	</label>
         	</div>
             </td> <td>
-        	<label for="<?php echo $expire_caching; ?>" class="wppsb_settings" style="display: inline;"> <?php _e( 'Leverage Browser Caching <i>(expires headers, for better cache control)</i>', 'wp-performance-score-booster' ); ?> </label>
+        	<label for="<?php echo esc_attr( $expire_caching ); ?>" class="wppsb_settings" style="display: inline;"> <?php _e( 'Leverage Browser Caching <i>(expires headers, for better cache control)</i>', 'wp-performance-score-booster' ); ?> </label>
             </td> </tr>
             
             <!-- Instant Page Preload -->
         	<tr> <td class="wppsb_onoff" id="td_section">
         	<div class="wppsb_onoffswitch">
-        	<input type="checkbox" name="<?php echo $instant_page_preload; ?>" <?php checked( $instant_page_preload_val == 'on', true ); ?> class="wppsb_onoffswitch-checkbox" id="<?php echo $instant_page_preload; ?>" />
-        	<label class="wppsb_onoffswitch-label" for="<?php echo $instant_page_preload; ?>">
+        	<input type="checkbox" name="<?php echo esc_attr( $instant_page_preload ); ?>" <?php checked( $instant_page_preload_val == 'on', true ); ?> class="wppsb_onoffswitch-checkbox" id="<?php echo esc_attr( $instant_page_preload ); ?>" />
+        	<label class="wppsb_onoffswitch-label" for="<?php echo esc_attr( $instant_page_preload ); ?>">
         		<span class="wppsb_onoffswitch-inner"></span>
         		<span class="wppsb_onoffswitch-switch"></span>
         	</label>
         	</div>
         	</td> <td id="td_section">
-        	<label for="<?php echo $instant_page_preload; ?>" class="wppsb_settings" style="display: inline;"> <?php _e( 'Page Preload <em>(preload a page right before a user clicks on a link)</em>', 'wp-performance-score-booster' ); ?> </label>
+        	<label for="<?php echo esc_attr( $instant_page_preload ); ?>" class="wppsb_settings" style="display: inline;"> <?php _e( 'Page Preload <em>(preload a page right before a user clicks on a link)</em>', 'wp-performance-score-booster' ); ?> </label>
         	</td> </tr>
         
             <!-- Extra Options - must be added in the future version -->
