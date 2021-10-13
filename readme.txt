@@ -5,7 +5,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Requires at least: 3.5
 Tested up to: 5.8
 Requires PHP: 5.6
-Stable tag: 2.1
+Stable tag: 2.2
 License: GPLv2 or later
 
 Make website faster, speed up page load time and improve performance scores in services like GTmetrix, Pingdom, YSlow and PageSpeed.
