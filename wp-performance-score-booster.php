@@ -3,7 +3,7 @@
 Plugin Name: WP Performance Score Booster 
 Plugin URI: https://github.com/dipakcg/wp-performance-score-booster
 Description: Makes website faster, speeds up page load time, and instantly improves website performance scores in services like GTmetrix, Pingdom, YSlow, and PageSpeed.
-Version: 2.2
+Version: 2.2.1
 Author: Dipak C. Gajjar
 Author URI: https://dipakgajjar.com
 License: GPL-2.0+
@@ -19,7 +19,7 @@ include_once ( ABSPATH . 'wp-admin/includes/plugin.php' ); // to is_plugin_activ
 
 // Define plugin version for future releases
 if ( ! defined( 'WPPSB_PLUGIN_VERSION' ) ) {
-    define( 'WPPSB_PLUGIN_VERSION', '2.2' );
+    define( 'WPPSB_PLUGIN_VERSION', '2.2.1' );
 }
 
 if ( ! defined( 'WPPSB_BASE' ) ) {

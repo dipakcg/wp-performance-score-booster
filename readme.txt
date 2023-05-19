@@ -3,7 +3,7 @@ Contributors: dipakcg
 Tags: performance, optimize, speed, query string, preload, gzip, gtmetrix, etag, compression, headers, cache, pagespeed
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3S8BRPLWLNQ38
 Requires at least: 3.5
-Tested up to: 6.0
+Tested up to: 6.2
 Requires PHP: 5.6
 Stable tag: 2.2
 License: GPLv2 or later
@@ -69,6 +69,9 @@ If this plugin has helped you in any way, you can:
 1. Admin Settings
 
 == Changelog ==
+= 2.2.1, May 19, 2023 =
+* Update: Instant.page preloader version from 5.1 to 5.2
+
 = 2.2, October 13, 2021 =
 * Improve: Data Sanitization / Escaping
 

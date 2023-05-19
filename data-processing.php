@@ -33,7 +33,7 @@ function wppsb_enqueue_scripts() {
     
     // Only enqueu instant.page script if option is selected under plugin settings
     if ( $wppsb_instant_page_preload == 'on' ) {
-        wp_enqueue_script( 'wppsb-page-preload', WPPSB_URL . '/assets/js/page-preloader.js', array(), '5.1.0', true );
+        wp_enqueue_script( 'wppsb-page-preload', WPPSB_URL . '/assets/js/page-preloader.js', array(), '5.2.0', true );
     }
 }
 add_action( 'wp_enqueue_scripts', 'wppsb_enqueue_scripts' );
