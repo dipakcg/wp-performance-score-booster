@@ -8,10 +8,10 @@ Requires PHP: 5.6
 Stable tag: 2.2.3
 License: GPLv2 or later
 
-Make website faster, speed up page load time and improve performance scores in services like Google PageSpeed Insights, GTmetrix, Pingdom, and more.
+Make website faster, speed up page load time and improve performance scores in tools like Google PageSpeed Insights, GTmetrix, Pingdom, and more.
 
 == Description ==
-**WP Performance Score Booster makes website faster, speeds up page load time, and instantly improves website performance scores in services like Google PageSpeed Insights, GTmetrix, Pingdom, and more.**
+**WP Performance Score Booster makes website faster, speeds up page load time, and instantly improves website performance scores in tools like Google PageSpeed Insights, GTmetrix, Pingdom, and more.**
 
 = This plugin will... =
 * Remove any query strings from static resources like CSS & JS files
@@ -30,22 +30,29 @@ Follow the development of this plugin on [GitHub](https://github.com/dipakcg/wp-
 
 P.S. It is always the best policy to open a [support thread](https://wordpress.org/support/plugin/wp-performance-score-booster#new-topic-0) first before posting any negative review.
 
-#### Credits
-
-_• This plugin uses [instant.page](https://instant.page/) library for page preloading._
-
 == Installation ==
-Just install from your WordPress “Plugins > Add New” screen and all will be well. Manual installation is very straightforward as well:
+= Automatic Installation (Recommended) =
+1. Go to your WordPress Dashboard → Plugins → Add New.
+2. Search for `WP Performance Score Booster`.
+3. Click Install Now, then Activate the plugin.
+4. The plugin is now ready to use!
 
-1. Download the plugin (.zip file).
-2. Unzip it, and uplaod `wp-performance-score-booster` folder to the `/wp-content/plugins/` directory.
-3. Activate the plugin through the `Plugins` menu in WordPress.
-4. That’s it!
+= Manual Installation (Upload via WordPress Dashboard) =
+1. Download the latest version of the plugin (.zip file).
+2. In your WordPress Dashboard, go to Plugins → Add New → Upload Plugin.
+3. Click Choose File, select the downloaded .zip file, and click Install Now.
+4. Once installed, click Activate Plugin.
+
+= Manual Installation (FTP/SFTP Method) =
+1. Download and extract the plugin .zip file.
+2. Connect to your server via FTP/SFTP.
+3. Upload the extracted folder to /wp-content/plugins/.
+4. In your WordPress Dashboard, go to Plugins and activate `WP Performance Score Booster`.
 
 == Frequently Asked Questions ==
 = What does this plugin do? =
 
-This plugin makes website faster, speed-up page load time and instantly improve website scores in services like Google PageSpeed Insights, GTmetrix, Pingdom, and more.
+This plugin makes website faster, speed-up page load time and instantly improve website scores in tools like Google PageSpeed Insights, GTmetrix, Pingdom, and more.
 
 = Any specific requirements for this plugin to work? =
 
