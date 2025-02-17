@@ -6,7 +6,7 @@
 ![WordPress Compatibility](https://img.shields.io/wordpress/v/wp-performance-score-booster.svg?maxAge=2592000)
 [![License](https://img.shields.io/badge/license-GPL--2.0%2B-red.svg)](https://github.com/dipakcg/wp-performance-score-booster/blob/master/license.txt)
 
-WP Performance Score Booster makes website faster, speeds up page load time, and instantly improves website performance scores in services like GTmetrix, Pingdom, YSlow, and PageSpeed.
+WP Performance Score Booster makes website faster, speeds up page load time, and instantly improves website performance scores in services like Google PageSpeed Insights, GTmetrix, Pingdom, and more.
 
 **This plugin will...**
 * Remove any query strings from static resources like CSS & JS files

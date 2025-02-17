@@ -1,6 +1,6 @@
 === WP Performance Score Booster – Optimize Speed, Enable Cache & Page Preload ===
 Contributors: dipakcg
-Tags: performance, optimize, speed, query string, preload, gzip, gtmetrix, etag, compression, headers, cache, pagespeed
+Tags: performance, optimize, speed, query string, preload, gzip, gtmetrix, etag, compression, pagespeed, google psi
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3S8BRPLWLNQ38
 Requires at least: 3.5
 Tested up to: 6.7.2
@@ -8,10 +8,10 @@ Requires PHP: 5.6
 Stable tag: 2.2.3
 License: GPLv2 or later
 
-Make website faster, speed up page load time and improve performance scores in services like GTmetrix, Pingdom, YSlow and PageSpeed.
+Make website faster, speed up page load time and improve performance scores in services like Google PageSpeed Insights, GTmetrix, Pingdom, and more.
 
 == Description ==
-**WP Performance Score Booster makes website faster, speeds up page load time, and instantly improves website performance scores in services like GTmetrix, Pingdom, YSlow, and PageSpeed.**
+**WP Performance Score Booster makes website faster, speeds up page load time, and instantly improves website performance scores in services like Google PageSpeed Insights, GTmetrix, Pingdom, and more.**
 
 = This plugin will... =
 * Remove any query strings from static resources like CSS & JS files
@@ -45,7 +45,7 @@ Just install from your WordPress “Plugins > Add New” screen and all will be 
 == Frequently Asked Questions ==
 = What does this plugin do? =
 
-This plugin makes website faster, speed-up page load time and instantly improve website scores in services like GTmetrix, Pingdom, YSlow and PageSpeed.
+This plugin makes website faster, speed-up page load time and instantly improve website scores in services like Google PageSpeed Insights, GTmetrix, Pingdom, and more.
 
 = Any specific requirements for this plugin to work? =
 
@@ -77,6 +77,11 @@ If this plugin has helped you in any way, you can:
 1. Admin Settings
 
 == Changelog ==
+= 2.2.3, February 17, 2025 =
+* Improve: Compatibility with WordPress 6.7.2 and PHP
+* Improve: Replaced instant.page with custom-built Preloader and Prefetcher (preloader.js)
+* Improve: Admin page design — cosmic changes
+
 = 2.2.2, October 18, 2024 =
 * Improve: Compatibility with WordPress 6.6
 
