@@ -26,27 +26,17 @@ function wppsb_remove_query_strings_q( $src ) {
 }
 
 /**********************************
-* instant.page preoloader
+* Page preoload and prefetch
 **********************************/
-function wppsb_enqueue_scripts() {
+function enqueue_preloader_script() {
     global $wppsb_instant_page_preload;
     
-    // Only enqueu instant.page script if option is selected under plugin settings
+    // Only enqueue preloader script if option is selected under plugin settings
     if ( $wppsb_instant_page_preload == 'on' ) {
-        wp_enqueue_script( 'wppsb-page-preload', WPPSB_URL . '/assets/js/page-preloader.js', array(), '5.2.0', true );
+        wp_enqueue_script( 'wppsb-preloader', WPPSB_URL . 'assets/js/preloader.min.js', array(), '2.5.0', true );
     }
 }
-add_action( 'wp_enqueue_scripts', 'wppsb_enqueue_scripts' );
-
-// This script loader is needed for instant.page preloader
-function wppsb_script_loader_tag( $tag, $handle ) {
-    if ( 'wppsb-page-preload' === $handle ) {
-        $tag = str_replace( 'text/javascript', 'module', $tag );
-    }
-    return $tag;
-}
-add_filter( 'script_loader_tag', 'wppsb_script_loader_tag', 10, 2 );
-
+add_action('wp_enqueue_scripts', 'enqueue_preloader_script');
 
 /**********************************
 * Enable GZIP Compression and Set Vary: Accept-Encoding Header (as a part of compression) 

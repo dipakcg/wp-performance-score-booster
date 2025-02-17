@@ -4,7 +4,6 @@
 ![Total Downloads](https://img.shields.io/wordpress/plugin/dt/wp-performance-score-booster.svg?maxAge=2592000)
 ![Plugin Rating](https://img.shields.io/wordpress/plugin/r/wp-performance-score-booster.svg?maxAge=2592000)
 ![WordPress Compatibility](https://img.shields.io/wordpress/v/wp-performance-score-booster.svg?maxAge=2592000)
-[![Build Status](https://img.shields.io/travis/dipakcg/wp-performance-score-booster/master.svg?maxAge=2592000)](https://travis-ci.org/dipakcg/wp-performance-score-booster)
 [![License](https://img.shields.io/badge/license-GPL--2.0%2B-red.svg)](https://github.com/dipakcg/wp-performance-score-booster/blob/master/license.txt)
 
 WP Performance Score Booster makes website faster, speeds up page load time, and instantly improves website performance scores in services like GTmetrix, Pingdom, YSlow, and PageSpeed.

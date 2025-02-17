@@ -3,9 +3,9 @@ Contributors: dipakcg
 Tags: performance, optimize, speed, query string, preload, gzip, gtmetrix, etag, compression, headers, cache, pagespeed
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3S8BRPLWLNQ38
 Requires at least: 3.5
-Tested up to: 6.6
+Tested up to: 6.7.2
 Requires PHP: 5.6
-Stable tag: 2.2.2
+Stable tag: 2.2.3
 License: GPLv2 or later
 
 Make website faster, speed up page load time and improve performance scores in services like GTmetrix, Pingdom, YSlow and PageSpeed.
@@ -22,9 +22,17 @@ Make website faster, speed up page load time and improve performance scores in s
 
 [youtube https://www.youtube.com/watch?v=nEFZLFyZNcE]
 
-**Follow the development of this plugin on [GitHub](https://github.com/dipakcg/wp-performance-score-booster)**
+**Like this plugin? You'll love my other plugin: [WP Super Minify](https://wordpress.org/plugins/wp-super-minify/)**
 
-**P.S. It is always the best policy to open a [support thread](https://wordpress.org/support/plugin/wp-performance-score-booster#new-topic-0) first before posting any negative review.**
+#### Development & Support
+
+Follow the development of this plugin on [GitHub](https://github.com/dipakcg/wp-performance-score-booster).
+
+P.S. It is always the best policy to open a [support thread](https://wordpress.org/support/plugin/wp-performance-score-booster#new-topic-0) first before posting any negative review.
+
+#### Credits
+
+_• This plugin uses [instant.page](https://instant.page/) library for page preloading._
 
 == Installation ==
 Just install from your WordPress “Plugins > Add New” screen and all will be well. Manual installation is very straightforward as well:
@@ -171,6 +179,3 @@ If this plugin has helped you in any way, you can:
 
 = 2.0 =
 This version adds support for page preloading, improves compression and caching rules for faster speed, and has newly designed settings page. Recommended upgrade.
-
-== Credits ==
-_• This plugin uses [instant.page](https://instant.page/) library for page preloading._
