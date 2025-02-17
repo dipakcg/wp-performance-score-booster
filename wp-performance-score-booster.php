@@ -1,9 +1,9 @@
 <?php
 /****************************************
-Plugin Name: WP Performance Score Booster 
+Plugin Name: WP Performance Score Booster
 Plugin URI: https://github.com/dipakcg/wp-performance-score-booster
 Description: Makes website faster, speeds up page load time, and instantly improves website performance scores in services like GTmetrix, Pingdom, YSlow, and PageSpeed.
-Version: 2.2.1
+Version: 2.2.2
 Author: Dipak C. Gajjar
 Author URI: https://dipakgajjar.com
 License: GPL-2.0+
@@ -19,7 +19,7 @@ include_once ( ABSPATH . 'wp-admin/includes/plugin.php' ); // to is_plugin_activ
 
 // Define plugin version for future releases
 if ( ! defined( 'WPPSB_PLUGIN_VERSION' ) ) {
-    define( 'WPPSB_PLUGIN_VERSION', '2.2.1' );
+    define( 'WPPSB_PLUGIN_VERSION', '2.2.2' );
 }
 
 if ( ! defined( 'WPPSB_BASE' ) ) {
@@ -27,7 +27,7 @@ if ( ! defined( 'WPPSB_BASE' ) ) {
 }
 
 if ( ! defined( 'WPPSB_PATH' ) ) {
-    define( 'WPPSB_PATH', plugin_dir_path( __FILE__ ) ); // /home/user/var/www/wordpress/wp-content/plugins/wp-performance-score-booster/  
+    define( 'WPPSB_PATH', plugin_dir_path( __FILE__ ) ); // /home/user/var/www/wordpress/wp-content/plugins/wp-performance-score-booster/
 }
 
 if ( ! defined( 'WPPSB_URL' ) ) {
@@ -36,7 +36,7 @@ if ( ! defined( 'WPPSB_URL' ) ) {
 
 if ( ! defined( 'WPPSB_STORAGE_PATH' ) ) {
     define( 'WPPSB_STORAGE_PATH', get_home_path() . 'wp-content/wp-performance-score-booster' ); // storage path to store .htaccess backups
-    
+
 }
 
 require_once WPPSB_PATH . 'admin-page.php'; // admin options page.
@@ -59,7 +59,7 @@ function wppsb_load_plugin_textdomain() {
 
 	// wp-content/languages/plugin-name/plugin-name-de_DE.mo
 	load_textdomain( $domain, trailingslashit( WP_LANG_DIR ) . $domain . '/' . $domain . '-' . $locale . '.mo' );
-	
+
 	// wp-content/plugins/plugin-name/languages/plugin-name-de_DE.mo
 	load_plugin_textdomain( $domain, FALSE, WPPSB_PATH . '/languages/' );
 
@@ -68,10 +68,10 @@ function wppsb_load_plugin_textdomain() {
 
 // Call all the functions together to hook with init()
 function wppsb_master_init () {
-    
+
     wppsb_load_plugin_textdomain(); // load plugin textdomain for language trnaslation
     wppsb_update_checker(); // Check if plugin updated
-    
+
     // Runs after WordPress load
     do_action( 'wppsb_remove_query_string_action' );
 
@@ -81,7 +81,7 @@ add_action( 'init', 'wppsb_master_init' );
 
 // Call all the functions together to hook with admin_init()
 function wppsb_master_admin_init () {
-    
+
     wppsb_add_stylesheet(); // adds plugin stylesheet
     wppsb_update_processor(); // Reload the config (rewrite rules) after applying plugin updates
 
@@ -92,12 +92,12 @@ add_action( 'admin_init', 'wppsb_master_admin_init' );
 
 // Add settings link on plugin page
 function dcg_settings_link( $links ) {
-	
+
 	// $settings_link = '<a href="admin.php?page=wp-performance-score-booster">Settings</a>';
 	$wppsb_links = array( '<a href="options-general.php?page=wp-performance-score-booster">Settings</a>' );
 	// array_unshift($links, $settings_link);
 	$links = array_merge( $wppsb_links, $links );
-	
+
 	return $links;
 }
 add_filter( 'plugin_action_links_' . WPPSB_BASE, 'dcg_settings_link' );
@@ -148,14 +148,14 @@ function wppsb_apply_updates_notice() {
 
 // Check if plugin updated
 function wppsb_update_checker() {
-    
+
     global $wppsb_plugin_version;
     if ( $wppsb_plugin_version !== WPPSB_PLUGIN_VERSION ) {
         if ( is_plugin_active( WPPSB_BASE ) ) {
             add_action( 'admin_notices', 'wppsb_apply_updates_notice' );
         }
     }
-    
+
 }
 
 
@@ -166,21 +166,21 @@ function wppsb_update_processor() {
 
     if ( isset( $_GET['apply-updates'] ) && $_GET['apply-updates'] == 'true' ) {
         if ( $wppsb_plugin_version != WPPSB_PLUGIN_VERSION ) {
-            
+
             update_option( 'wppsb_plugin_version', WPPSB_PLUGIN_VERSION );
-            
+
             if ( FALSE === get_option( 'wppsb_instant_page_preload' ) ) {
                 add_option( 'wppsb_instant_page_preload', $wppsb_instant_page_preload );
             }
-            
+
             wppsb_htaccess_bakup(); // Backup .htacces before appending any rules
-            
+
             flush_rewrite_rules();
             wppsb_save_mod_rewrite_rules( $wppsb_enable_gzip, $wppsb_expire_caching );
             exit ( wp_redirect( admin_url( 'options-general.php?page=wp-performance-score-booster&update-applied=true' ) ) );
     	}
     }
-    
+
 }
 
 
@@ -303,7 +303,7 @@ function wppsb_submit_review_notice() {
                         }
                     });
                 });
-                
+
             });
         </script>
 		<?php
@@ -317,7 +317,7 @@ add_action( 'admin_notices', 'wppsb_submit_review_notice' );
 function wppsb_activate_plugin() {
 
     global $wppsb_remove_query_strings, $wppsb_enable_gzip, $wppsb_expire_caching, $wppsb_instant_page_preload;
-    
+
     /* Yes, we're using add_option, not update_option intentionally just to force rewrite htaccess rules */
 
 	// Rate this plugin on wordpress.org - check for admin notice dismissal
@@ -339,7 +339,7 @@ function wppsb_activate_plugin() {
 	}
 
 	add_option( 'wppsb_expire_caching', $wppsb_expire_caching );
-	
+
 	wppsb_htaccess_bakup(); // Backup .htacces before appending any rules
 
     flush_rewrite_rules();
