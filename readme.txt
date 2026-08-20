@@ -3,7 +3,7 @@ Contributors: dipakcg
 Tags: performance, optimize, speed, query string, preload, gzip, gtmetrix, etag, compression, pagespeed, google psi
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3S8BRPLWLNQ38
 Requires at least: 4.5
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 5.6
 Stable tag: 2.2.3
 License: GPLv2 or later
